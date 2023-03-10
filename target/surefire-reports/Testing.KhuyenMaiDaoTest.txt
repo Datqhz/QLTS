@@ -1,0 +1,8 @@
+-------------------------------------------------------------------------------
+Test set: Testing.KhuyenMaiDaoTest
+-------------------------------------------------------------------------------
+Tests run: 4, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.014 s <<< FAILURE! - in Testing.KhuyenMaiDaoTest
+update  Time elapsed: 0.007 s  <<< ERROR!
+java.lang.NullPointerException: Cannot invoke "com.nhom13.Entity.KhachHang.getTen()" because "khTest" is null
+	at Testing.KhuyenMaiDaoTest.update(KhuyenMaiDaoTest.java:79)
+

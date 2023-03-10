@@ -1,0 +1,12 @@
+-------------------------------------------------------------------------------
+Test set: Testing.VaiTroDaoTest
+-------------------------------------------------------------------------------
+Tests run: 4, Failures: 1, Errors: 1, Skipped: 0, Time elapsed: 0.006 s <<< FAILURE! - in Testing.VaiTroDaoTest
+update  Time elapsed: 0.002 s  <<< ERROR!
+java.lang.NullPointerException: Cannot invoke "com.nhom13.Entity.MonAn.getTenMon()" because the return value of "com.nhom13.DAO.MonAnDAO.findById(int)" is null
+	at Testing.VaiTroDaoTest.update(VaiTroDaoTest.java:85)
+
+saveNew  Time elapsed: 0.003 s  <<< FAILURE!
+org.opentest4j.AssertionFailedError: expected: <true> but was: <false>
+	at Testing.VaiTroDaoTest.saveNew(VaiTroDaoTest.java:70)
+

@@ -1,0 +1,12 @@
+-------------------------------------------------------------------------------
+Test set: Testing.KhachHangDaoTest
+-------------------------------------------------------------------------------
+Tests run: 4, Failures: 2, Errors: 0, Skipped: 0, Time elapsed: 0.006 s <<< FAILURE! - in Testing.KhachHangDaoTest
+testSaveKhachHang  Time elapsed: 0.003 s  <<< FAILURE!
+org.opentest4j.AssertionFailedError: expected: <true> but was: <false>
+	at Testing.KhachHangDaoTest.testSaveKhachHang(KhachHangDaoTest.java:52)
+
+testUpdateKhachHang  Time elapsed: 0.003 s  <<< FAILURE!
+org.opentest4j.AssertionFailedError: expected: <true> but was: <false>
+	at Testing.KhachHangDaoTest.testUpdateKhachHang(KhachHangDaoTest.java:61)
+
