@@ -249,7 +249,7 @@ public class Statistic extends javax.swing.JPanel {
         int client = getSoLuongKhachHang();
         System.out.println(date);
         setStatistic(bill, profit, employee, client, date);
-
+        
     }//GEN-LAST:event_searchActionPerformed
 
 

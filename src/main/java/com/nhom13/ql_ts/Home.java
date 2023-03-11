@@ -67,12 +67,13 @@ public class Home extends javax.swing.JFrame {
         MenuItem TK = new MenuItem("Thống kê.", 7, "/statistical.png");
         MenuItem TTCN = new MenuItem("Thông tin cá nhân.", 8, "/my-info.png");
         pnMenu.setLayout(new BoxLayout(pnMenu, BoxLayout.Y_AXIS));
-        addMenu(QLTD, QLB, QLHD, QLNV, QLKH, QLKM, TK, TTCN);
+        addMenu(QLTD, QLB, QLNV, QLKH, QLKM, QLHD, TK, TTCN);
         if (emp.getAccount().getIdQuyen() == 1) {
             QLTD.setVisible(false);
             QLNV.setVisible(false);
             TK.setVisible(false);
             QLKM.setVisible(false);
+            
         }
 
     }
@@ -118,7 +119,7 @@ public class Home extends javax.swing.JFrame {
                 System.out.println("Quản lí thực đơn");
                 JTabbedPane tbb = new JTabbedPane();
                 tbb.add("Loại món", new FoodCategory(new FoodCategoryPopup(this)));
-                tbb.add("Món ăn", new FoodList());
+                tbb.add("Món ăn", new FoodList(new FoodPopup(this)));
                 panelController.add(tbb);
                 repaint();
                 revalidate();
@@ -140,13 +141,13 @@ public class Home extends javax.swing.JFrame {
             case 4:
                 panelController.removeAll();
                 System.out.println("Quản lí nhân viên");
-                panelController.add(new EmployeeManager());//new EmployeePopup(this)
+                panelController.add(new EmployeeManager(new EmployeePopup(this)));//
                 repaint();
                 revalidate();
                 break;
             case 5:
                 panelController.removeAll();
-                panelController.add(new ClientManager(new ClientPopup(this)));
+                panelController.add(new ClientManager(new ClientPopup(this),emp.getAccount().getIdQuyen()));
                 repaint();
                 revalidate();
                 break;

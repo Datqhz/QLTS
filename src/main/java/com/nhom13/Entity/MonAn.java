@@ -1,27 +1,25 @@
 package com.nhom13.Entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MonAn {
 
     private int id;
     private String tenMon;
     private String donVi;
-    private int gia;
     private String anh;
     private String moTa;
-    private String maNv;
     private int idLoaiMon;
-
     public MonAn() {
     }
 
-    public MonAn(int id, String tenMon, String donVi, int gia, String anh, String moTa, String maNv, int idLoaiMon) {
+    public MonAn(int id, String tenMon, String donVi, String anh, String moTa,  int idLoaiMon) {
         this.id = id;
         this.tenMon = tenMon;
         this.donVi = donVi;
-        this.gia = gia;
         this.anh = anh;
         this.moTa = moTa;
-        this.maNv = maNv;
         this.idLoaiMon = idLoaiMon;
     }
 
@@ -49,13 +47,6 @@ public class MonAn {
         this.donVi = donVi;
     }
 
-    public int getGia() {
-        return gia;
-    }
-
-    public void setGia(int gia) {
-        this.gia = gia;
-    }
 
     public String getAnh() {
         return anh;
@@ -73,13 +64,6 @@ public class MonAn {
         this.moTa = moTa;
     }
 
-    public String getMaNv() {
-        return maNv;
-    }
-
-    public void setMaNv(String maNv) {
-        this.maNv = maNv;
-    }
 
     public int getIdLoaiMon() {
         return idLoaiMon;
@@ -91,7 +75,8 @@ public class MonAn {
 
     @Override
     public String toString() {
-        return "MonAn{" + "id=" + id + ", tenMon=" + tenMon + ", donVi=" + donVi + ", gia=" + gia + ", anh=" + anh + ", moTa=" + moTa + ", maNv=" + maNv + ", idLoaiMon=" + idLoaiMon + '}';
+        return "MonAn{" + "id=" + id + ", tenMon=" + tenMon + ", donVi=" + donVi + ", anh=" + anh + ", moTa=" + moTa + ", idLoaiMon=" + idLoaiMon + '}';
     }
+    
 
 }

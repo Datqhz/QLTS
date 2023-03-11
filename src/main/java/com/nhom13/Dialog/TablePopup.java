@@ -44,8 +44,9 @@ public class TablePopup extends javax.swing.JDialog {
             txtTenBan.setEnabled(false);
             cbxStatus.setSelectedIndex(ban.getTrangThai() ? 1 : 0);
         } else {
+            txtTenBan.setEnabled(true);
             btnFeature.setText("Thêm");
-            this.ban = ban;
+            this.ban = new Ban();
             txtTenBan.setText("");
             cbxStatus.setSelectedIndex(-1);
         }
@@ -53,15 +54,18 @@ public class TablePopup extends javax.swing.JDialog {
     }
 
     public boolean checkTableName(String name) {
-        try{
+        try {
             BanDAO dao = new BanDAO();
-            Ban ban = dao.findhByName(name);
-            if(ban!=null){
+            Ban ban = dao.findByName(name);
+            if (ban == null) {
+                return false;
+            } else {
                 return true;
             }
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
+
         return false;
     }
 
@@ -189,39 +193,42 @@ public class TablePopup extends javax.swing.JDialog {
     private void btnFeatureActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFeatureActionPerformed
         String tenBan = txtTenBan.getText().trim();
         boolean tt = cbxStatus.getSelectedIndex() == 0 ? false : true;
-        if (tenBan.length() == 0 || tenBan.equals("")) {
+        if (tenBan.length() == 0 || tenBan.equals("") && cbxStatus.getSelectedIndex() >=0 ) {
             JOptionPane.showMessageDialog(rootPane, "Not Blank");
-        } else if(checkTableName(tenBan)){
-            JOptionPane.showMessageDialog(rootPane, "Tên bàn đã tồn tại.");
-        }else {
+        } else {
 
             try {
 
                 BanDAO dao = new BanDAO();
                 if (feature == Feature.ADD) {
-                    Ban ban1 = new Ban();
-                    long millis = System.currentTimeMillis();
-                    java.sql.Date date = new java.sql.Date(millis);
-                    ban1.setTenBan(tenBan);
-                    ban1.setNgayTao(date);
-                    ban1.setTrangThai(tt);
-                    JOptionPane.showMessageDialog(rootPane, "Add Successful");
-                    dao.save(ban1);
+                    if (checkTableName(tenBan)) {
+                        JOptionPane.showMessageDialog(rootPane, "Tên bàn đã tồn tại.");
+                    } else {
+                        Ban ban1 = new Ban();
+                        long millis = System.currentTimeMillis();
+                        java.sql.Date date = new java.sql.Date(millis);
+                        ban1.setTenBan(tenBan);
+                        ban1.setNgayTao(date);
+                        ban1.setTrangThai(tt);
+                        JOptionPane.showMessageDialog(rootPane, "Add Successful");
+                        dao.save(ban1);
+                        status = true;
+                        this.dispose();
+                    }
+
                 } else {
                     if (tt != ban.getTrangThai()) {
                         ban.setTrangThai(tt);
                         dao.update(ban);
-                        CTBanDAO ctdao = new CTBanDAO();
-                        ChiTietBan ct = new ChiTietBan(tt, ban.getId(), maNV);
-                        ctdao.save(ct);
                         JOptionPane.showMessageDialog(rootPane, "Update successful");
+                        status = true;
+                        this.dispose();
                     } else {
                         JOptionPane.showMessageDialog(rootPane, "Trạng thái bàn chưa được thay đổi.");
                     }
 
                 }
-                status = true;
-                this.dispose();
+
             } catch (Exception e) {
             }
         }

@@ -57,10 +57,10 @@ public class DoanhThuDao {
     }
     @Test 
     public void get5(){
-        String date = "11-2023";
+        String date = "3-2023";
         DoanhThuDAO dao = new DoanhThuDAO();        
         List<DoanhThuTheoMonAn> list = dao.topDoanhThu5MonAnTheoThoiGian(date);
-        list.forEach(l -> System.out.println(l.getTenMon() + " CO " + l.getTongTien() ));
+        list.forEach(l -> System.out.println(l));
                 
     }
 }

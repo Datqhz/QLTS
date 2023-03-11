@@ -100,9 +100,16 @@ public class SaleManager extends ManagerView {
             public void actionPerformed(ActionEvent e) {
 
                 try {
-                    KhuyenMaiDAO dao = new KhuyenMaiDAO();
-                    JOptionPane.showMessageDialog(new java.awt.Frame(), "Xóa khuyến mãi thành công.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-                    dao.deleteKhuyenMai(getSaleIsSelected());
+                    int result = JOptionPane.showConfirmDialog(tblData, "Bạn có chắc muốn xóa không", "Confirm Dialog",
+                            JOptionPane.YES_NO_OPTION,
+                            JOptionPane.QUESTION_MESSAGE);
+                    if (result == 0) {
+
+                        KhuyenMaiDAO dao = new KhuyenMaiDAO();
+                        JOptionPane.showMessageDialog(new java.awt.Frame(), "Xóa khuyến mãi thành công.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                        dao.deleteKhuyenMai(getSaleIsSelected());
+                    }
+
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }

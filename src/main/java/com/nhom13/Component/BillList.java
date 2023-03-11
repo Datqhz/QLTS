@@ -107,19 +107,19 @@ public class BillList extends ManagerView {
             }
         });
 
-//        btnSearch.addActionListener((e) -> {
-//            String keyword = txtSearch.getText().trim();
-//            if (keyword != null && keyword.length() > 0) {
-//                HoaDonDao dao = new HoaDonDao();
-//                billList = dao.findById(Integer.parseInt(keyword));
-//                tblModel.setRowCount(0);
-//                Object[] row = new Object[]{billList.get(0).getId(), billList.get(0).getIdNhanVien(), billList.get(0).getNgayLap(),
-//                     billList.get(0).getIdKhachHang() != 0 ? billList.get(0).getIdKhachHang() : "", billList.get(0).getThanhTien()};
-//                tblModel.addRow(row);
-//                tblModel.fireTableDataChanged();
-//
-//            }
-//
-//        });
+        btnSearch.addActionListener((e) -> {
+            String keyword = txtSearch.getText().trim();
+            if (keyword != null && keyword.length() > 0) {
+                HoaDonDao dao = new HoaDonDao();
+                billList = dao.findById(Integer.parseInt(keyword));
+                tblModel.setRowCount(0);
+                Object[] row = new Object[]{billList.get(0).getSoHoaDon(), billList.get(0).getMaNv(), billList.get(0).getNgayLap(),
+                     billList.get(0).getIdKh() != 0 ? billList.get(0).getIdKh() : "", billList.get(0).getThanhTien()};
+                tblModel.addRow(row);
+                tblModel.fireTableDataChanged();
+
+            }
+
+        });
     }
 }

@@ -17,9 +17,8 @@ public class ClientManager extends ManagerView {
 
     ClientPopup dialog;
     List<KhachHang> listClient;
-    
 
-    public ClientManager(ClientPopup dialog) {
+    public ClientManager(ClientPopup dialog, int role) {
         super();
         setHeaderTable("ID khách hàng", "Tên khách hàng", "Số điện thoại", "Ngày sinh");
         this.dialog = dialog;
@@ -29,6 +28,9 @@ public class ClientManager extends ManagerView {
         btnRemove.setEnabled(false);
         AbstractDocument document1 = (AbstractDocument) txtSearch.getDocument();
         document1.setDocumentFilter(new CharFilterAlphabet());
+        if(role==1){
+            hiddenBtnRemove();
+        }
     }
 
     public void getData() {
@@ -49,7 +51,7 @@ public class ClientManager extends ManagerView {
         }
         tblModel.fireTableDataChanged();
     }
-    
+
     //Lấy thông tin khách hàng đang được chọn trên bảng
     public KhachHang getRowIsSelected() {
         int row = tblData.getSelectedRow();
@@ -103,9 +105,16 @@ public class ClientManager extends ManagerView {
             public void actionPerformed(ActionEvent e) {
 
                 try {
-                    KhachHangDAO dao = new KhachHangDAO();
-                    JOptionPane.showMessageDialog(new java.awt.Frame(), "Xóa khách hàng thành công.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-                    dao.deleteKhachHang(getRowIsSelected());
+                    int result = JOptionPane.showConfirmDialog(tblData, "Bạn có chắc muốn xóa không", "Confirm Dialog",
+                            JOptionPane.YES_NO_OPTION,
+                            JOptionPane.QUESTION_MESSAGE);
+                    if (result == 0) {
+                        KhachHangDAO dao = new KhachHangDAO();
+                        JOptionPane.showMessageDialog(new java.awt.Frame(), "Xóa khách hàng thành công.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                        dao.deleteKhachHang(getRowIsSelected());
+
+                    }
+                    
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }

@@ -118,7 +118,7 @@ public class LoaiMonDao {
         try {
             con = DatabaseHelper.openConnection();
             statement = con.createStatement();
-            String sql = "SELECT * FROM LOAISP L WHERE L.TEN_LOAI_SP LIKE '%" + keyword + "%' ";
+            String sql = "SELECT * FROM LOAISP L WHERE L.TEN_LOAI_SP LIKE N'%" + keyword + "%' ";
             ResultSet resultset = statement.executeQuery(sql);
             while (resultset.next()) {
                 LoaiMon loaimon = new LoaiMon(resultset.getInt(1), resultset.getString(2));

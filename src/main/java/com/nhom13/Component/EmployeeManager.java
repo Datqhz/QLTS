@@ -18,7 +18,7 @@ public class EmployeeManager extends ManagerView {
     EmployeePopup dialog;
     List<Employee> listEmp;
 
-    public EmployeeManager() {//EmployeePopup dialog
+    public EmployeeManager(EmployeePopup dialog) {//
         super();
         setHeaderTable("Mã nhân viên", "Họ tên", "Account", "Số điện thoại", "Địa chỉ","Giới tính", "Chức vụ", "Trạng thái");
         this.dialog = dialog;
@@ -142,8 +142,8 @@ public class EmployeeManager extends ManagerView {
                         listEmp = dao.searchNhanVienByName(keyword);
                         tblModel.setRowCount(0);
                         for (Employee emp : listEmp) {
-                            Object[] row = new Object[]{emp.getMaNV(), emp.getFirstName() + " " + emp.getLastName(), emp.getAccount().getAccount(), emp.getAccount().getPassword(),
-                                (emp.getSdt() == null) ? "" : emp.getSdt(), emp.getGioiTinh(), RoleName(emp.getRole()), StatusName(emp.getAccount().isTrangThai())};
+                            Object[] row = new Object[]{emp.getMaNV(), emp.getFirstName() + " " + emp.getLastName(), emp.getAccount().getTenTk(),
+                                (emp.getSdt() == null) ? "" : emp.getSdt(), emp.getDiachi(),emp.getGioiTinh(), RoleName(emp.getAccount().getIdQuyen()), StatusName(emp.getAccount().isTrangThai())};
                             tblModel.addRow(row);
                         }
                         tblModel.fireTableDataChanged();

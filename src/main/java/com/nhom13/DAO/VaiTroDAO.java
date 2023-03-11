@@ -27,7 +27,7 @@ public class VaiTroDAO {
         try {
             con = DatabaseHelper.openConnection();
             statement = con.createStatement();
-            String sql = "SELECT * FROM VAITRO";
+            String sql = "SELECT * FROM QUYEN";
             ResultSet resultSet = statement.executeQuery(sql);
             while (resultSet.next()) {
                 VaiTro vaiTro = new VaiTro();

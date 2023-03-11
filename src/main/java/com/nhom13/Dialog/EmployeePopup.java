@@ -9,6 +9,7 @@ import com.nhom13.Entity.TaiKhoan;
 import com.nhom13.Entity.VaiTro;
 import com.nhom13.Support.CharFilterAlphabet;
 import com.nhom13.Support.CharFilterNumber;
+import com.nhom13.Support.LimitQuantity;
 import static com.nhom13.Support.UpperCaseFilter.convertToUpperCase;
 import static com.nhom13.ql_ts.LoginForm.isContainSpecialWord;
 import java.util.List;
@@ -36,8 +37,10 @@ public class EmployeePopup extends javax.swing.JDialog {
         document1.setDocumentFilter(new CharFilterAlphabet());
         AbstractDocument document2 = (AbstractDocument) txtLastName.getDocument();
         document2.setDocumentFilter(new CharFilterAlphabet());
+        txtPhoneNumber.setDocument(new LimitQuantity(10));
         AbstractDocument document3 = (AbstractDocument) txtPhoneNumber.getDocument();
         document3.setDocumentFilter(new CharFilterNumber());
+        
     }
 
     public boolean isStatus() {
@@ -90,7 +93,7 @@ public class EmployeePopup extends javax.swing.JDialog {
 
     public boolean checkAccount(String account) {
         for (TaiKhoan ac : accountList) {
-            if (ac.getAccount().equals(account)) {
+            if (ac.getTenTk().equals(account)) {
                 return true;
             }
         }
@@ -140,7 +143,7 @@ public class EmployeePopup extends javax.swing.JDialog {
             txtPassword.setText(emp.getAccount().getMk());
             txtPassword.setEnabled(false);
             txtPhoneNumber.setText((emp.getSdt() == null) ? "" : emp.getSdt());
-            cbxRole.setSelectedIndex(emp.getRole() - 1);
+            cbxRole.setSelectedIndex(emp.getAccount().getIdQuyen() - 1);
             cbxRole.setEnabled(false);
             switch (emp.getGioiTinh()) {
                 case "Nam":
@@ -199,6 +202,8 @@ public class EmployeePopup extends javax.swing.JDialog {
         rbAnother = new javax.swing.JRadioButton();
         jLabel15 = new javax.swing.JLabel();
         cbxStatus = new javax.swing.JComboBox<>();
+        txtAddress = new javax.swing.JTextField();
+        jLabel16 = new javax.swing.JLabel();
 
         jTextField4.setText("jTextField4");
 
@@ -353,52 +358,54 @@ public class EmployeePopup extends javax.swing.JDialog {
 
         cbxStatus.setModel(new javax.swing.DefaultComboBoxModel<>());
 
+        jLabel16.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel16.setForeground(new java.awt.Color(0, 0, 102));
+        jLabel16.setText("Địa chỉ");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(38, 38, 38)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addComponent(jLabel4)
+                                    .addGap(0, 0, 0)
+                                    .addComponent(jLabel7))
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                    .addComponent(jLabel2)
+                                    .addGap(0, 0, 0)
+                                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel3)
+                                .addGap(0, 0, 0)
+                                .addComponent(jLabel8))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel6)
+                                .addGap(0, 0, 0)
+                                .addComponent(jLabel10))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel5)
+                                .addGap(0, 0, 0)
+                                .addComponent(jLabel9))
+                            .addComponent(jLabel11)
+                            .addComponent(jLabel16))
+                        .addGap(33, 33, 33))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(btnFeature, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(32, 32, 32)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                            .addComponent(jLabel4)
-                                            .addGap(0, 0, 0)
-                                            .addComponent(jLabel7))
-                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                            .addComponent(jLabel2)
-                                            .addGap(0, 0, 0)
-                                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jLabel3)
-                                        .addGap(0, 0, 0)
-                                        .addComponent(jLabel8))
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jLabel6)
-                                        .addGap(0, 0, 0)
-                                        .addComponent(jLabel10))
-                                    .addComponent(jLabel11)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jLabel5)
-                                        .addGap(0, 0, 0)
-                                        .addComponent(jLabel9))
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jLabel12)
-                                        .addGap(0, 0, 0)
-                                        .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                    .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(48, 48, 48)))
-                            .addComponent(jLabel15))
-                        .addGap(21, 21, 21)))
+                            .addComponent(jLabel15)
+                            .addComponent(btnFeature, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel12)
+                                .addGap(3, 3, 3)
+                                .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(18, 18, 18)))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(btnReset, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -406,21 +413,22 @@ public class EmployeePopup extends javax.swing.JDialog {
                         .addComponent(btnClose, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cbxRole, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(txtLastName, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 204, Short.MAX_VALUE)
-                        .addComponent(txtPhoneNumber, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(txtFirstName, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(txtAccount, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(txtPassword, javax.swing.GroupLayout.Alignment.LEADING))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(cbxStatus, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                                 .addComponent(rbMale)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(rbFemale)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(rbAnother)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(rbAnother))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(txtAddress, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(txtLastName, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 204, Short.MAX_VALUE)
+                        .addComponent(txtPhoneNumber, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(txtFirstName, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(txtAccount, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(txtPassword, javax.swing.GroupLayout.Alignment.LEADING)))
                 .addContainerGap(10, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -458,22 +466,24 @@ public class EmployeePopup extends javax.swing.JDialog {
                     .addComponent(txtPhoneNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtAddress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cbxRole, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel13)))
+                    .addComponent(jLabel13))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel14)
+                    .addComponent(rbMale)
+                    .addComponent(rbFemale)
+                    .addComponent(rbAnother))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel14)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(rbMale)
-                        .addComponent(rbFemale)
-                        .addComponent(rbAnother)))
-                .addGap(25, 25, 25)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel15)
-                    .addComponent(cbxStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 68, Short.MAX_VALUE)
+                    .addComponent(jLabel15, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(cbxStatus, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(71, 71, 71)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnFeature, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnReset, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -502,6 +512,7 @@ public class EmployeePopup extends javax.swing.JDialog {
         String account = txtAccount.getText();
         String password = txtPassword.getText();
         String sdt = txtPhoneNumber.getText();
+        String diachi =  txtAddress.getText();
         int roleIndex = cbxRole.getSelectedIndex();
         boolean tt = (cbxStatus.getSelectedIndex() == 0);
         String sex = getSex();
@@ -524,12 +535,14 @@ public class EmployeePopup extends javax.swing.JDialog {
                 txtPassword.setText("");
             } else {
                 try {
-                    Employee temp = new Employee(manv, ho, ten, sdt, roleIndex + 1, sex);
+                    Employee temp = new Employee(manv, ho, ten, sdt,  sex, diachi);
                     EmployeeDAO dao = new EmployeeDAO();
-                    dao.saveEmployee(temp);
                     TaiKhoanDAO tkDao = new TaiKhoanDAO();
-                    TaiKhoan acc = new TaiKhoan(account, password, tt, manv);
+                    TaiKhoan acc = new TaiKhoan(account, password, tt, roleIndex+1);
                     tkDao.save(acc);
+                    temp.setAccount(acc);
+                    dao.saveEmployee(temp);
+                    
                     JOptionPane.showMessageDialog(new java.awt.Frame(), "Thêm nhân viên thành công.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
                     status = true;
                     setVisible(false);
@@ -542,9 +555,9 @@ public class EmployeePopup extends javax.swing.JDialog {
                 JOptionPane.showMessageDialog(new java.awt.Frame(), "Vui lòng điền đủ thông tin yêu cầu.", "Thông báo", JOptionPane.WARNING_MESSAGE);
             } else {
                 try {
-                    TaiKhoan tk = new TaiKhoan(account, password, tt, manv);
+                    TaiKhoan tk = new TaiKhoan(account, password, tt,roleIndex+1 );
 
-                    Employee temp = new Employee(manv, ho, ten, sdt, roleIndex + 1, sex);
+                    Employee temp = new Employee(manv, ho, ten, sdt, sex, diachi);
                     temp.setAccount(tk);
                     EmployeeDAO dao = new EmployeeDAO();
                     dao.updateEmployee(temp);
@@ -621,6 +634,7 @@ public class EmployeePopup extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -635,6 +649,7 @@ public class EmployeePopup extends javax.swing.JDialog {
     private javax.swing.JRadioButton rbFemale;
     private javax.swing.JRadioButton rbMale;
     private javax.swing.JTextField txtAccount;
+    private javax.swing.JTextField txtAddress;
     private javax.swing.JTextField txtFirstName;
     private javax.swing.JTextField txtID;
     private javax.swing.JTextField txtLastName;

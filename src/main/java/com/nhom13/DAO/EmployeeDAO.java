@@ -47,14 +47,16 @@ public class EmployeeDAO {
             String firstName = employee.getFirstName();
             String lastName = employee.getLastName();
             String sdt = employee.getSdt();
-            String sql = "INSERT INTO NHANVIEN(MA_NV , HO , TEN, SDT ,ID_VAI_TRO,GIOI_TINH)"
-                    + "VALUES(? , ? , ? ,?,?,?)";
+            String sql = "INSERT INTO NHANVIEN(MA_NV , HO , TEN, SDT, DIA_CHI,TEN_TAI_KHOAN ,GIOI_TINH)"
+                    + "VALUES(? , ? , ? ,?,?,?,?)";
             statement = con.prepareCall(sql);
             statement.setString(1, maNV);
             statement.setString(2, firstName);
             statement.setString(3, lastName);
             statement.setString(4, sdt);
-            statement.setString(6, employee.getGioiTinh());
+            statement.setString(5, employee.getDiachi());
+            statement.setString(6, employee.getAccount().getTenTk());
+            statement.setString(7, employee.getGioiTinh());
             statement.executeUpdate();
 
         } catch (Exception exception) {
@@ -71,40 +73,41 @@ public class EmployeeDAO {
             String lastName = employee.getLastName();
             String sdt = employee.getSdt();
             String sql = "UPDATE NHANVIEN SET  HO = ? , TEN = ?,"
-                    + "SDT = ? , ID_VAI_TRO = ?  , GIOI_TINH = ? WHERE MA_NV = ? ";
-            String sql2 = "UPDATE TAIKHOAN SET TRANG_THAI =? WHERE ACCOUNT =?";
+                    + "SDT = ? ,DIA_CHI=?, GIOI_TINH = ?  WHERE MA_NV = ? ";
+            String sql2 = "UPDATE TAIKHOAN SET TRANG_THAI =?, ID_QUYEN = ? WHERE TEN_TAI_KHOAN =?";
             statement = con.prepareCall(sql);
             statement.setString(6, maNV);
             statement.setString(1, firstName);
             statement.setString(2, lastName);
             statement.setString(3, sdt);
-            statement.setInt(4, idRole);
+            statement.setString(4, employee.getDiachi());
             statement.setString(5, employee.getGioiTinh());
             statement.executeUpdate();
             statement = con.prepareCall(sql2);
             statement.setBoolean(1, employee.getAccount().isTrangThai());
-            statement.setString(2, employee.getAccount().getAccount());
+            statement.setInt(2, employee.getAccount().getIdQuyen());
+            statement.setString(3, employee.getAccount().getTenTk());
             statement.executeUpdate();
         } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
 
-    public void deleteEmployee(Employee employee) throws Exception {
-        Connection con = null;
-        PreparedStatement statement = null;
-        try {
-            con = DatabaseHelper.openConnection();
-
-            String sql = "DELETE FROM NHANVIEN WHERE MA_NV = ?1";
-            statement = con.prepareCall(sql);
-            statement.setString(1, employee.getMaNV());
-            statement.executeUpdate();
-
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-    }
+//    public void deleteEmployee(Employee employee) throws Exception {
+//        Connection con = null;
+//        PreparedStatement statement = null;
+//        try {
+//            con = DatabaseHelper.openConnection();
+//
+//            String sql = "DELETE FROM NHANVIEN WHERE MA_NV = ?";
+//            statement = con.prepareCall(sql);
+//            statement.setString(1, employee.getMaNV());
+//            statement.executeUpdate();
+//
+//        } catch (Exception ex) {
+//            ex.printStackTrace();
+//        }
+//    }
 
     public List<Employee> findAll() throws Exception {
         List<Employee> result = new ArrayList<>();
@@ -149,7 +152,7 @@ public class EmployeeDAO {
 
             con = DatabaseHelper.openConnection();
             statement = con.createStatement();
-            String sql = "SELECT * FROM  NHANVIEN NV, TAIKHOAN TK WHERE NV.MA_NV = TK.MA_NV AND CONCAT(NV.HO,' ',NV.TEN) LIKE '%" + keyword + "%'";
+            String sql = "SELECT * FROM  NHANVIEN NV, TAIKHOAN TK WHERE NV.TEN_TAI_KHOAN = TK.TEN_TAI_KHOAN AND CONCAT(NV.HO,' ',NV.TEN) LIKE N'%" + keyword + "%'";
             ResultSet resultset = statement.executeQuery(sql);
             while (resultset.next()) {
                 Employee employee = new Employee();
@@ -157,14 +160,13 @@ public class EmployeeDAO {
                 employee.setFirstName(resultset.getString(2));
                 employee.setLastName(resultset.getString(3));
                 employee.setSdt(resultset.getString(4));
-                employee.setRole(Integer.parseInt(resultset.getString(5)));
+                employee.setDiachi(resultset.getString(5));
                 employee.setGioiTinh(resultset.getString(6));
                 TaiKhoan acc = new TaiKhoan();
-                acc.setId(resultset.getInt(7));
-                acc.setAccount(resultset.getString(8));
-                acc.setPassword(resultset.getString(9));
+                acc.setTenTk(resultset.getString(7));
+                acc.setMk(resultset.getString(9));
                 acc.setTrangThai(resultset.getBoolean(10));
-                acc.setManv(employee.getMaNV());
+                acc.setIdQuyen(resultset.getInt(11));
                 employee.setAccount(acc);
                 result.add(employee);
             }

@@ -2,88 +2,82 @@ package com.nhom13.Entity;
 
 public class ChiTietHoaDon {
 
-    private int id;
-    private int idHoaDon;
-    private int idMonAn;
-    private String tenMon;
-    private int soLuong;
-    private double gia;
+    private int soHoaDon ;
+    private int idSize ;
+    private int idMon ;
+    private int soluong;
+    private float gia ;
+    private String tenmon;
 
-    public ChiTietHoaDon(int idMonAn, String tenmon, int soLuong, double gia) {
-        this.idMonAn = idMonAn;
-        this.tenMon = tenmon;
-        this.soLuong = soLuong;
+    public ChiTietHoaDon(int soHoaDon, int idSize, int idMon, int soluong, float gia) {
+        this.soHoaDon = soHoaDon;
+        this.idSize = idSize;
+        this.idMon = idMon;
+        this.soluong = soluong;
         this.gia = gia;
     }
 
-    public ChiTietHoaDon(int idMonAn, int soLuong, double gia) {
-        this.idMonAn = idMonAn;
-        this.soLuong = soLuong;
-        this.gia = gia;
-    }
-
-    public ChiTietHoaDon(int id, int idHoaDon, int idMonAn, int soLuong, double gia) {
-        this.id = id;
-        this.idHoaDon = idHoaDon;
-        this.idMonAn = idMonAn;
-        this.soLuong = soLuong;
+    public ChiTietHoaDon(int idSize, int idMon, int soluong, float gia) {
+        this.idSize = idSize;
+        this.idMon = idMon;
+        this.soluong = soluong;
         this.gia = gia;
     }
 
     public ChiTietHoaDon() {
     }
 
-    public String getTenMon() {
-        return tenMon;
+    public int getSoHoaDon() {
+        return soHoaDon;
     }
 
-    public void setTenMon(String tenMon) {
-        this.tenMon = tenMon;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public int getIdHoaDon() {
-        return idHoaDon;
-    }
-
-    public void setIdHoaDon(int idHoaDon) {
-        this.idHoaDon = idHoaDon;
-    }
-
-    public int getIdMonAn() {
-        return idMonAn;
-    }
-
-    public void setIdMonAn(int idMonAn) {
-        this.idMonAn = idMonAn;
-    }
-
-    public int getSoLuong() {
-        return soLuong;
-    }
-
-    public void setSoLuong(int soLuong) {
-        this.soLuong = soLuong;
-    }
-
-    public double getGia() {
-        return gia;
-    }
-
-    public void setGia(double gia) {
-        this.gia = gia;
+    public void setSoHoaDon(int soHoaDon) {
+        this.soHoaDon = soHoaDon;
     }
 
     @Override
     public String toString() {
-        return "ChiTetHoaDon{" + "id=" + id + ", idHoaDon=" + idHoaDon + ", idMonAn=" + idMonAn + ", soLuong=" + soLuong + ", gia=" + gia + '}';
+        return "ChiTietHoaDon{" + "soHoaDon=" + soHoaDon + ", idSize=" + idSize + ", idMon=" + idMon + ", soluong=" + soluong + ", gia=" + gia + '}';
     }
 
+    public String getTenmon() {
+        return tenmon;
+    }
+
+    public void setTenmon(String tenmon) {
+        this.tenmon = tenmon;
+    }
+
+    public int getIdSize() {
+        return idSize;
+    }
+
+    public void setIdSize(int idSize) {
+        this.idSize = idSize;
+    }
+
+    public int getIdMon() {
+        return idMon;
+    }
+
+    public void setIdMon(int idMon) {
+        this.idMon = idMon;
+    }
+
+    public int getSoluong() {
+        return soluong;
+    }
+
+    public void setSoluong(int soluong) {
+        this.soluong = soluong;
+    }
+
+    public float getGia() {
+        return gia;
+    }
+
+    public void setGia(float gia) {
+        this.gia = gia;
+    }
+    
 }

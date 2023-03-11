@@ -72,17 +72,16 @@ public class MonAnDaoTest {
     @Test 
     public void update(){
         MonAn ma = new MonAn();
-        ma.setId(1000);
+        ma.setId(6);
         ma.setTenMon("test1");
         ma.setAnh("test.jpg");
         ma.setDonVi("ly");
-        ma.setGia(11111);
         ma.setIdLoaiMon(2);
         ma.setMoTa("mota");
         ma.setIdLoaiMon(1);
         MonAnDAO dao = new MonAnDAO();
-        dao.save(ma);
-        assertTrue(dao.findById(1000).getTenMon().equals("test1"));
+        dao.updateSanPham(ma);
+        assertTrue(dao.findById(6).getTenMon().equals("test1"));
        
         
     }

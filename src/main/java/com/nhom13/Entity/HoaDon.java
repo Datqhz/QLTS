@@ -8,12 +8,13 @@ public class HoaDon {
    private int soHoaDon ;
    private String hinhThucThanhToan ;
    private String ngayLap ;
-   private int thanhTien;
+   private float thanhTien;
    private int idKm ;
    private String maNv ;
    private int idKh ;
+   List<Ban> listBan;
 
-    public HoaDon(int soHoaDon, String hinhThucThanhToan, String ngayLap, int thanhTien, int idKm, String maNv, int idKh) {
+    public HoaDon(int soHoaDon, String hinhThucThanhToan, String ngayLap, float thanhTien, int idKm, String maNv, int idKh) {
         this.soHoaDon = soHoaDon;
         this.hinhThucThanhToan = hinhThucThanhToan;
         this.ngayLap = ngayLap;
@@ -47,11 +48,11 @@ public class HoaDon {
         this.ngayLap = ngayLap;
     }
 
-    public int getThanhTien() {
+    public float getThanhTien() {
         return thanhTien;
     }
 
-    public void setThanhTien(int thanhTien) {
+    public void setThanhTien(float thanhTien) {
         this.thanhTien = thanhTien;
     }
 
@@ -77,6 +78,14 @@ public class HoaDon {
 
     public void setIdKh(int idKh) {
         this.idKh = idKh;
+    }
+
+    public List<Ban> getListBan() {
+        return listBan;
+    }
+
+    public void setListBan(List<Ban> listBan) {
+        this.listBan = listBan;
     }
 
     public HoaDon() {

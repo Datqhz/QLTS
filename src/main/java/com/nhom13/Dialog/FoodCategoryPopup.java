@@ -44,20 +44,22 @@ public class FoodCategoryPopup extends javax.swing.JDialog {
             txtCategoryName.setText(loaiMon.getTen());
         }
     }
-    public boolean checkTenLoai(String name){
-        try{
+
+    public boolean checkTenLoai(String name) {
+        try {
             LoaiMonDao dao = new LoaiMonDao();
             LoaiMon temp = dao.SearchTenLoaiMon(name);
-            if(temp==null){
+            if (temp == null) {
                 return false;
-            }else{
+            } else {
                 return true;
             }
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return false;
     }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -170,20 +172,34 @@ public class FoodCategoryPopup extends javax.swing.JDialog {
         String tenLoaiMon = txtCategoryName.getText().trim();
         if (tenLoaiMon == null || tenLoaiMon.length() == 0) {
             JOptionPane.showMessageDialog(rootPane, "Field can not empty");
-        }else if(checkTenLoai(tenLoaiMon)){
-            JOptionPane.showMessageDialog(rootPane, "Category name already exist");
-        }else {
+        } else {
             LoaiMon lm = new LoaiMon(tenLoaiMon);
 
             try {
                 LoaiMonDao lmd = new LoaiMonDao();
                 if (featute == Feature.ADD) {
-                    lmd.save(lm);
-                    JOptionPane.showMessageDialog(rootPane, "Save Successfull");
+                    if (checkTenLoai(tenLoaiMon)) {
+                        JOptionPane.showMessageDialog(rootPane, "Category name already exist");
+                    } else {
+                        lmd.save(lm);
+                        JOptionPane.showMessageDialog(rootPane, "Save Successfull");
+                    }
+
                 } else {
-                    lm.setId(loaiMon.getId());
-                    lmd.update(lm);
-                    JOptionPane.showMessageDialog(rootPane, "Update Successfull");
+                    if (loaiMon.getTen().equals(tenLoaiMon)) {
+                        lm.setId(loaiMon.getId());
+                        lmd.update(lm);
+                        JOptionPane.showMessageDialog(rootPane, "Update Successfull");
+                    } else {
+                        if (checkTenLoai(tenLoaiMon)) {
+                            JOptionPane.showMessageDialog(rootPane, "Category name already exist");
+                        } else {
+                            lm.setId(loaiMon.getId());
+                            lmd.update(lm);
+                            JOptionPane.showMessageDialog(rootPane, "Update Successfull");
+                        }
+                    }
+
                 }
                 status = true;
                 txtCategoryName.setText("");
@@ -203,7 +219,7 @@ public class FoodCategoryPopup extends javax.swing.JDialog {
     }//GEN-LAST:event_btnCloseActionPerformed
 
     private void txtCategoryNameKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCategoryNameKeyReleased
-          convertToUpperCase(txtCategoryName);
+        convertToUpperCase(txtCategoryName);
     }//GEN-LAST:event_txtCategoryNameKeyReleased
 
 //    public static void main(String args[]) {

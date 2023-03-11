@@ -2,6 +2,7 @@ package com.nhom13.Dialog;
 
 import com.nhom13.DAO.LoaiMonDao;
 import com.nhom13.DAO.MonAnDAO;
+import com.nhom13.Entity.CTSP;
 import com.nhom13.Entity.LoaiMon;
 import com.nhom13.Entity.MonAn;
 import com.nhom13.Support.CharFilterAlphabet;
@@ -24,17 +25,23 @@ public class FoodPopup extends javax.swing.JDialog {
     List<LoaiMon> listCategory;
     DefaultComboBoxModel modelcbx = new DefaultComboBoxModel();
 
-    public FoodPopup(java.awt.Frame parent, String maNv) {
+    public FoodPopup(java.awt.Frame parent) {
         super(parent, true);
         initComponents();
         setLocationRelativeTo(null);
-        this.maNV = maNv;
         setTitle("Thêm món.");
         cbxCategory.setModel(modelcbx);
         AbstractDocument document1 = (AbstractDocument) txtUnit.getDocument();
         document1.setDocumentFilter(new CharFilterAlphabet());
         AbstractDocument document3 = (AbstractDocument) txtPriceSizeM.getDocument();
         document3.setDocumentFilter(new CharFilterNumber());
+        AbstractDocument document2 = (AbstractDocument) txtFoodName.getDocument();
+        document2.setDocumentFilter(new CharFilterAlphabet());
+        AbstractDocument document4 = (AbstractDocument) txtPriceSizeL.getDocument();
+        document4.setDocumentFilter(new CharFilterNumber());
+        AbstractDocument document5 = (AbstractDocument) txtPriceSizeXL.getDocument();
+        document5.setDocumentFilter(new CharFilterNumber());
+        
     }
 
     public boolean isStatus() {
@@ -49,6 +56,8 @@ public class FoodPopup extends javax.swing.JDialog {
         txtFoodName.setText("");
         txtUnit.setText("");
         txtPriceSizeM.setText("");
+        txtPriceSizeL.setText("");
+        txtPriceSizeXL.setText("");
         txtImgPath.setText("");
         txtNote.setText("");
         cbxCategory.setSelectedItem(null);
@@ -74,23 +83,51 @@ public class FoodPopup extends javax.swing.JDialog {
 
     }
 
+    public void setPriceSize(List<CTSP> list) {
+        for (CTSP ct : list) {
+            switch (ct.getIdSize()) {
+                case 1:
+                    txtPriceSizeM.setText(Integer.toString(ct.getGia()));
+                    break;
+                case 2:
+                    txtPriceSizeL.setText(Integer.toString(ct.getGia()));
+                    break;
+                default:
+                    txtPriceSizeXL.setText(Integer.toString(ct.getGia()));
+            }
+        }
+    }
+
     public void setFeature(Feature f, MonAn ma) {
         setItemCombobox();
         status = false;
         feature = f;
         if (feature == Feature.ADD) {
+            txtFoodName.setEnabled(true);
             btnFeature.setText("ADD");
             resetForm();
             this.monAn = null;
         } else {
+            txtFoodName.setEnabled(false);
             btnFeature.setText("EDIT");
             this.monAn = ma;
             txtFoodName.setText(ma.getTenMon());
             txtUnit.setText(ma.getDonVi());
-            txtPriceSizeM.setText(String.valueOf(ma.getGia()));
+            lblReviewImg.setIcon(Resize(ma.getAnh(), 180, 180));
+            txtImgPath.setText(ma.getAnh());
             txtNote.setText(ma.getMoTa());
+            List<CTSP> listCT = null;
+            try {
+                MonAnDAO dao = new MonAnDAO();
+                listCT = dao.findCTSP(ma.getId());
+                setPriceSize(listCT);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
             LoaiMon loaiMon = listCategory.stream().filter(l -> l.getId() == ma.getIdLoaiMon()).findFirst().orElse(null);
             cbxCategory.setSelectedItem(loaiMon.getTen());
+
         }
     }
 
@@ -105,18 +142,20 @@ public class FoodPopup extends javax.swing.JDialog {
         imageIcon = new ImageIcon(newimg);
         return imageIcon;
     }
-    public boolean checkFoodName(String name){
-        try{
+
+    public boolean checkFoodName(String name) {
+        try {
             MonAnDAO dao = new MonAnDAO();
             MonAn temp = dao.findMonAnByName(name.toUpperCase());
-            if(temp!=null){
+            if (temp != null) {
                 return true;
             }
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return false;
     }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -280,64 +319,66 @@ public class FoodPopup extends javax.swing.JDialog {
                 .addGap(46, 46, 46)
                 .addGroup(SizeLLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(SizeLLayout.createSequentialGroup()
-                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 78, Short.MAX_VALUE)
+                        .addComponent(txtImgPath, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtUnit, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(btnChooseImg, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(SizeLLayout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel7))
-                    .addGroup(SizeLLayout.createSequentialGroup()
-                        .addComponent(btnFeature, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(48, 48, 48)
-                        .addComponent(btnReset, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(39, 39, 39)
-                        .addComponent(btnClose, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(SizeLLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(SizeLLayout.createSequentialGroup()
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 78, Short.MAX_VALUE)
-                            .addComponent(txtImgPath, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(btnChooseImg, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(SizeLLayout.createSequentialGroup()
-                            .addGap(5, 5, 5)
-                            .addGroup(SizeLLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, SizeLLayout.createSequentialGroup()
-                                    .addComponent(txtPriceSizeM)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(txtPriceSizeL, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(txtPriceSizeXL, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(49, 49, 49))
+                        .addGap(5, 5, 5)
+                        .addGroup(SizeLLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, SizeLLayout.createSequentialGroup()
+                                .addComponent(txtPriceSizeM)
+                                .addGap(18, 18, 18)
+                                .addComponent(txtPriceSizeL, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(txtPriceSizeXL, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(49, 49, 49))
+                            .addGroup(SizeLLayout.createSequentialGroup()
+                                .addGroup(SizeLLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel10)
+                                    .addGroup(SizeLLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel4)
+                                        .addGroup(SizeLLayout.createSequentialGroup()
+                                            .addComponent(jLabel3)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel11)
+                                .addGap(82, 82, 82)
+                                .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(71, 71, 71))
+                            .addGroup(SizeLLayout.createSequentialGroup()
                                 .addGroup(SizeLLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel5)
+                                    .addGroup(SizeLLayout.createSequentialGroup()
+                                        .addComponent(jLabel5)
+                                        .addGap(41, 41, 41)
+                                        .addComponent(txtNote, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(SizeLLayout.createSequentialGroup()
                                         .addComponent(jLabel6)
                                         .addGap(0, 0, 0)
-                                        .addComponent(jLabel9))
-                                    .addGroup(SizeLLayout.createSequentialGroup()
-                                        .addGroup(SizeLLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(jLabel10)
-                                            .addGroup(SizeLLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addComponent(jLabel4)
-                                                .addGroup(SizeLLayout.createSequentialGroup()
-                                                    .addComponent(jLabel3)
-                                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                                        .addGroup(SizeLLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addGroup(SizeLLayout.createSequentialGroup()
-                                                .addGap(18, 18, 18)
-                                                .addGroup(SizeLLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                    .addComponent(txtFoodName, javax.swing.GroupLayout.PREFERRED_SIZE, 294, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                    .addGroup(SizeLLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                                        .addComponent(cbxCategory, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                        .addComponent(txtNote, javax.swing.GroupLayout.PREFERRED_SIZE, 294, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                                            .addGroup(SizeLLayout.createSequentialGroup()
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addComponent(jLabel11)
-                                                .addGap(82, 82, 82)
-                                                .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(71, 71, 71)))))))))
+                                        .addComponent(jLabel9)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(cbxCategory, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(0, 0, Short.MAX_VALUE))))
+                    .addGroup(SizeLLayout.createSequentialGroup()
+                        .addGroup(SizeLLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(SizeLLayout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(txtUnit, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(SizeLLayout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel7)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(txtFoodName, javax.swing.GroupLayout.PREFERRED_SIZE, 294, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(SizeLLayout.createSequentialGroup()
+                                .addComponent(btnFeature, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(48, 48, 48)
+                                .addComponent(btnReset, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(39, 39, 39)
+                                .addComponent(btnClose, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addGap(11, 11, 11))
         );
         SizeLLayout.setVerticalGroup(
@@ -417,45 +458,71 @@ public class FoodPopup extends javax.swing.JDialog {
     private void btnFeatureActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFeatureActionPerformed
         String name = txtFoodName.getText().trim();
         String donVi = txtUnit.getText().trim();
-        String gia = txtPriceSizeM.getText().trim();
+        String giaM = txtPriceSizeM.getText().trim();
+        String giaL = txtPriceSizeL.getText().trim();
+        String giaXL = txtPriceSizeXL.getText().trim();
         String moTa = txtNote.getText().trim();
         String imgPath;
         if (check(txtImgPath.getText().trim())) {
             imgPath = "C:\\Users\\baam0\\OneDrive\\Documents\\GitHub\\QL_TS\\src\\main\\resources\\new.png";
-        }else {
+        } else {
             imgPath = txtImgPath.getText();
         }
-        String tenLoai = cbxCategory.getSelectedItem().toString();
-        if (check(name) || check(gia) || check(tenLoai)) {
+        String tenLoai = "";
+        if (cbxCategory.getSelectedItem() != null) {
+            tenLoai = cbxCategory.getSelectedItem().toString();
+        }
+        if (check(name) || check(giaM) || check(giaL) || check(giaXL) || check(tenLoai)) {
             JOptionPane.showMessageDialog(rootPane, "Vui lòng điền đầy đủ thông tin");
-        } else if(checkFoodName(name)){
-            JOptionPane.showMessageDialog(rootPane, "Tên món đã tồn tại.");
-        }else {
+        }
+            else {
             MonAn monAn1 = new MonAn();
             monAn1.setTenMon(name);
             monAn1.setDonVi(donVi);
-            monAn1.setGia(Integer.parseInt(gia));
             monAn1.setMoTa(moTa);
             monAn1.setAnh(imgPath);
-            monAn1.setMaNv(maNV);
-            int idLoaiMon = listCategory.stream().filter(l -> l.getTen().equals(tenLoai)).map(l -> l.getId()).findFirst().orElse(null);
+            int idLoaiMon = -1;
+            for (LoaiMon lm : listCategory) {
+                if (lm.getTen().equals(tenLoai)) {
+                    idLoaiMon = lm.getId();
+                    break;
+                }
+            }
             monAn1.setIdLoaiMon(idLoaiMon);
-            System.out.println(monAn1);
+
             try {
                 MonAnDAO dao = new MonAnDAO();
                 if (feature == Feature.ADD) {
-                    dao.save(monAn1);
-                    JOptionPane.showMessageDialog(rootPane, "Add successful");
+                    if (checkFoodName(name)) {
+                        JOptionPane.showMessageDialog(rootPane, "Tên món đã tồn tại.");
+                    } else {
+                        dao.save(monAn1);
+                        int idmon = dao.getId();
+                        dao.saveCTSP(1, idmon, Integer.parseInt(giaM));
+                        dao.saveCTSP(2, idmon, Integer.parseInt(giaL));
+                        dao.saveCTSP(3, idmon, Integer.parseInt(giaXL));
+                        JOptionPane.showMessageDialog(rootPane, "Thêm thành công!");
+                        status = true;
+                        resetForm();
+                        setVisible(false);
+                    }
+
                 } else {
+
                     monAn1.setId(monAn.getId());
-                    dao.update(monAn1);
-                    JOptionPane.showMessageDialog(rootPane, "Edit sucessful");
+                    System.out.println(monAn1);
+                    dao.updateSanPham(monAn1);
+                    dao.updateCtsp(monAn.getId(), 1, Integer.parseInt(giaM));
+                    dao.updateCtsp(monAn.getId(), 2, Integer.parseInt(giaL));
+                    dao.updateCtsp(monAn.getId(), 3, Integer.parseInt(giaXL));
+                    JOptionPane.showMessageDialog(rootPane, "Sửa thành công!");
+                    status = true;
+                    resetForm();
+                    setVisible(false);
                 }
             } catch (Exception e) {
             }
-            status = true;
-            resetForm();
-            setVisible(false);
+
         }
     }//GEN-LAST:event_btnFeatureActionPerformed
 

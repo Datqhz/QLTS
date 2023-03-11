@@ -42,8 +42,8 @@ public class KhachHangDAO {
                 khachHang.setId(resultset.getInt(1));
                 khachHang.setHo(resultset.getString(2));
                 khachHang.setTen(resultset.getString(3));
-                khachHang.setNgaySinh(resultset.getDate(4));
-                khachHang.setSdt(resultset.getString(5));
+                khachHang.setNgaySinh(resultset.getDate(5));
+                khachHang.setSdt(resultset.getString(4));
                 result.add(khachHang);
             }
 
@@ -140,15 +140,15 @@ public class KhachHangDAO {
         try {
             con = DatabaseHelper.openConnection();
             statement = con.createStatement();
-            String sql = "SELECT * FROM KHACHHANG K WHERE CONCAT(K.HO, ' ' ,K.TEN) LIKE '%" + keyword + "%' ";
+            String sql = "SELECT * FROM KHACHHANG K WHERE CONCAT(K.HO, ' ' ,K.TEN) LIKE N'%"+keyword+"%' ";
             ResultSet resultset = statement.executeQuery(sql);
             while (resultset.next()) {
                 KhachHang khachHang = new KhachHang();
                 khachHang.setId(resultset.getInt(1));
                 khachHang.setHo(resultset.getString(2));
                 khachHang.setTen(resultset.getString(3));
-                khachHang.setNgaySinh(resultset.getDate(4));
-                khachHang.setSdt(resultset.getString(5));
+                khachHang.setNgaySinh(resultset.getDate(5));
+                khachHang.setSdt(resultset.getString(4));
                 result.add(khachHang);
             }
 

@@ -9,9 +9,9 @@ public class BillItem extends javax.swing.JPanel {
 //    private String foodName;
 //    private int total;
 //    private int quantity;
-    public BillItem(String foodName, int quantity, double total) {
+    public BillItem(String foodName, int quantity, double total, String size) {
         initComponents();
-        setInfo(foodName, quantity, total);
+        setInfo(foodName, quantity, total, size);
     }
 
     public static String NumberVN(double s) {
@@ -20,10 +20,11 @@ public class BillItem extends javax.swing.JPanel {
         return vn.format(s);
     }
     
-    public void setInfo(String foodName, int quantity, double total) {
+    public void setInfo(String foodName, int quantity, double total, String size) {
         lblFoodName.setText(foodName);
         lblQuantity.setText(Integer.toString(quantity));
         lblTotal.setText(NumberVN(total));
+        lblSize.setText(size);
     }
 
     @SuppressWarnings("unchecked")
@@ -34,6 +35,7 @@ public class BillItem extends javax.swing.JPanel {
         lblFoodName = new javax.swing.JLabel();
         lblTotal = new javax.swing.JLabel();
         lblQuantity = new javax.swing.JLabel();
+        lblSize = new javax.swing.JLabel();
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setMaximumSize(new java.awt.Dimension(478, 50));
@@ -50,19 +52,28 @@ public class BillItem extends javax.swing.JPanel {
         lblQuantity.setForeground(new java.awt.Color(102, 102, 102));
         lblQuantity.setText("2");
 
+        lblSize.setForeground(new java.awt.Color(102, 102, 102));
+        lblSize.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblSize.setText("M");
+        lblSize.setMaximumSize(new java.awt.Dimension(20, 16));
+        lblSize.setMinimumSize(new java.awt.Dimension(20, 16));
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(68, 68, 68)
-                .addComponent(lblQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(133, 133, 133)
-                .addComponent(lblTotal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(94, 94, 94))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(23, 23, 23)
-                .addComponent(lblFoodName, javax.swing.GroupLayout.PREFERRED_SIZE, 441, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(68, 68, 68)
+                        .addComponent(lblQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(114, 114, 114)
+                        .addComponent(lblSize, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(lblTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(23, 23, 23)
+                        .addComponent(lblFoodName, javax.swing.GroupLayout.PREFERRED_SIZE, 441, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(14, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -71,10 +82,12 @@ public class BillItem extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(lblFoodName)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblQuantity)
-                    .addComponent(lblTotal))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblSize, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(lblQuantity)
+                        .addComponent(lblTotal)))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -94,6 +107,7 @@ public class BillItem extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lblFoodName;
     private javax.swing.JLabel lblQuantity;
+    private javax.swing.JLabel lblSize;
     private javax.swing.JLabel lblTotal;
     // End of variables declaration//GEN-END:variables
 }

@@ -37,6 +37,9 @@ public final class TableManager extends ManagerView {
         cbxSearch.addItem("Tên bàn");
         cbxSearch.addItem("Bàn còn trống");
         pnCbx.add(cbxSearch);
+        if(emp.getAccount().getIdQuyen()==1){
+            hiddenBtnRemove();
+        }
     }
 
     public Ban getBanSelected() {
@@ -80,9 +83,16 @@ public final class TableManager extends ManagerView {
         });
         btnRemove.addActionListener((ActionEvent e) -> {
             try {
-                BanDAO dao = new BanDAO();
-                JOptionPane.showMessageDialog(new java.awt.Frame(), "Xóa bàn thành công.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-                dao.deleteBan(getBanSelected());
+                int result = JOptionPane.showConfirmDialog(tblData, "Bạn có chắc muốn xóa không", "Confirm Dialog",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE);
+                if (result == 0) {
+
+                    BanDAO dao = new BanDAO();
+                    JOptionPane.showMessageDialog(new java.awt.Frame(), "Xóa bàn thành công.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                    dao.deleteBan(getBanSelected());
+                }
+
             } catch (Exception ex) {
                 ex.printStackTrace();
             }

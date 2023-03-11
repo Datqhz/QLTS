@@ -9,6 +9,7 @@ import com.nhom13.DAO.KhuyenMaiDAO;
 import com.nhom13.DAO.LoaiMonDao;
 import com.nhom13.DAO.MonAnDAO;
 import com.nhom13.Entity.Ban;
+import com.nhom13.Entity.CTSP;
 import com.nhom13.Entity.ChiTietBan;
 import com.nhom13.Entity.ChiTietHoaDon;
 import com.nhom13.Entity.Employee;
@@ -53,17 +54,17 @@ public class OrderPopup extends javax.swing.JFrame {
         panelFood.setMinimumSize(new Dimension(628, 642));
         panelCategory.setLayout(new BoxLayout(panelCategory, BoxLayout.Y_AXIS));
         tblChoosed.setModel(tblModel);
-        tblModel.setColumnIdentifiers(new Object[]{"Món", "Số lượng", "Giá", "Tổng"});
+        tblModel.setColumnIdentifiers(new Object[]{"Món", "Số lượng", "Size", "Giá", "Tổng"});
         jScrollPane1.setVerticalScrollBar(new ScrollBarCustom());
         jScrollPane3.setVerticalScrollBar(new ScrollBarCustom());
         jScrollPane2.setVerticalScrollBar(new ScrollBarCustom());
         this.nv = nv;
         setBillInfo();
+        btnChonBan.setEnabled(false);
         lblTotal.setText("");
         lblDiscountM.setText("");
         lblAmount.setText("");
         loadCategory();
-        loadFoodItem();
     }
 
     public boolean isStatus() {
@@ -77,7 +78,7 @@ public class OrderPopup extends javax.swing.JFrame {
     public void setSale() {
         try {
             KhuyenMaiDAO dao = new KhuyenMaiDAO();
-            sale = dao.getKMInTime();
+            sale = dao.searchByDate();
             if (sale == null) {
                 sale = new KhuyenMai();
                 sale.setGiaTri(0);
@@ -113,27 +114,6 @@ public class OrderPopup extends javax.swing.JFrame {
         );
     }
 
-    public boolean getBanTrong() {
-        cbxTable.removeAllItems();
-        try {
-            BanDAO dao = new BanDAO();
-            banList = dao.searchTenBanAvailable();
-            if (!banList.isEmpty()) {
-                for (Ban ban : banList) {
-                    cbxTable.addItem(ban.getTenBan());
-                    cbxTable.setSelectedIndex(-1);
-                }
-                return true;
-            } else {
-
-                return false;
-            }
-        } catch (Exception e) {
-            System.out.println("Lấy bàn trống không thành công");
-        }
-        return false;
-    }
-
     public void setBillInfo() {
         lblCreateDay.setText(java.time.LocalDate.now().toString());
         cbxDung.removeAllItems();
@@ -144,16 +124,14 @@ public class OrderPopup extends javax.swing.JFrame {
         cbxTT.addItem("Tiền mặt");
         cbxTT.addItem("Chuyển khoản");
         lblEmpName.setText(nv.getFirstName() + " " + nv.getLastName());
-//        lblEmpName.setText(nv);
         setSale();
-        cbxTable.setEnabled(false);
 
     }
 
-    public int checkExist(int mamon) {
+    public int checkExist(int mamon, int masize) {
         int index = 0;
         for (ChiTietHoaDon ct : foodChoosedList) {
-            if (ct.getIdMonAn() == mamon) {
+            if (ct.getIdMon() == mamon && ct.getIdSize() == masize) {
                 return index;
             }
             index++;
@@ -170,7 +148,7 @@ public class OrderPopup extends javax.swing.JFrame {
     public void UpdateAmount() {
         double total = 0;
         for (ChiTietHoaDon tmp : foodChoosedList) {
-            total += tmp.getGia() * tmp.getSoLuong();
+            total += tmp.getGia() * tmp.getSoluong();
         }
         double discount = total * sale.getGiaTri() / 100;
         lblTotal.setText(NumberVN(total));
@@ -178,13 +156,24 @@ public class OrderPopup extends javax.swing.JFrame {
         lblAmount.setText(NumberVN(total - discount));
     }
 
-    public double countBill() {
-        double total = 0;
+    public float countBill() {
+        float total = 0;
         for (ChiTietHoaDon tmp : foodChoosedList) {
             tmp.setGia((tmp.getGia() * (100 - sale.getGiaTri())) / 100);
-            total += tmp.getGia() * tmp.getSoLuong();
+            total += tmp.getGia() * tmp.getSoluong();
         }
         return total;
+    }
+
+    public String getSizeName(int id) {
+        switch (id) {
+            case 1:
+                return "M";
+            case 2:
+                return "L";
+            default:
+                return "XL";
+        }
     }
 
     public void addListenerFoodItem(FoodItem... items) {
@@ -196,17 +185,17 @@ public class OrderPopup extends javax.swing.JFrame {
                     sub.setFeature(Feature.ADD);
                     sub.setVisible(true);
                     if (sub.isStatus()) {
-                        int index = checkExist(item.getFood().getId());
+                        int index = checkExist(item.getFood().getId(), item.getCt().getIdSize());
                         if (index == -1) {
                             MonAn food = item.getFood();
-                            foodChoosedList.add(new ChiTietHoaDon(item.getFood().getId(), sub.getSl(), item.getFood().getGia()));
-                            Object[] row = new Object[]{item.getFood().getTenMon(), sub.getSl(), NumberVN(item.getFood().getGia()), NumberVN(sub.getSl() * item.getFood().getGia())};
+                            foodChoosedList.add(new ChiTietHoaDon(item.getCt().getIdSize(), item.getFood().getId(), sub.getSl(), item.getCt().getGia()));
+                            Object[] row = new Object[]{item.getFood().getTenMon(), sub.getSl(), getSizeName(item.getCt().getIdSize()), NumberVN(item.getCt().getGia()), NumberVN(sub.getSl() * item.getCt().getGia())};
                             tblModel.addRow(row);
 
                         } else {
-                            foodChoosedList.get(index).setSoLuong(sub.getSl() + foodChoosedList.get(index).getSoLuong());
-                            tblModel.setValueAt(foodChoosedList.get(index).getSoLuong(), index, 1);
-                            tblModel.setValueAt(NumberVN(foodChoosedList.get(index).getSoLuong() * foodChoosedList.get(index).getGia()), index, 3);
+                            foodChoosedList.get(index).setSoluong(sub.getSl() + foodChoosedList.get(index).getSoluong());
+                            tblModel.setValueAt(foodChoosedList.get(index).getSoluong(), index, 1);
+                            tblModel.setValueAt(NumberVN(foodChoosedList.get(index).getSoluong() * foodChoosedList.get(index).getGia()), index, 4);
 
                         }
                         UpdateAmount();
@@ -231,9 +220,19 @@ public class OrderPopup extends javax.swing.JFrame {
     public void loadFoodItem() {
         panelFood.removeAll();
         for (MonAn food : foodList) {
-            FoodItem fooditem = new FoodItem(food);
-            addListenerFoodItem(fooditem);
-            panelFood.add(fooditem);
+            List<CTSP> list = null;
+            try {
+                MonAnDAO dao = new MonAnDAO();
+                list = dao.findCTSP(food.getId());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            for (CTSP ct : list) {
+                FoodItem fooditem = new FoodItem(food, ct);
+                addListenerFoodItem(fooditem);
+                panelFood.add(fooditem);
+            }
+
         }
         panelFood.repaint();
         panelFood.revalidate();
@@ -241,7 +240,7 @@ public class OrderPopup extends javax.swing.JFrame {
 
     public boolean checkChoose() {
         if (cbxDung.getSelectedIndex() == 0) {
-            if (cbxTable.getSelectedIndex() < 0) {
+            if (txtBan.getText().isBlank()) {
                 JOptionPane.showMessageDialog(new java.awt.Frame(), "Vui lòng chọn bàn.", "Thông báo", JOptionPane.WARNING_MESSAGE);
                 return false;
             }
@@ -264,17 +263,17 @@ public class OrderPopup extends javax.swing.JFrame {
         HoaDon bill = new HoaDon();
         bill.setHinhThucThanhToan(cbxTT.getSelectedItem().toString());
         if (cbxDung.getSelectedItem().equals("Tại quán")) {
-            bill.setIdBan(banList.get(cbxTable.getSelectedIndex()).getId());
+            bill.setListBan(banList);
         }
         if (!lblIDClient.getText().isBlank()) {
-            bill.setIdKhachHang(Integer.parseInt(lblIDClient.getText()));
+            bill.setIdKh(Integer.parseInt(lblIDClient.getText()));
         }
-        bill.setIdNhanVien(nv.getMaNV());
+        bill.setMaNv(nv.getMaNV());
         if (sale != null) {
-            bill.setIdKhuyenMai(sale.getId());
+            bill.setIdKm(sale.getId());
         }
+        bill.setListBan(banList);
         bill.setThanhTien(countBill());
-        bill.setFoodList(foodChoosedList);
         return bill;
     }
 
@@ -291,7 +290,6 @@ public class OrderPopup extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         cbxDung = new javax.swing.JComboBox<>();
         jLabel8 = new javax.swing.JLabel();
-        cbxTable = new javax.swing.JComboBox<>();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
@@ -314,6 +312,8 @@ public class OrderPopup extends javax.swing.JFrame {
         btnClose = new com.nhom13.swingCustom.ButtonCustom();
         btnChooseClient = new com.nhom13.swingCustom.ButtonCustom();
         lblIDClient = new javax.swing.JLabel();
+        btnChonBan = new com.nhom13.swingCustom.ButtonCustom();
+        txtBan = new javax.swing.JTextField();
         panelChoosed = new javax.swing.JPanel();
         btnEdit = new com.nhom13.swingCustom.ButtonCustom();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -364,8 +364,6 @@ public class OrderPopup extends javax.swing.JFrame {
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
         jLabel8.setText("Bàn:");
-
-        cbxTable.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jLabel9.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
         jLabel9.setText("Thanh toán:");
@@ -484,6 +482,23 @@ public class OrderPopup extends javax.swing.JFrame {
         lblIDClient.setPreferredSize(new java.awt.Dimension(50, 18));
         lblIDClient.setRequestFocusEnabled(false);
 
+        btnChonBan.setBorder(null);
+        btnChonBan.setForeground(new java.awt.Color(255, 255, 255));
+        btnChonBan.setText("Chọn");
+        btnChonBan.setBorderColor(new java.awt.Color(255, 255, 255));
+        btnChonBan.setColor(new java.awt.Color(0, 0, 204));
+        btnChonBan.setColorClick(new java.awt.Color(0, 0, 255));
+        btnChonBan.setColorOver(new java.awt.Color(0, 255, 255));
+        btnChonBan.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnChonBan.setRadius(10);
+        btnChonBan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnChonBanActionPerformed(evt);
+            }
+        });
+
+        txtBan.setEditable(false);
+
         javax.swing.GroupLayout panelInfoLayout = new javax.swing.GroupLayout(panelInfo);
         panelInfo.setLayout(panelInfoLayout);
         panelInfoLayout.setHorizontalGroup(
@@ -535,30 +550,32 @@ public class OrderPopup extends javax.swing.JFrame {
                             .addGroup(panelInfoLayout.createSequentialGroup()
                                 .addGroup(panelInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(panelInfoLayout.createSequentialGroup()
-                                        .addGroup(panelInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(jLabel1)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addGroup(panelInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(cbxTable, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(cbxDung, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                        .addComponent(lblIDClient, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(btnChooseClient, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(panelInfoLayout.createSequentialGroup()
                                         .addComponent(jLabel10)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(lblSale)
-                                        .addGap(0, 0, Short.MAX_VALUE))
-                                    .addGroup(panelInfoLayout.createSequentialGroup()
-                                        .addComponent(jLabel9)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(cbxTT, 0, 131, Short.MAX_VALUE)))
+                                        .addComponent(lblSale)))
+                                .addContainerGap())
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelInfoLayout.createSequentialGroup()
+                                .addComponent(jLabel9)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(cbxTT, 0, 131, Short.MAX_VALUE)
                                 .addGap(78, 78, 78))
                             .addGroup(panelInfoLayout.createSequentialGroup()
-                                .addComponent(jLabel1)
+                                .addGroup(panelInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(lblIDClient, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnChooseClient, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(60, 60, 60))))))
+                                .addGroup(panelInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtBan)
+                                    .addComponent(cbxDung, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGap(13, 13, 13)
+                                .addComponent(btnChonBan, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap())))))
             .addComponent(jSeparator2)
             .addGroup(panelInfoLayout.createSequentialGroup()
                 .addGap(29, 29, 29)
@@ -593,11 +610,12 @@ public class OrderPopup extends javax.swing.JFrame {
                 .addGroup(panelInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
                     .addComponent(cbxDung, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(panelInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnChonBan, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel8)
-                    .addComponent(cbxTable, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                    .addComponent(txtBan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(13, 13, 13)
                 .addGroup(panelInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
                     .addComponent(cbxTT, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -770,16 +788,7 @@ public class OrderPopup extends javax.swing.JFrame {
 
     private void cbxDungItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbxDungItemStateChanged
         if (cbxDung.getSelectedIndex() == 0) {
-            if (getBanTrong()) {
-                cbxTable.setEnabled(true);
-            } else {
-                JOptionPane.showMessageDialog(new java.awt.Frame(), "Hiện tại không còn bàn trống.", "Thông báo", JOptionPane.WARNING_MESSAGE);
-                cbxDung.setSelectedIndex(-1);
-            }
-
-        } else {
-            cbxTable.setSelectedIndex(-1);
-            cbxTable.setEnabled(false);
+            btnChonBan.setEnabled(true);
         }
     }//GEN-LAST:event_cbxDungItemStateChanged
 
@@ -806,10 +815,10 @@ public class OrderPopup extends javax.swing.JFrame {
                     foodChoosedList.remove(row);
                     btnEdit.setEnabled(false);
                 } else {
-                    foodChoosedList.get(row).setSoLuong(sub.getSl());
+                    foodChoosedList.get(row).setSoluong(sub.getSl());
                     tblModel.setValueAt(sub.getSl(), row, 1);
-                    tblModel.setValueAt(NumberVN(sub.getSl() * foodChoosedList.get(row).getGia()), row, 3);
-                    foodChoosedList.get(row).setSoLuong(sub.getSl());
+                    tblModel.setValueAt(NumberVN(sub.getSl() * foodChoosedList.get(row).getGia()), row, 4);
+                    foodChoosedList.get(row).setSoluong(sub.getSl());
                     btnEdit.setEnabled(false);
                 }
             }
@@ -821,7 +830,8 @@ public class OrderPopup extends javax.swing.JFrame {
         foodChoosedList = new ArrayList<>();
         tblModel.setRowCount(0);
         cbxDung.setSelectedIndex(-1);
-        cbxTable.setSelectedIndex(-1);
+        txtBan.setText("");
+        banList = null;
         cbxTT.setSelectedIndex(-1);
         lblTotal.setText("");
         lblDiscountM.setText("");
@@ -837,17 +847,22 @@ public class OrderPopup extends javax.swing.JFrame {
             try {
 
                 HoaDonDao dao = new HoaDonDao();
+                BanDAO bandao = new BanDAO();
                 HoaDon bill = getInfoOrder();
-                dao.save(bill);
-                if (bill.getIdBan() > 0) {
-                    CTBanDAO ctbanDao = new CTBanDAO();
-                    ctbanDao.save(new ChiTietBan(false, bill.getIdBan(), nv.getMaNV()));
-                    BanDAO banDAO = new BanDAO();
-                    Ban ban = banList.get(cbxTable.getSelectedIndex());
-                    ban.setTrangThai(true);
-                    banDAO.update(ban);
+                dao.saveHoaDon(bill);
+                int idHD = dao.getIdHoaDon();
+                if (!bill.getListBan().isEmpty()) {
+                    for (Ban ban : banList) {
+                        dao.saveCTBAN(ban.getId(), idHD);
+                        ban.setTrangThai(true);
+                        bandao.update(ban);
+                    }
 
                 }
+                for (ChiTietHoaDon ct : foodChoosedList) {
+                    dao.saveCTHOADON(idHD, ct.getIdMon(), ct.getSoluong(), ct.getGia(), ct.getIdSize());
+                }
+                JOptionPane.showMessageDialog(this, "Tạo hóa đơn thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
                 status = true;
                 setVisible(false);
             } catch (Exception e) {
@@ -871,6 +886,20 @@ public class OrderPopup extends javax.swing.JFrame {
     private void cbxDungMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cbxDungMouseClicked
 
     }//GEN-LAST:event_cbxDungMouseClicked
+
+    private void btnChonBanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChonBanActionPerformed
+        ChooseTable popup = new ChooseTable(this);
+        popup.setVisible(true);
+        banList = popup.getChoosed();
+        if (!banList.isEmpty()) {
+            String s = "";
+            for (Ban ban : banList) {
+                s += ban.getTenBan() + ", ";
+            }
+            txtBan.setText(s.substring(0, s.length() - 2));
+        }
+
+    }//GEN-LAST:event_btnChonBanActionPerformed
 
 //    public static void main(String args[]) {
 //        /* Set the Nimbus look and feel */
@@ -913,6 +942,7 @@ public class OrderPopup extends javax.swing.JFrame {
 //    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private com.nhom13.swingCustom.ButtonCustom btnChonBan;
     private com.nhom13.swingCustom.ButtonCustom btnChooseClient;
     private com.nhom13.swingCustom.ButtonCustom btnClose;
     private com.nhom13.swingCustom.ButtonCustom btnEdit;
@@ -920,7 +950,6 @@ public class OrderPopup extends javax.swing.JFrame {
     private com.nhom13.swingCustom.ButtonCustom btnReset;
     private javax.swing.JComboBox<String> cbxDung;
     private javax.swing.JComboBox<String> cbxTT;
-    private javax.swing.JComboBox<String> cbxTable;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -954,5 +983,6 @@ public class OrderPopup extends javax.swing.JFrame {
     private javax.swing.JPanel panelFood;
     private javax.swing.JPanel panelInfo;
     private javax.swing.JTable tblChoosed;
+    private javax.swing.JTextField txtBan;
     // End of variables declaration//GEN-END:variables
 }

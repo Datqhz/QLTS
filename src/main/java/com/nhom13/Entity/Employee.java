@@ -23,6 +23,15 @@ public class Employee {
         this.diachi = diachi;
     }
 
+    public Employee(String maNV, String firstName, String lastName, String sdt, String gioiTinh, String diachi) {
+        this.maNV = maNV;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.sdt = sdt;
+        this.gioiTinh = gioiTinh;
+        this.diachi = diachi;
+    }
+    
     public Employee() {
     }
 

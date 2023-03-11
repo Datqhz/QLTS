@@ -14,14 +14,15 @@ public class ShowBill extends javax.swing.JDialog {
 
     HoaDon bill;
     List<ChiTietHoaDon> billDetail;
-    Ban ban;
+    List<Ban> banlist;
 
-    public ShowBill(HoaDon bill) {
+    public ShowBill(HoaDon bill) {//
         super(new javax.swing.JFrame(), true);
         initComponents();
         setLocationRelativeTo(null);
         panelBillItem.setLayout(new BoxLayout(panelBillItem, BoxLayout.Y_AXIS));
         this.bill = bill;
+//        panelBillItem.add(new BillItem("Trà sữa trân châu",2,7000,"XL"));
         loadBillDetail();
         System.out.println(bill);
     }
@@ -29,28 +30,41 @@ public class ShowBill extends javax.swing.JDialog {
     public void getData() {
         try {
             CTHoaDonDAO dao = new CTHoaDonDAO();
-            billDetail = dao.findCTHD2(bill.getId());
-            if (bill.getIdBan() > 0) {
-                BanDAO bandao = new BanDAO();
-                ban = bandao.findById(bill.getIdBan());
-            }
+            billDetail = dao.findCTHD2(bill.getSoHoaDon());
+            banlist = dao.findCTB(bill.getSoHoaDon());
+            System.out.println(banlist);
         } catch (Exception e) {
             System.out.println("Lấy chi tiết hóa đơn không thành công");
             e.printStackTrace();
         }
     }
+    public String getSizeName(int id) {
+        switch (id) {
+            case 1:
+                return "M";
+            case 2:
+                return "L";
+            default:
+                return "XL";
+        }
+    }
 
     public void loadBillDetail() {
         getData();
-        lblID.setText(Integer.toString(bill.getId()));
-        lblCreateDate.setText(bill.getNgayLap().toString());
-        lblIDEmp.setText(bill.getIdNhanVien());
-        if (ban != null) {
-            lblTableName.setText(ban.getTenBan());
+        lblID.setText(Integer.toString(bill.getSoHoaDon()));
+        lblCreateDate.setText(bill.getNgayLap());
+        lblIDEmp.setText(bill.getMaNv());
+        if (!banlist.isEmpty()) {
+            
+            String s="";
+            for (Ban ban : banlist) {
+                s += ban.getTenBan() + ", ";
+            }
+            lblTableName.setText(s.substring(0, s.length() - 2));
         }
-
+    
         for (ChiTietHoaDon item : billDetail) {
-            panelBillItem.add(new BillItem(item.getTenMon(), item.getSoLuong(), item.getGia()));
+            panelBillItem.add(new BillItem(item.getTenmon(), item.getSoluong(), item.getGia(),getSizeName(item.getIdSize())));
         }
         lblTotal.setText(NumberVN(bill.getThanhTien()));
     }
@@ -79,6 +93,7 @@ public class ShowBill extends javax.swing.JDialog {
         jLabel13 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         jSeparator2 = new javax.swing.JSeparator();
+        jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -124,7 +139,7 @@ public class ShowBill extends javax.swing.JDialog {
         jLabel14.setText("Số lượng");
 
         jLabel15.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel15.setText("Tổng");
+        jLabel15.setText("Giá");
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -174,6 +189,9 @@ public class ShowBill extends javax.swing.JDialog {
 
         jSeparator2.setForeground(new java.awt.Color(0, 0, 0));
 
+        jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel6.setText("Size");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -184,34 +202,37 @@ public class ShowBill extends javax.swing.JDialog {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jSeparator1)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel3)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(lblIDEmp, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(198, 198, 198)
+                        .addComponent(jLabel1)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel2)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(lblID, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(lblID, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(64, 64, 64)
+                                .addComponent(jLabel4))
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(198, 198, 198)
-                                .addComponent(jLabel1)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(lblIDEmp, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(30, 30, 30)
+                                .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblCreateDate, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblTableName, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(lblCreateDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblTableName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addGap(17, 17, 17))
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(51, 51, 51)
                 .addComponent(jLabel14)
+                .addGap(115, 115, 115)
+                .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(84, 84, 84))
+                .addGap(75, 75, 75))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(17, 17, 17)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 455, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -240,7 +261,8 @@ public class ShowBill extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel14)
-                    .addComponent(jLabel15))
+                    .addComponent(jLabel15)
+                    .addComponent(jLabel6))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(panelBillItem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -263,7 +285,7 @@ public class ShowBill extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-//   
+   
 //    public static void main(String args[]) {
 //        /* Set the Nimbus look and feel */
 //        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -287,8 +309,8 @@ public class ShowBill extends javax.swing.JDialog {
 //            java.util.logging.Logger.getLogger(ShowBill.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
 //        }
 //        //</editor-fold>
-//
-//        /* Create and display the dialog */
+
+        /* Create and display the dialog */
 //        java.awt.EventQueue.invokeLater(new Runnable() {
 //            public void run() {
 //                ShowBill dialog = new ShowBill();
@@ -314,6 +336,7 @@ public class ShowBill extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JSeparator jSeparator1;

@@ -1,5 +1,6 @@
 package com.nhom13.Component;
 
+import com.nhom13.Entity.CTSP;
 import com.nhom13.Entity.MonAn;
 import java.awt.Image;
 import java.text.NumberFormat;
@@ -10,11 +11,13 @@ import javax.swing.ImageIcon;
 public class FoodItem extends javax.swing.JPanel {
 
     private MonAn food;
+    private CTSP ct;
 
-    public FoodItem(MonAn food) {
+    public FoodItem(MonAn food, CTSP ct) {
         initComponents();
         this.food = food;
-        loadInfo(food);
+        this.ct = ct;
+        loadInfo(food, ct);
     }
 
     public String NumberVN(double s) {
@@ -31,12 +34,31 @@ public class FoodItem extends javax.swing.JPanel {
         return imageIcon;
     }
 
-    public void loadInfo(MonAn food) {
+    public void loadInfo(MonAn food, CTSP ct) {
         if (food.getAnh() != null) {
             lblImage.setIcon(Resize(food.getAnh(), 60, 60));
         }
+        switch (ct.getIdSize()) {
+            case 1:
+                lblSize.setText("Size M");
+                break;
+            case 2:
+                lblSize.setText("Size L");
+                break;
+            default:
+                lblSize.setText("Size XL");
+                break;
+        }
         lblFoodName.setText(food.getTenMon());
-        lblPrice.setText(NumberVN(food.getGia()) + " / " + food.getDonVi());
+        lblPrice.setText(NumberVN(ct.getGia()) + " / " + food.getDonVi());
+    }
+
+    public CTSP getCt() {
+        return ct;
+    }
+
+    public void setCt(CTSP ct) {
+        this.ct = ct;
     }
 
     public MonAn getFood() {
@@ -55,6 +77,7 @@ public class FoodItem extends javax.swing.JPanel {
         lblFoodName = new javax.swing.JLabel();
         lblPrice = new javax.swing.JLabel();
         lblImage = new javax.swing.JLabel();
+        lblSize = new javax.swing.JLabel();
 
         jPanel1.setBackground(new java.awt.Color(255, 102, 102));
         jPanel1.setPreferredSize(new java.awt.Dimension(60, 60));
@@ -71,6 +94,10 @@ public class FoodItem extends javax.swing.JPanel {
         lblImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/new.png"))); // NOI18N
         lblImage.setPreferredSize(new java.awt.Dimension(40, 40));
 
+        lblSize.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lblSize.setForeground(new java.awt.Color(255, 255, 255));
+        lblSize.setText("Size M");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -78,9 +105,13 @@ public class FoodItem extends javax.swing.JPanel {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(lblImage, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(lblPrice, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lblFoodName, javax.swing.GroupLayout.DEFAULT_SIZE, 222, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(lblFoodName, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(lblSize)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(lblPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(12, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -91,7 +122,9 @@ public class FoodItem extends javax.swing.JPanel {
                         .addContainerGap()
                         .addComponent(lblFoodName)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblPrice)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblPrice)
+                            .addComponent(lblSize))
                         .addGap(10, 10, 10))
                     .addComponent(lblImage, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 0, Short.MAX_VALUE))
@@ -117,5 +150,6 @@ public class FoodItem extends javax.swing.JPanel {
     private javax.swing.JLabel lblFoodName;
     private javax.swing.JLabel lblImage;
     private javax.swing.JLabel lblPrice;
+    private javax.swing.JLabel lblSize;
     // End of variables declaration//GEN-END:variables
 }

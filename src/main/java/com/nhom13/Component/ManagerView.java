@@ -34,7 +34,10 @@ public class ManagerView extends javax.swing.JPanel {
 
         initTable();
     }
-
+    
+    public void hiddenBtnRemove(){
+        btnRemove.setVisible(false);
+    }
     public ButtonCustom getBtnAdd() {
         return btnAdd;
     }
