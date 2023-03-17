@@ -49,19 +49,21 @@ public final class FoodList extends ManagerView {
             e.printStackTrace();
         }
     }
-    public String getNameCategory(int id){
-        for(LoaiMon loai : listCategory){
-            if(loai.getId()==id){
+
+    public String getNameCategory(int id) {
+        for (LoaiMon loai : listCategory) {
+            if (loai.getId() == id) {
                 return loai.getTen();
             }
         }
         return null;
     }
+
     private void loadData() {
         getData();
         tblModel.setRowCount(0);
         for (MonAn monAn : Foodlist) {
-            Object[] row = new Object[]{monAn.getId(), monAn.getTenMon(),monAn.getDonVi(), monAn.getMoTa(), getNameCategory(monAn.getIdLoaiMon())};
+            Object[] row = new Object[]{monAn.getId(), monAn.getTenMon(), monAn.getDonVi(), monAn.getMoTa(), getNameCategory(monAn.getIdLoaiMon())};
             tblModel.addRow(row);
         }
         tblModel.fireTableDataChanged();
@@ -118,16 +120,16 @@ public final class FoodList extends ManagerView {
 
                 try {
                     MonAnDAO dao = new MonAnDAO();
-                    int result = JOptionPane.showConfirmDialog(tblData, "Bạn có chắc muốn xóa không", "Confirm Dialog",
+                    int result = JOptionPane.showConfirmDialog(tblData, "Bạn có chắc muốn xóa không", "Xác nhận",
                             JOptionPane.YES_NO_OPTION,
                             JOptionPane.QUESTION_MESSAGE);
                     if (result == 0) {
-                      
-                    JOptionPane.showMessageDialog(new java.awt.Frame(), "Xóa món thành công.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-                    dao.deleteCTSP(getSaleIsSelected().getId());
-                    dao.deleteMonAn(getSaleIsSelected());
+
+                        JOptionPane.showMessageDialog(new java.awt.Frame(), "Xóa món thành công.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                        dao.deleteCTSP(getSaleIsSelected().getId());
+                        dao.deleteMonAn(getSaleIsSelected());
                     }
-                    
+
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
@@ -159,7 +161,7 @@ public final class FoodList extends ManagerView {
                         listCategory = loaiMonDao.findAll();
                         tblModel.setRowCount(0);
                         for (MonAn monAn : Foodlist) {
-                            Object[] row = new Object[]{monAn.getId(), monAn.getTenMon(), monAn.getDonVi(),  monAn.getMoTa(), getNameCategory(monAn.getIdLoaiMon())};
+                            Object[] row = new Object[]{monAn.getId(), monAn.getTenMon(), monAn.getDonVi(), monAn.getMoTa(), getNameCategory(monAn.getIdLoaiMon())};
                             tblModel.addRow(row);
                         }
                         tblModel.fireTableDataChanged();
@@ -167,7 +169,7 @@ public final class FoodList extends ManagerView {
                         ex.printStackTrace();
                     }
                 } else {
-                    JOptionPane.showMessageDialog(btnSearch, "Vui lòng nhập tên món ăn muốn tìm kiếm");
+                    JOptionPane.showMessageDialog(btnSearch, "Vui lòng nhập tên món ăn muốn tìm kiếm", "Lỗi",JOptionPane.WARNING_MESSAGE);
                 }
             }
 

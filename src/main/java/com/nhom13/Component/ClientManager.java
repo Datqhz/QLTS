@@ -28,7 +28,7 @@ public class ClientManager extends ManagerView {
         btnRemove.setEnabled(false);
         AbstractDocument document1 = (AbstractDocument) txtSearch.getDocument();
         document1.setDocumentFilter(new CharFilterAlphabet());
-        if(role==1){
+        if (role == 1) {
             hiddenBtnRemove();
         }
     }
@@ -105,16 +105,16 @@ public class ClientManager extends ManagerView {
             public void actionPerformed(ActionEvent e) {
 
                 try {
-                    int result = JOptionPane.showConfirmDialog(tblData, "Bạn có chắc muốn xóa không", "Confirm Dialog",
+                    int result = JOptionPane.showConfirmDialog(tblData, "Bạn có chắc muốn xóa không", "Xác nhận",
                             JOptionPane.YES_NO_OPTION,
                             JOptionPane.QUESTION_MESSAGE);
                     if (result == 0) {
                         KhachHangDAO dao = new KhachHangDAO();
-                        JOptionPane.showMessageDialog(new java.awt.Frame(), "Xóa khách hàng thành công.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                        JOptionPane.showMessageDialog(new java.awt.Frame(), "Xóa khách hàng thành công.", "Thành công", JOptionPane.INFORMATION_MESSAGE);
                         dao.deleteKhachHang(getRowIsSelected());
 
                     }
-                    
+
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }

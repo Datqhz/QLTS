@@ -35,7 +35,6 @@ public class SalePopup extends javax.swing.JDialog {
         this.status = status;
     }
 
-
     public void resetForm() {
         txtReason.setText("");
         lblError.setText("");
@@ -48,6 +47,7 @@ public class SalePopup extends javax.swing.JDialog {
         feature = task;
 
         if (task == Feature.EDIT) {
+            this.setTitle("Sửa khuyến mãi");
             btnFeature.setText("Sửa");
             this.sale = sale;
             txtReason.setText((sale.getLyDo() == null) ? "" : sale.getLyDo());
@@ -56,14 +56,13 @@ public class SalePopup extends javax.swing.JDialog {
             dateEnd.setDate(sale.getNgayKetThuc());
         } else {
             resetForm();
+            this.setTitle("Thêm khuyến mãi");
             btnFeature.setText("Thêm");
             this.sale = sale;
 
         }
 
     }
-
-
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -303,22 +302,21 @@ public class SalePopup extends javax.swing.JDialog {
                         JOptionPane.showMessageDialog(this, "Bạn đã thêm khuyến mãi thành công.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
                         status = true;
                         this.dispose();
-                    }else{
+                    } else {
                         JOptionPane.showMessageDialog(this, "Thêm khuyến mãi không thành công.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
                     }
                 } else {
-                        if (dao.checkKm(dao.DateToString(start), dao.DateToString(end))) {
-                            tmp.setId(sale.getId());
-                            dao.updateSale(tmp);
-                            JOptionPane.showMessageDialog(this, "Sửa khuyến mãi thành công.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-                            status = true;
-                            this.dispose();
-                    }else{
-                            JOptionPane.showMessageDialog(this, "Sửa khuyến mãi không thành công.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-                        }
+                    if (dao.checkKm(dao.DateToString(start), dao.DateToString(end))) {
+                        tmp.setId(sale.getId());
+                        dao.updateSale(tmp);
+                        JOptionPane.showMessageDialog(this, "Sửa khuyến mãi thành công.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                        status = true;
+                        this.dispose();
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Sửa khuyến mãi không thành công.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                    }
                 }
-                
-                
+
             } catch (Exception e) {
                 e.printStackTrace();
             }

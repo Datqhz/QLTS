@@ -93,22 +93,6 @@ public class EmployeeDAO {
         }
     }
 
-//    public void deleteEmployee(Employee employee) throws Exception {
-//        Connection con = null;
-//        PreparedStatement statement = null;
-//        try {
-//            con = DatabaseHelper.openConnection();
-//
-//            String sql = "DELETE FROM NHANVIEN WHERE MA_NV = ?";
-//            statement = con.prepareCall(sql);
-//            statement.setString(1, employee.getMaNV());
-//            statement.executeUpdate();
-//
-//        } catch (Exception ex) {
-//            ex.printStackTrace();
-//        }
-//    }
-
     public List<Employee> findAll() throws Exception {
         List<Employee> result = new ArrayList<>();
         Connection con = null;
@@ -117,8 +101,8 @@ public class EmployeeDAO {
 
             con = DatabaseHelper.openConnection();
             statement = con.createStatement();
-            String sql = "SELECT N.MA_NV , N.HO , N.TEN, N.SDT ,N.DIA_CHI,N.GIOI_TINH,N.TEN_TAI_KHOAN , T.MAT_KHAU,T.TRANG_THAI,T.ID_QUYEN\n" +
-"FROM NHANVIEN N JOIN TAIKHOAN T ON N.TEN_TAI_KHOAN = T.TEN_TAI_KHOAN";
+            String sql = "SELECT N.MA_NV , N.HO , N.TEN, N.SDT ,N.DIA_CHI,N.GIOI_TINH,N.TEN_TAI_KHOAN , T.MAT_KHAU,T.TRANG_THAI,T.ID_QUYEN\n"
+                    + "FROM NHANVIEN N JOIN TAIKHOAN T ON N.TEN_TAI_KHOAN = T.TEN_TAI_KHOAN";
             ResultSet resultset = statement.executeQuery(sql);
             while (resultset.next()) {
                 Employee employee = new Employee();
@@ -149,7 +133,6 @@ public class EmployeeDAO {
         Connection con = null;
         Statement statement = null;
         try {
-
             con = DatabaseHelper.openConnection();
             statement = con.createStatement();
             String sql = "SELECT * FROM  NHANVIEN NV, TAIKHOAN TK WHERE NV.TEN_TAI_KHOAN = TK.TEN_TAI_KHOAN AND CONCAT(NV.HO,' ',NV.TEN) LIKE N'%" + keyword + "%'";

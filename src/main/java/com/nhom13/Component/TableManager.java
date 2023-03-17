@@ -37,7 +37,7 @@ public final class TableManager extends ManagerView {
         cbxSearch.addItem("Tên bàn");
         cbxSearch.addItem("Bàn còn trống");
         pnCbx.add(cbxSearch);
-        if(emp.getAccount().getIdQuyen()==1){
+        if (emp.getAccount().getIdQuyen() == 1) {
             hiddenBtnRemove();
         }
     }
@@ -83,7 +83,7 @@ public final class TableManager extends ManagerView {
         });
         btnRemove.addActionListener((ActionEvent e) -> {
             try {
-                int result = JOptionPane.showConfirmDialog(tblData, "Bạn có chắc muốn xóa không", "Confirm Dialog",
+                int result = JOptionPane.showConfirmDialog(tblData, "Bạn có chắc muốn xóa không", "Xác nhận",
                         JOptionPane.YES_NO_OPTION,
                         JOptionPane.QUESTION_MESSAGE);
                 if (result == 0) {

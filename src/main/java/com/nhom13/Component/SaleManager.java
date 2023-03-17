@@ -100,7 +100,7 @@ public class SaleManager extends ManagerView {
             public void actionPerformed(ActionEvent e) {
 
                 try {
-                    int result = JOptionPane.showConfirmDialog(tblData, "Bạn có chắc muốn xóa không", "Confirm Dialog",
+                    int result = JOptionPane.showConfirmDialog(tblData, "Bạn có chắc muốn xóa không", "Xác nhận",
                             JOptionPane.YES_NO_OPTION,
                             JOptionPane.QUESTION_MESSAGE);
                     if (result == 0) {
@@ -134,7 +134,7 @@ public class SaleManager extends ManagerView {
             if (isValidDate(keyword)) {
                 listSale = dao.searchByDate(keyword);
             } else {
-                JOptionPane.showMessageDialog(this, "Vui lòng nhập đúng định dạng yyyy-MM-dd");
+                JOptionPane.showMessageDialog(this, "Vui lòng nhập đúng định dạng yyyy-MM-dd","Lỗi",JOptionPane.WARNING_MESSAGE);
             }
             tblModel.setRowCount(0);
             for (KhuyenMai sale : listSale) {

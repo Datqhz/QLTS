@@ -25,7 +25,10 @@ public class Statistic extends javax.swing.JPanel {
 
         initComponents();
         panelChart.setLayout(new FlowLayout());
-        setStatistic();
+        cardBill.setData("Hóa đơn", 0, "/bill_white.png");
+        cardProfit.setData("Doanh thu", 0, "/coin_white.png");
+        cardEmployee.setData("Nhân viên", 0, "/employee_white.png");
+        cardClient.setData("Khách hàng", 0, "/client_white.png");
     }
 
     public static JFreeChart createChart(String date, List<DoanhThuTheoMonAn> doanhThu) {//List<DoanhThuTheoMonAn> list
@@ -44,29 +47,7 @@ public class Statistic extends javax.swing.JPanel {
         for (DoanhThuTheoMonAn temp : list) {
             dataset.addValue(temp.getTongTien(), "Doanh thu", temp.getTenMon());
         }
-
-//        dataset.addValue(doanhThu.get(0).getTongTien(), "Doanh thu", doanhThu.get(0).getTenMon());
-//        dataset.addValue(doanhThu.get(1).getTongTien(), "Doanh thu", doanhThu.get(1).getTenMon());
-//        dataset.addValue(doanhThu.get(2).getTongTien(), "Doanh thu", doanhThu.get(2).getTenMon());
-//        dataset.addValue(doanhThu.get(3).getTongTien(), "Doanh thu", doanhThu.get(3).getTenMon());
-//        dataset.addValue(doanhThu.get(4).getTongTien(), "Doanh thu", doanhThu.get(4).getTenMon());
         return dataset;
-    }
-
-    public void setStatistic() {
-        String Month = String.valueOf(this.month.getMonth());
-        String Year = String.valueOf(this.year.getYear());
-        String date = Month.concat("-").concat(Year);
-        doanhThu = dao.topDoanhThu5MonAnTheoThoiGian(date);
-        cardBill.setData("Hóa đơn", getTongSoHoaDon(date), "/bill_white.png");
-        cardProfit.setData("Doanh thu", getTongDoanhThuTheoNgay(date), "/coin_white.png");
-        cardEmployee.setData("Nhân viên", getSoLuongNhanVien(), "/employee_white.png");
-        cardClient.setData("Khách hàng", getSoLuongKhachHang(), "/client_white.png");
-
-        panelChart.removeAll();
-        ChartPanel chart = new ChartPanel(createChart(date, doanhThu));
-        chart.setPreferredSize(new java.awt.Dimension(580, 400));
-        panelChart.add(chart);
     }
 
     public void setStatistic(int bill, int profit, int employee, int client, String date) {
@@ -249,7 +230,7 @@ public class Statistic extends javax.swing.JPanel {
         int client = getSoLuongKhachHang();
         System.out.println(date);
         setStatistic(bill, profit, employee, client, date);
-        
+
     }//GEN-LAST:event_searchActionPerformed
 
 

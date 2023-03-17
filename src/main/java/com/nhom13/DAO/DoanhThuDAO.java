@@ -88,42 +88,7 @@ public class DoanhThuDAO {
         return result;
 
     }
-//    public List<DoanhThuTheoMonAn> topDoanhThu5MonAnTheoThoiGian(String date) {
-//
-//        List<DoanhThuTheoMonAn> doanhThu = new ArrayList<>();
-//
-//        Connection con = null;
-//        Statement statement = null;
-//        try {
-//
-//            con = DatabaseHelper.openConnection();
-//            statement = con.createStatement();
-//            String sql = """
-//                         SELECT top(5) S.ID_SP ,S.TEN , concat(MONTH(H.NGAY_LAP) , '-' , YEAR(H.NGAY_LAP)) AS MONTH_YEAR ,SUM(CT.GIA) AS TONG_TIEN
-//                                                  FROM CTHOADON CT 
-//                                                  JOIN  HOADON H ON H.SO_HOA_DON = CT.SO_HOA_DON 
-//                                                  JOIN SANPHAM S ON S.ID_SP = CT.ID_SP
-//                                                  GROUP BY S.ID_SP ,concat(MONTH(H.NGAY_LAP) , '-' , YEAR(H.NGAY_LAP))
-//                                                  HAVING MONTH_YEAR = '"""+date+"'\n" +
-//"                         order by TONG_TIEN\n" ;
-//            ResultSet resultSet = statement.executeQuery(sql);
-//            while (resultSet.next()) {
-//                DoanhThuTheoMonAn revenue = new DoanhThuTheoMonAn();
-//                revenue.setId(resultSet.getInt(1));
-//                revenue.setTenMon(resultSet.getString(2));
-//                revenue.setNgayLap(resultSet.getString(3));
-//                revenue.setTongTien(resultSet.getDouble(4));
-//                doanhThu.add(revenue);
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        return doanhThu;
-//
-//    }
 
-
-    // 
     public int TongSoNhanVien() {
         Connection con = null;
         int sum = 0;
@@ -132,9 +97,9 @@ public class DoanhThuDAO {
 
             con = DatabaseHelper.openConnection();
             statement = con.createStatement();
-            String sql = "SELECT COUNT(*) FROM TAIKHOAN T\n" +
-"JOIN NHANVIEN N ON T.TEN_TAI_KHOAN = N.TEN_TAI_KHOAN\n" +
-"WHERE T.TRANG_THAI = 1";
+            String sql = "SELECT COUNT(*) FROM TAIKHOAN T\n"
+                    + "JOIN NHANVIEN N ON T.TEN_TAI_KHOAN = N.TEN_TAI_KHOAN\n"
+                    + "WHERE T.TRANG_THAI = 1";
             ResultSet resultSet = statement.executeQuery(sql);
             while (resultSet.next()) {
                 sum += resultSet.getInt(1);
@@ -146,42 +111,7 @@ public class DoanhThuDAO {
 
     }
 
-//    public List<DoanhThuTheoMonAn> topDoanhThu5MonAnTheoThoiGian(String date) {
-//
-//        List<DoanhThuTheoMonAn> doanhThu = new ArrayList<>();
-//
-//        Connection con = null;
-//        Statement statement = null;
-//        try {
-//
-//            con = DatabaseHelper.openConnection();
-//            statement = con.createStatement();
-//            String sql = """
-//                         SELECT C.ID_MON AS ID_MON,M.TEN_MON ,concat(MONTH(H.NGAY_LAP) , '-' , YEAR(H.NGAY_LAP)) AS MONTH_YEAR, SUM(C.GIA) AS TONG_TIEN
-//                         FROM CTHOADON C
-//                         JOIN HOADON H ON C.SO_HOA_DON = H.SO_HOA_DON
-//                         JOIN MONAN M ON C.ID_MON = M.ID_MON
-//                         GROUP BY C.ID_MON ,MONTH_YEAR
-//                         HAVING MONTH_YEAR = '""" + date + "'\n"
-//                    + "ORDER BY TONG_TIEN DESC \n"
-//                    + "LIMIT 5";
-//            ResultSet resultSet = statement.executeQuery(sql);
-//            while (resultSet.next()) {
-//                DoanhThuTheoMonAn revenue = new DoanhThuTheoMonAn();
-//                revenue.setId(resultSet.getInt(1));
-//                revenue.setTenMon(resultSet.getString(2));
-//                revenue.setNgayLap(resultSet.getString(3));
-//                revenue.setTongTien(resultSet.getDouble(4));
-//                doanhThu.add(revenue);
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        return doanhThu;
-//
-//    }
     public List<DoanhThuTheoMonAn> topDoanhThu5MonAnTheoThoiGian(String date) {
-        
 
         List<DoanhThuTheoMonAn> doanhThu = new ArrayList<>();
 
@@ -191,7 +121,7 @@ public class DoanhThuDAO {
 
             con = DatabaseHelper.openConnection();
             statement = con.createStatement();
-            String sql = "SELECT TOP(5) CT.ID_SP ,S.TEN , concat(MONTH(H.NGAY_LAP) , '-' , YEAR(H.NGAY_LAP))  ,SUM(CT.GIA) FROM CTHOADON CT JOIN  HOADON H ON H.SO_HOA_DON = CT.SO_HOA_DON JOIN SANPHAM S ON S.ID_SP = CT.ID_SP GROUP BY CT.ID_SP ,concat(MONTH(H.NGAY_LAP) , '-' , YEAR(H.NGAY_LAP)),S.TEN HAVING concat(MONTH(H.NGAY_LAP) , '-' , YEAR(H.NGAY_LAP)) ='"+date +"'order by SUM(CT.GIA) DESC" ;
+            String sql = "SELECT TOP(5) CT.ID_SP ,S.TEN , concat(MONTH(H.NGAY_LAP) , '-' , YEAR(H.NGAY_LAP))  ,SUM(CT.GIA) FROM CTHOADON CT JOIN  HOADON H ON H.SO_HOA_DON = CT.SO_HOA_DON JOIN SANPHAM S ON S.ID_SP = CT.ID_SP GROUP BY CT.ID_SP ,concat(MONTH(H.NGAY_LAP) , '-' , YEAR(H.NGAY_LAP)),S.TEN HAVING concat(MONTH(H.NGAY_LAP) , '-' , YEAR(H.NGAY_LAP)) ='" + date + "'order by SUM(CT.GIA) DESC";
             ResultSet resultSet = statement.executeQuery(sql);
             while (resultSet.next()) {
                 DoanhThuTheoMonAn revenue = new DoanhThuTheoMonAn();

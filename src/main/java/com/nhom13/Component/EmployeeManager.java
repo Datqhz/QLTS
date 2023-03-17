@@ -20,7 +20,7 @@ public class EmployeeManager extends ManagerView {
 
     public EmployeeManager(EmployeePopup dialog) {//
         super();
-        setHeaderTable("Mã nhân viên", "Họ tên", "Account", "Số điện thoại", "Địa chỉ","Giới tính", "Chức vụ", "Trạng thái");
+        setHeaderTable("Mã nhân viên", "Họ tên", "Account", "Số điện thoại", "Địa chỉ", "Giới tính", "Chức vụ", "Trạng thái");
         this.dialog = dialog;
         btnRemove.setVisible(false);
         btnEdit.setEnabled(false);
@@ -45,7 +45,7 @@ public class EmployeeManager extends ManagerView {
         for (Employee emp : listEmp) {
 
             Object[] row = new Object[]{emp.getMaNV(), emp.getFirstName() + " " + emp.getLastName(), emp.getAccount().getTenTk(),
-                (emp.getSdt() == null) ? "" : emp.getSdt(),emp.getDiachi(), emp.getGioiTinh(), RoleName(emp.getAccount().getIdQuyen()), StatusName(emp.getAccount().isTrangThai())};
+                (emp.getSdt() == null) ? "" : emp.getSdt(), emp.getDiachi(), emp.getGioiTinh(), RoleName(emp.getAccount().getIdQuyen()), StatusName(emp.getAccount().isTrangThai())};
             tblModel.addRow(row);
 //            System.out.println(emp.getAccount().toString());
         }
@@ -57,7 +57,7 @@ public class EmployeeManager extends ManagerView {
     }
 
     public String StatusName(boolean status) {
-        return status ? "Active" : "Disabled";
+        return status ? "Hoạt động" : "Đã khóa";
     }
 
     public Employee getRowIsSelected() {
@@ -77,7 +77,6 @@ public class EmployeeManager extends ManagerView {
                 if (row >= 0) {
                     btnEdit.setEnabled(true);
                 }
-//                System.out.println(getRowIsSelected().getGioiTinh().equals("N"));
             }
         });
         btnAdd.addActionListener(new ActionListener() {
@@ -107,24 +106,6 @@ public class EmployeeManager extends ManagerView {
                 btnEdit.setEnabled(false);
             }
         });
-//        btnRemove.addActionListener(new ActionListener(){
-//            @Override
-//                public void actionPerformed(ActionEvent e) {
-//                    
-//                    try{
-//                        EmployeeDAO dao = new EmployeeDAO();
-//                        JOptionPane.showMessageDialog(new java.awt.Frame(), "Xóa khách hàng thành công.","Thông báo", JOptionPane.INFORMATION_MESSAGE);
-//                        dao.deleteEmployee(getRowIsSelected());
-//                    }catch(Exception ex){
-//                        ex.printStackTrace();
-//                    }
-//                    
-//                    loadData();
-//                    btnEdit.setEnabled(false);
-//                    btnRemove.setEnabled(false);
-//                }
-//        });
-
         btnReset.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -143,7 +124,7 @@ public class EmployeeManager extends ManagerView {
                         tblModel.setRowCount(0);
                         for (Employee emp : listEmp) {
                             Object[] row = new Object[]{emp.getMaNV(), emp.getFirstName() + " " + emp.getLastName(), emp.getAccount().getTenTk(),
-                                (emp.getSdt() == null) ? "" : emp.getSdt(), emp.getDiachi(),emp.getGioiTinh(), RoleName(emp.getAccount().getIdQuyen()), StatusName(emp.getAccount().isTrangThai())};
+                                (emp.getSdt() == null) ? "" : emp.getSdt(), emp.getDiachi(), emp.getGioiTinh(), RoleName(emp.getAccount().getIdQuyen()), StatusName(emp.getAccount().isTrangThai())};
                             tblModel.addRow(row);
                         }
                         tblModel.fireTableDataChanged();
@@ -152,7 +133,8 @@ public class EmployeeManager extends ManagerView {
                     }
 
                 } else {
-                    JOptionPane.showMessageDialog(btnSearch, "Vui lòng nhập tên món ăn muốn tìm kiếm");
+                    JOptionPane.showMessageDialog(btnSearch, "Vui lòng nhập tên món ăn muốn tìm kiếm", "Lỗi", JOptionPane.WARNING_MESSAGE);
+                    
                 }
 
             }

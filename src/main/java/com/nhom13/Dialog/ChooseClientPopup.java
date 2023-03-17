@@ -261,6 +261,7 @@ public class ChooseClientPopup extends javax.swing.JDialog {
 
     private void txtSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyReleased
         convertToUpperCase(txtSearch);
+        
     }//GEN-LAST:event_txtSearchKeyReleased
 
 //    public static void main(String args[]) {

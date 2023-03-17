@@ -19,7 +19,7 @@ public class BillItem extends javax.swing.JPanel {
         NumberFormat vn = NumberFormat.getInstance(localeVN);
         return vn.format(s);
     }
-    
+
     public void setInfo(String foodName, int quantity, double total, String size) {
         lblFoodName.setText(foodName);
         lblQuantity.setText(Integer.toString(quantity));

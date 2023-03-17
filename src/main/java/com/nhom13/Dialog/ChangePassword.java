@@ -13,6 +13,7 @@ public class ChangePassword extends javax.swing.JDialog {
         super(parent, true);
         initComponents();
         setLocationRelativeTo(null);
+        this.setTitle("Đổi mật khẩu");
     }
 
     public String getOldPass() {
@@ -223,14 +224,14 @@ public class ChangePassword extends javax.swing.JDialog {
             ResetForm();
             lblError.setText("Mật khẩu nhập lại không khớp. Vui lòng nhập lại!");
         } else {
-                this.newPass = newPass;
-                
-                JOptionPane.showMessageDialog(this, "Bạn đã đổi mật khẩu thành công.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-                status = true;
-            
-                ResetForm();
-                setVisible(false);
-            
+            this.newPass = newPass;
+
+            JOptionPane.showMessageDialog(this, "Bạn đã đổi mật khẩu thành công.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            status = true;
+
+            ResetForm();
+            setVisible(false);
+
         }
     }//GEN-LAST:event_btnChangeActionPerformed
 

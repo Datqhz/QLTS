@@ -19,10 +19,10 @@ public class ShowBill extends javax.swing.JDialog {
     public ShowBill(HoaDon bill) {//
         super(new javax.swing.JFrame(), true);
         initComponents();
+        setTitle("Thông tin hóa đơn");
         setLocationRelativeTo(null);
         panelBillItem.setLayout(new BoxLayout(panelBillItem, BoxLayout.Y_AXIS));
         this.bill = bill;
-//        panelBillItem.add(new BillItem("Trà sữa trân châu",2,7000,"XL"));
         loadBillDetail();
         System.out.println(bill);
     }
@@ -38,6 +38,7 @@ public class ShowBill extends javax.swing.JDialog {
             e.printStackTrace();
         }
     }
+
     public String getSizeName(int id) {
         switch (id) {
             case 1:
@@ -55,16 +56,16 @@ public class ShowBill extends javax.swing.JDialog {
         lblCreateDate.setText(bill.getNgayLap());
         lblIDEmp.setText(bill.getMaNv());
         if (!banlist.isEmpty()) {
-            
-            String s="";
+
+            String s = "";
             for (Ban ban : banlist) {
                 s += ban.getTenBan() + ", ";
             }
             lblTableName.setText(s.substring(0, s.length() - 2));
         }
-    
+
         for (ChiTietHoaDon item : billDetail) {
-            panelBillItem.add(new BillItem(item.getTenmon(), item.getSoluong(), item.getGia(),getSizeName(item.getIdSize())));
+            panelBillItem.add(new BillItem(item.getTenmon(), item.getSoluong(), item.getGia(), getSizeName(item.getIdSize())));
         }
         lblTotal.setText(NumberVN(bill.getThanhTien()));
     }
@@ -285,7 +286,6 @@ public class ShowBill extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-   
 //    public static void main(String args[]) {
 //        /* Set the Nimbus look and feel */
 //        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -310,7 +310,7 @@ public class ShowBill extends javax.swing.JDialog {
 //        }
 //        //</editor-fold>
 
-        /* Create and display the dialog */
+    /* Create and display the dialog */
 //        java.awt.EventQueue.invokeLater(new Runnable() {
 //            public void run() {
 //                ShowBill dialog = new ShowBill();

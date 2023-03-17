@@ -17,9 +17,9 @@ import java.util.List;
  */
 public class MonAnDAO {
 
-    public List<MonAn> findAll(){
+    public List<MonAn> findAll() {
         List<MonAn> list = new ArrayList<>();
-         Connection con = null;
+        Connection con = null;
         Statement statement = null;
         try {
             con = DatabaseHelper.openConnection();
@@ -44,9 +44,10 @@ public class MonAnDAO {
         }
         return list;
     }
- public List<CTSP> findCTSP(int idSp){
+
+    public List<CTSP> findCTSP(int idSp) {
         List<CTSP> list = new ArrayList<>();
-         Connection con = null;
+        Connection con = null;
         Statement statement = null;
         try {
             con = DatabaseHelper.openConnection();
@@ -67,8 +68,7 @@ public class MonAnDAO {
         return list;
     }
 
-    
-    public void updateCtsp(int idSp , int idSize , int gia){
+    public void updateCtsp(int idSp, int idSize, int gia) {
         PreparedStatement statement = null;
         Connection con = null;
         try {
@@ -83,15 +83,15 @@ public class MonAnDAO {
         }
     }
 
-     public void saveCTSP(int idSize , int idMon , int gia){
-         PreparedStatement statement = null;
+    public void saveCTSP(int idSize, int idMon, int gia) {
+        PreparedStatement statement = null;
         Connection con = null;
         try {
             con = DatabaseHelper.openConnection();
             String sql = "INSERT INTO CTSP(ID_SP , ID_SIZE , GIA ) VALUES(? , ? , ?)";
             statement = con.prepareCall(sql);
             statement.setInt(1, idMon);
-            statement.setInt(2,idSize);
+            statement.setInt(2, idSize);
             statement.setInt(3, gia);
             statement.executeUpdate();
         } catch (Exception e) {
@@ -99,7 +99,7 @@ public class MonAnDAO {
         }
     }
 
-     public void updateSanPham(MonAn monAn) {
+    public void updateSanPham(MonAn monAn) {
         PreparedStatement statement = null;
         Connection con = null;
         try {
@@ -180,9 +180,9 @@ public class MonAnDAO {
 
     }
 
-    public int getId(){
-        int idMon = -1 ;
-         Connection con = null;
+    public int getId() {
+        int idMon = -1;
+        Connection con = null;
         Statement statement = null;
         try {
             con = DatabaseHelper.openConnection();
@@ -199,8 +199,6 @@ public class MonAnDAO {
         return idMon;
     }
 
-    
- 
     public MonAn findById(int id) {
         Connection con = null;
         Statement statement = null;
@@ -225,8 +223,8 @@ public class MonAnDAO {
         return monAn;
     }
 
-    public void deleteCTSP( int idSp){
-         PreparedStatement state = null;
+    public void deleteCTSP(int idSp) {
+        PreparedStatement state = null;
         Connection con = null;
         try {
             con = DatabaseHelper.openConnection();
@@ -279,7 +277,8 @@ public class MonAnDAO {
         }
         return result;
     }
-        public MonAn findMonAnByName(String keyword) {
+
+    public MonAn findMonAnByName(String keyword) {
         Connection con = null;
         Statement statement = null;
         try {

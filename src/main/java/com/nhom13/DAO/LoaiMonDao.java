@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package com.nhom13.DAO;
 
 import com.nhom13.Database.DatabaseHelper;
@@ -44,24 +41,6 @@ public class LoaiMonDao {
 
     }
 
-//    public LoaiMon findById(int id) {
-//        Connection con = null;
-//        Statement statement = null;
-//        LoaiMon loaiMon = new LoaiMon();
-//        try {
-//            con = DatabaseHelper.openConnection();
-//            statement = con.createStatement();
-//            String sql = "SELECT * LOAIMON WHERE ID_LOAI_MON = " + id;
-//            ResultSet resultset = statement.executeQuery(sql);
-//            while (resultset.next()) {
-//                loaiMon = new LoaiMon(resultset.getInt(1), resultset.getString(2), resultset.getString(3));
-//
-//            }
-//        } catch (Exception ex) {
-//            ex.printStackTrace();
-//        }
-//        return loaiMon;
-//    }
 
     public void update(LoaiMon loaiMon) {
         PreparedStatement state = null;

@@ -38,12 +38,14 @@ public class TablePopup extends javax.swing.JDialog {
         feature = task;
 
         if (task == Feature.EDIT) {
+            setTitle("Sủa thông tin bàn");
             btnFeature.setText("Sửa");
             this.ban = ban;
             txtTenBan.setText(ban.getTenBan());
             txtTenBan.setEnabled(false);
             cbxStatus.setSelectedIndex(ban.getTrangThai() ? 1 : 0);
         } else {
+            setTitle("Thêm bàn");
             txtTenBan.setEnabled(true);
             btnFeature.setText("Thêm");
             this.ban = new Ban();
@@ -193,8 +195,8 @@ public class TablePopup extends javax.swing.JDialog {
     private void btnFeatureActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFeatureActionPerformed
         String tenBan = txtTenBan.getText().trim();
         boolean tt = cbxStatus.getSelectedIndex() == 0 ? false : true;
-        if (tenBan.length() == 0 || tenBan.equals("") && cbxStatus.getSelectedIndex() >=0 ) {
-            JOptionPane.showMessageDialog(rootPane, "Not Blank");
+        if (tenBan.length() == 0 || tenBan.equals("") && cbxStatus.getSelectedIndex() >= 0) {
+            JOptionPane.showMessageDialog(rootPane, "Không được để trống thông tin", "Thông báo", JOptionPane.WARNING_MESSAGE);
         } else {
 
             try {
@@ -202,7 +204,7 @@ public class TablePopup extends javax.swing.JDialog {
                 BanDAO dao = new BanDAO();
                 if (feature == Feature.ADD) {
                     if (checkTableName(tenBan)) {
-                        JOptionPane.showMessageDialog(rootPane, "Tên bàn đã tồn tại.");
+                        JOptionPane.showMessageDialog(rootPane, "Tên bàn đã tồn tại.","Thông báo", JOptionPane.WARNING_MESSAGE);
                     } else {
                         Ban ban1 = new Ban();
                         long millis = System.currentTimeMillis();
@@ -210,7 +212,7 @@ public class TablePopup extends javax.swing.JDialog {
                         ban1.setTenBan(tenBan);
                         ban1.setNgayTao(date);
                         ban1.setTrangThai(tt);
-                        JOptionPane.showMessageDialog(rootPane, "Add Successful");
+                        JOptionPane.showMessageDialog(rootPane, "Thêm bàn thành công","Thông báo", JOptionPane.INFORMATION_MESSAGE);
                         dao.save(ban1);
                         status = true;
                         this.dispose();
@@ -220,11 +222,11 @@ public class TablePopup extends javax.swing.JDialog {
                     if (tt != ban.getTrangThai()) {
                         ban.setTrangThai(tt);
                         dao.update(ban);
-                        JOptionPane.showMessageDialog(rootPane, "Update successful");
+                        JOptionPane.showMessageDialog(rootPane, "Cập nhật trạng thái thành công","Thông báo", JOptionPane.INFORMATION_MESSAGE);
                         status = true;
                         this.dispose();
                     } else {
-                        JOptionPane.showMessageDialog(rootPane, "Trạng thái bàn chưa được thay đổi.");
+                        JOptionPane.showMessageDialog(rootPane, "Trạng thái bàn chưa được thay đổi.","Thông báo", JOptionPane.WARNING_MESSAGE);
                     }
 
                 }

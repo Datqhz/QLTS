@@ -127,24 +127,24 @@ public class KhuyenMaiDAO {
         }
     }
 
-public KhuyenMai searchByDate() {
+    public KhuyenMai searchByDate() {
         KhuyenMai km = null;
         Connection con = null;
         Statement statement = null;
         try {
             con = DatabaseHelper.openConnection();
             statement = con.createStatement();
-            String sql = "SELECT * FROM KHUYENMAI K\n" +
-                            "where K.NGAY_AP_DUNG <= GETDATE() AND K.NGAY_KET_THUC >= GETDATE()\n" +
-"  ";
+            String sql = "SELECT * FROM KHUYENMAI K\n"
+                    + "where K.NGAY_AP_DUNG <= GETDATE() AND K.NGAY_KET_THUC >= GETDATE()\n"
+                    + "  ";
             ResultSet resultset = statement.executeQuery(sql);
             while (resultset.next()) {
-               km = new KhuyenMai();
-               km.setId(resultset.getInt(1));
-               km.setNgayApDung(resultset.getDate(2));
-               km.setNgayKetThuc(resultset.getDate(3));
-               km.setGiaTri(resultset.getInt(4));
-               km.setLyDo(resultset.getString(5));
+                km = new KhuyenMai();
+                km.setId(resultset.getInt(1));
+                km.setNgayApDung(resultset.getDate(2));
+                km.setNgayKetThuc(resultset.getDate(3));
+                km.setGiaTri(resultset.getInt(4));
+                km.setLyDo(resultset.getString(5));
             }
 
         } catch (Exception ex) {
@@ -160,9 +160,9 @@ public KhuyenMai searchByDate() {
         try {
             con = DatabaseHelper.openConnection();
             statement = con.createStatement();
-            String sql = "SELECT * FROM KHUYENMAI K\n" +
-            "where K.NGAY_AP_DUNG <= '"+date+"' AND K.NGAY_KET_THUC >= '"+date+"'\n" +
-            "  ";
+            String sql = "SELECT * FROM KHUYENMAI K\n"
+                    + "where K.NGAY_AP_DUNG <= '" + date + "' AND K.NGAY_KET_THUC >= '" + date + "'\n"
+                    + "  ";
 
             ResultSet resultset = statement.executeQuery(sql);
             while (resultset.next()) {
@@ -180,18 +180,18 @@ public KhuyenMai searchByDate() {
         }
         return result;
     }
-    
-    public boolean checkKm(String fromDate , String toDate){
+
+    public boolean checkKm(String fromDate, String toDate) {
         List<KhuyenMai> result = new ArrayList<>();
         Connection con = null;
         Statement statement = null;
         try {
             con = DatabaseHelper.openConnection();
             statement = con.createStatement();
-            String sql = "SELECT * FROM KHUYENMAI \n" +
-            "where (NGAY_AP_DUNG <= '"+fromDate+"' AND NGAY_KET_THUC >= '"+fromDate+"' ) \n" +
-            "OR  (NGAY_AP_DUNG <= '"+toDate+"' AND NGAY_KET_THUC >= '"+toDate+"' ) \n" +
-            "  ";
+            String sql = "SELECT * FROM KHUYENMAI \n"
+                    + "where (NGAY_AP_DUNG <= '" + fromDate + "' AND NGAY_KET_THUC >= '" + fromDate + "' ) \n"
+                    + "OR  (NGAY_AP_DUNG <= '" + toDate + "' AND NGAY_KET_THUC >= '" + toDate + "' ) \n"
+                    + "  ";
 
             ResultSet resultset = statement.executeQuery(sql);
             while (resultset.next()) {

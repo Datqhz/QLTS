@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.nhom13.DAO;
 
 import com.nhom13.Database.DatabaseHelper;
@@ -17,10 +13,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-/**
- *
- * @author thuan
- */
 public class KhachHangDAO {
 
     public String DateToString(Date date) {
@@ -140,7 +132,7 @@ public class KhachHangDAO {
         try {
             con = DatabaseHelper.openConnection();
             statement = con.createStatement();
-            String sql = "SELECT * FROM KHACHHANG K WHERE CONCAT(K.HO, ' ' ,K.TEN) LIKE N'%"+keyword+"%' ";
+            String sql = "SELECT * FROM KHACHHANG K WHERE CONCAT(K.HO, ' ' ,K.TEN) LIKE N'%" + keyword + "%' ";
             ResultSet resultset = statement.executeQuery(sql);
             while (resultset.next()) {
                 KhachHang khachHang = new KhachHang();

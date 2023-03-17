@@ -1,4 +1,3 @@
-
 package com.nhom13.Dialog;
 
 import com.nhom13.Component.TableItem;
@@ -11,35 +10,39 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class ChooseTable extends javax.swing.JDialog {
+
     List<Ban> tableList;
-    List<Ban> choosed=new ArrayList<>();
+    List<Ban> choosed = new ArrayList<>();
+
     public ChooseTable(java.awt.Frame parent) {
-        super(parent,true);
+        super(parent, true);
+        setTitle("Chọn bàn");
         initComponents();
         panelBan.setLayout(new FlowLayout(FlowLayout.LEFT));
         loadBan();
         setLocationRelativeTo(null);
     }
 
-    public void getBanTrong(){
-        try{
+    public void getBanTrong() {
+        try {
             BanDAO dao = new BanDAO();
             tableList = dao.searchTenBanAvailable();
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    public void loadBan(){
+
+    public void loadBan() {
         getBanTrong();
-        for(Ban ban: tableList){
+        for (Ban ban : tableList) {
             TableItem item = new TableItem(ban);
             addEvent(item);
             panelBan.add(item);
         }
     }
-    public void addEvent(TableItem item){
+
+    public void addEvent(TableItem item) {
         item.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -48,7 +51,7 @@ public class ChooseTable extends javax.swing.JDialog {
                     choosed.add(item.getBan());
                     System.out.println(choosed);
                     item.setChoose(true);
-                }else{
+                } else {
                     item.setBackgroundColor(Color.BLUE);
                     choosed.remove(item.getBan());
                     System.out.println(choosed);
@@ -66,7 +69,7 @@ public class ChooseTable extends javax.swing.JDialog {
     public void setChoosed(List<Ban> choosed) {
         this.choosed = choosed;
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {

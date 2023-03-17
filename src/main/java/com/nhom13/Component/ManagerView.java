@@ -171,7 +171,7 @@ public class ManagerView extends javax.swing.JPanel {
         btnReset.setBorder(null);
         btnReset.setForeground(new java.awt.Color(0, 0, 102));
         btnReset.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sync.png"))); // NOI18N
-        btnReset.setText("Sync");
+        btnReset.setText("Làm mới");
         btnReset.setBorderColor(new java.awt.Color(0, 255, 153));
         btnReset.setColorClick(new java.awt.Color(0, 204, 51));
         btnReset.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N

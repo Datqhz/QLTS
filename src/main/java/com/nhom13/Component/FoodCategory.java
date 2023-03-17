@@ -108,28 +108,28 @@ public class FoodCategory extends ManagerView {
         btnRemove.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(getFood(getCategoryIsSelected().getId())){
+                if (getFood(getCategoryIsSelected().getId())) {
                     try {
-                    LoaiMonDao dao = new LoaiMonDao();
-                    int result = JOptionPane.showConfirmDialog(tblData, "Bạn có chắc muốn xóa không", "Confirm Dialog",
-                            JOptionPane.YES_NO_OPTION,
-                            JOptionPane.QUESTION_MESSAGE);
-                    if (result == 0) {
-                      JOptionPane.showMessageDialog(new java.awt.Frame(), "Xóa loại món thành công.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-                      dao.deleteLoaiMon(getCategoryIsSelected());
+                        LoaiMonDao dao = new LoaiMonDao();
+                        int result = JOptionPane.showConfirmDialog(tblData, "Bạn có chắc muốn xóa không", "Xác nhận",
+                                JOptionPane.YES_NO_OPTION,
+                                JOptionPane.QUESTION_MESSAGE);
+                        if (result == 0) {
+                            JOptionPane.showMessageDialog(new java.awt.Frame(), "Xóa loại món thành công.", "Thành công", JOptionPane.INFORMATION_MESSAGE);
+                            dao.deleteLoaiMon(getCategoryIsSelected());
+                        }
+
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
                     }
 
-                } catch (Exception ex) {
-                    ex.printStackTrace();
+                    loadData();
+                    btnEdit.setEnabled(false);
+                    btnRemove.setEnabled(false);
+                } else {
+                    JOptionPane.showMessageDialog(new java.awt.Frame(), "Có món ăn thuộc loại món này, Không thể xóa.", "Lỗi", JOptionPane.INFORMATION_MESSAGE);
                 }
 
-                loadData();
-                btnEdit.setEnabled(false);
-                btnRemove.setEnabled(false);
-                }else{
-                    JOptionPane.showMessageDialog(new java.awt.Frame(), "Có món ăn thuộc loại món này, Không thể xóa.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-                }
-                
             }
         });
 
@@ -160,19 +160,20 @@ public class FoodCategory extends ManagerView {
                         ex.printStackTrace();
                     }
                 } else {
-                    JOptionPane.showMessageDialog(btnSearch, "Vui lòng nhập tên món ăn muốn tìm kiếm");
+                    JOptionPane.showMessageDialog(btnSearch, "Vui lòng nhập tên món ăn muốn tìm kiếm","Lỗi",JOptionPane.WARNING_MESSAGE);
                 }
 
             }
 
         });
     }
-       public boolean getFood(int id) {
+
+    public boolean getFood(int id) {
         try {
-            List<MonAn>templist = new ArrayList<>();
+            List<MonAn> templist = new ArrayList<>();
             MonAnDAO monAnDAO = new MonAnDAO();
             templist = monAnDAO.findByCategory(id);
-            if(!templist.isEmpty()){
+            if (!templist.isEmpty()) {
                 return false;
             }
         } catch (Exception e) {

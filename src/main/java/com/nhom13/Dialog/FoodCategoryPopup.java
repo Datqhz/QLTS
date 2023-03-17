@@ -36,9 +36,11 @@ public class FoodCategoryPopup extends javax.swing.JDialog {
     public void setFeature(Feature task, LoaiMon loaiMon) {
         featute = task;
         if (task == Feature.ADD) {//thêm
+            setTitle("Thêm loại món");
             btnFeature.setText("Thêm");
             this.loaiMon = null;
         } else {//sửa
+            setTitle("Sủa thông tin loại món");
             btnFeature.setText("Thay đổi");
             this.loaiMon = loaiMon;
             txtCategoryName.setText(loaiMon.getTen());
@@ -171,7 +173,7 @@ public class FoodCategoryPopup extends javax.swing.JDialog {
     private void btnFeatureActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFeatureActionPerformed
         String tenLoaiMon = txtCategoryName.getText().trim();
         if (tenLoaiMon == null || tenLoaiMon.length() == 0) {
-            JOptionPane.showMessageDialog(rootPane, "Field can not empty");
+            JOptionPane.showMessageDialog(rootPane, "Tên loại món không được để trống","Lỗi",JOptionPane.WARNING_MESSAGE);
         } else {
             LoaiMon lm = new LoaiMon(tenLoaiMon);
 
@@ -179,24 +181,24 @@ public class FoodCategoryPopup extends javax.swing.JDialog {
                 LoaiMonDao lmd = new LoaiMonDao();
                 if (featute == Feature.ADD) {
                     if (checkTenLoai(tenLoaiMon)) {
-                        JOptionPane.showMessageDialog(rootPane, "Category name already exist");
+                        JOptionPane.showMessageDialog(rootPane, "Tên loại món đã tồn tại ","Lỗi",JOptionPane.WARNING_MESSAGE);
                     } else {
                         lmd.save(lm);
-                        JOptionPane.showMessageDialog(rootPane, "Save Successfull");
+                        JOptionPane.showMessageDialog(rootPane, "Lưu thông tin thành công","Thành công", JOptionPane.INFORMATION_MESSAGE);
                     }
 
                 } else {
                     if (loaiMon.getTen().equals(tenLoaiMon)) {
                         lm.setId(loaiMon.getId());
                         lmd.update(lm);
-                        JOptionPane.showMessageDialog(rootPane, "Update Successfull");
+                        JOptionPane.showMessageDialog(rootPane, "Cập nhật thông tin thành công","Thành công", JOptionPane.INFORMATION_MESSAGE);
                     } else {
                         if (checkTenLoai(tenLoaiMon)) {
-                            JOptionPane.showMessageDialog(rootPane, "Category name already exist");
+                            JOptionPane.showMessageDialog(rootPane, "Tên loại món đã tồn tại","Lỗi",JOptionPane.WARNING_MESSAGE);
                         } else {
                             lm.setId(loaiMon.getId());
                             lmd.update(lm);
-                            JOptionPane.showMessageDialog(rootPane, "Update Successfull");
+                            JOptionPane.showMessageDialog(rootPane, "Cập nhật thông tin thành công","Thành công", JOptionPane.INFORMATION_MESSAGE);
                         }
                     }
 

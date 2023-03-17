@@ -190,29 +190,6 @@ public class BanDAO {
         }
         return null;
     }
-//    public List<Ban> findhByIdBill(int bill) {
-//        Connection con = null;
-//        Statement statement = null;
-//        try {
-//            con = DatabaseHelper.openConnection();
-//            statement = con.createStatement();
-//            String sql = "SELECT * FROM BAN b, (SELECT * FROM CT_BAN WHERE SO_HOA_DON = "+bill+") CTB WHERE b.ID_BAN = CTB.ID_BAN";
-//            ResultSet resultset = statement.executeQuery(sql);
-//            while (resultset.next()) {
-//                Ban ban = new Ban();
-//                ban.setId(resultset.getInt(1));
-//                ban.setTenBan(resultset.getString(2));
-//                ban.setNgayTao(resultset.getDate(3));
-//                ban.setTrangThai(resultset.getBoolean(4));
-//                return ban;
-//            }
-//
-//        } catch (Exception ex) {
-//            ex.printStackTrace();
-//        }
-//        return null;
-//    }
-
     public List<Ban> searchTableActive() {
         List<Ban> result = new ArrayList<>();
         Connection con = null;

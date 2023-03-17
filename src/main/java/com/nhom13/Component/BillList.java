@@ -1,7 +1,7 @@
 package com.nhom13.Component;
 
 import com.nhom13.DAO.HoaDonDao;
-import com.nhom13.Dialog.OrderPopup;
+import com.nhom13.Dialog.OrderDL;
 import com.nhom13.Dialog.ShowBill;
 import com.nhom13.Entity.Employee;
 import com.nhom13.Entity.HoaDon;
@@ -55,6 +55,7 @@ public class BillList extends ManagerView {
         }
         tblModel.fireTableDataChanged();
     }
+
     //Lấy hàng hóa đơn đang được chọn trên bảng
     public HoaDon getRowIsSelected() {
         int row = tblData.getSelectedRow();
@@ -73,13 +74,12 @@ public class BillList extends ManagerView {
                 if (row >= 0) {
                     btnEdit.setEnabled(true);
                 }
-//                System.out.println(getRowIsSelected().getGioiTinh().equals("N"));
             }
         });
         btnAdd.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                OrderPopup popup = new OrderPopup(emp);
+                OrderDL popup = new OrderDL(emp);
                 popup.setVisible(true);
                 System.out.println(popup.isStatus());
                 if (popup.isStatus()) {
@@ -114,10 +114,9 @@ public class BillList extends ManagerView {
                 billList = dao.findById(Integer.parseInt(keyword));
                 tblModel.setRowCount(0);
                 Object[] row = new Object[]{billList.get(0).getSoHoaDon(), billList.get(0).getMaNv(), billList.get(0).getNgayLap(),
-                     billList.get(0).getIdKh() != 0 ? billList.get(0).getIdKh() : "", billList.get(0).getThanhTien()};
+                    billList.get(0).getIdKh() != 0 ? billList.get(0).getIdKh() : "", billList.get(0).getThanhTien()};
                 tblModel.addRow(row);
                 tblModel.fireTableDataChanged();
-
             }
 
         });

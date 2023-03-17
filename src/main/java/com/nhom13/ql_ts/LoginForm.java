@@ -68,27 +68,27 @@ public class LoginForm extends javax.swing.JFrame {
         boolean check = true;
 
         if (txtUsername.getText().isEmpty()) {
-            lblError.setText("Please enter your username");
+            lblError.setText("Không được bỏ trống tên tài khoản");
             check = false;
         } else if (isContainSpecialWord(txtUsername.getText())) {
-            lblError.setText("Username must not contain special character");
+            lblError.setText("Tên tài khoản không được chứa kí tự đặc biệt");
             check = false;
         } else if (txtUsername.getText().contains(" ")) {
-            lblError.setText("Username must not contain space.");
+            lblError.setText("Tên tài khoản không được chứa khoảng trắng");
             check = false;
         }
 
         if (new String(txtPassword.getPassword()).isEmpty()) {
-            lblError.setText("Please enter your password");
+            lblError.setText("Vui lòng nhập mật khẩu");
             check = false;
         } else if (new String(txtPassword.getPassword()).contains(" ")) {
-            lblError.setText("Password must not contain space");
+            lblError.setText("Mật khẩu không được chứa khoảng trắng");
             check = false;
         }
         if (check) {
             if (checkLogin()) {
                 if (!account.isTrangThai()) {
-                    JOptionPane.showMessageDialog(this, "Tài khoản của bạn đã bị khóa. Vui lòng liên hệ quản trị viên để biết thêm chi tiết.", "Thông báo", JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "Tài khoản của bạn đã bị khóa hoặc sai mật khẩu.", "Thông báo", JOptionPane.WARNING_MESSAGE);
                 } else {
                     try {
                         EmployeeDAO dao = new EmployeeDAO();
@@ -146,7 +146,7 @@ public class LoginForm extends javax.swing.JFrame {
 
         lblForgot.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         lblForgot.setForeground(new java.awt.Color(51, 51, 255));
-        lblForgot.setText("Forgot password?");
+        lblForgot.setText("Quên mật khẩu?");
         lblForgot.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblForgotMouseClicked(evt);
@@ -178,7 +178,7 @@ public class LoginForm extends javax.swing.JFrame {
 
         lblNoAccount.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         lblNoAccount.setForeground(new java.awt.Color(51, 102, 255));
-        lblNoAccount.setText("Sign up");
+        lblNoAccount.setText("Đăng kí");
         lblNoAccount.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblNoAccountMouseClicked(evt);
@@ -207,7 +207,7 @@ public class LoginForm extends javax.swing.JFrame {
         jLabel4.setText("Welcome Back");
 
         jLabel1.setForeground(new java.awt.Color(102, 102, 102));
-        jLabel1.setText("Don't have an account?");
+        jLabel1.setText("Bạn chưa có tài khoản?");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);

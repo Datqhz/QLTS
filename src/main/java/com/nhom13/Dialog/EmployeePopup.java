@@ -51,13 +51,6 @@ public class EmployeePopup extends javax.swing.JDialog {
         this.status = status;
     }
 
-//    public Employee getEmp() {
-//        return emp;
-//    }
-//
-//    public void setEmp(Employee emp) {
-//        this.emp = emp;
-//    }
     public void getData() {
         try {
             EmployeeDAO dao = new EmployeeDAO();
@@ -100,6 +93,7 @@ public class EmployeePopup extends javax.swing.JDialog {
         return false;
     }
 
+    //kiểm tra chuỗi rỗng
     public boolean check(String s) {
         return s.equals("");
     }
@@ -131,7 +125,7 @@ public class EmployeePopup extends javax.swing.JDialog {
         status = false;
         this.f = f;
         if (f == Feature.EDIT) {
-
+            setTitle("Cập nhật thông tin nhân viên");
             btnFeature.setText("Sửa");
 //            this.emp =  emp;
             txtID.setEnabled(false);
@@ -157,6 +151,7 @@ public class EmployeePopup extends javax.swing.JDialog {
             }
             cbxStatus.setSelectedIndex(emp.getAccount().isTrangThai() ? 0 : 1);
         } else {
+            setTitle("Thêm nhân viên");
             btnFeature.setText("Thêm");
             txtID.setEnabled(true);
             txtAccount.setEnabled(true);

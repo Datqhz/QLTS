@@ -32,8 +32,8 @@ public class ClientPopup extends javax.swing.JDialog {
 
     public void setFeature(Feature task, KhachHang temp) {
         feature = task;
-        //false->Sửa : true->Thêm
         if (task == Feature.EDIT) {
+            setTitle("Sửa thông tin khách hàng");
             btnFeature.setText("Sửa");
             client = temp;
             txtFirstName.setText(temp.getHo());
@@ -42,6 +42,7 @@ public class ClientPopup extends javax.swing.JDialog {
             txtPhoneNumber.setText((temp.getSdt() == null) ? "" : temp.getSdt());
         } else {
             btnFeature.setText("Thêm");
+            setTitle("Thêm khách hàng");
             client = null;
             ResetForm();
 

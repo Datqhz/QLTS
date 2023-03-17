@@ -41,7 +41,7 @@ public class FoodPopup extends javax.swing.JDialog {
         document4.setDocumentFilter(new CharFilterNumber());
         AbstractDocument document5 = (AbstractDocument) txtPriceSizeXL.getDocument();
         document5.setDocumentFilter(new CharFilterNumber());
-        
+
     }
 
     public boolean isStatus() {
@@ -64,7 +64,7 @@ public class FoodPopup extends javax.swing.JDialog {
         lblReviewImg.setIcon(null);
     }
 
-    public void loadCombobox() {
+    public void loadLoaiMon() {
         try {
             LoaiMonDao dao = new LoaiMonDao();
             listCategory = dao.findAll();
@@ -74,7 +74,7 @@ public class FoodPopup extends javax.swing.JDialog {
     }
 
     public void setItemCombobox() {
-        loadCombobox();
+        loadLoaiMon();
         modelcbx.removeAllElements();
         for (LoaiMon category : listCategory) {
 
@@ -104,12 +104,12 @@ public class FoodPopup extends javax.swing.JDialog {
         feature = f;
         if (feature == Feature.ADD) {
             txtFoodName.setEnabled(true);
-            btnFeature.setText("ADD");
+            btnFeature.setText("Thêm");
             resetForm();
             this.monAn = null;
         } else {
             txtFoodName.setEnabled(false);
-            btnFeature.setText("EDIT");
+            btnFeature.setText("Sửa");
             this.monAn = ma;
             txtFoodName.setText(ma.getTenMon());
             txtUnit.setText(ma.getDonVi());
@@ -473,9 +473,8 @@ public class FoodPopup extends javax.swing.JDialog {
             tenLoai = cbxCategory.getSelectedItem().toString();
         }
         if (check(name) || check(giaM) || check(giaL) || check(giaXL) || check(tenLoai)) {
-            JOptionPane.showMessageDialog(rootPane, "Vui lòng điền đầy đủ thông tin");
-        }
-            else {
+            JOptionPane.showMessageDialog(rootPane, "Vui lòng điền đầy đủ thông tin","Lỗi",JOptionPane.WARNING_MESSAGE);
+        } else {
             MonAn monAn1 = new MonAn();
             monAn1.setTenMon(name);
             monAn1.setDonVi(donVi);
@@ -494,14 +493,14 @@ public class FoodPopup extends javax.swing.JDialog {
                 MonAnDAO dao = new MonAnDAO();
                 if (feature == Feature.ADD) {
                     if (checkFoodName(name)) {
-                        JOptionPane.showMessageDialog(rootPane, "Tên món đã tồn tại.");
+                        JOptionPane.showMessageDialog(rootPane, "Tên món đã tồn tại.","Lỗi",JOptionPane.WARNING_MESSAGE);
                     } else {
                         dao.save(monAn1);
                         int idmon = dao.getId();
                         dao.saveCTSP(1, idmon, Integer.parseInt(giaM));
                         dao.saveCTSP(2, idmon, Integer.parseInt(giaL));
                         dao.saveCTSP(3, idmon, Integer.parseInt(giaXL));
-                        JOptionPane.showMessageDialog(rootPane, "Thêm thành công!");
+                        JOptionPane.showMessageDialog(rootPane, "Thêm thành công!", "Thành công", JOptionPane.INFORMATION_MESSAGE);
                         status = true;
                         resetForm();
                         setVisible(false);
@@ -509,17 +508,16 @@ public class FoodPopup extends javax.swing.JDialog {
 
                 } else {
 
-                    monAn1.setId(monAn.getId());
-                    System.out.println(monAn1);
                     dao.updateSanPham(monAn1);
                     dao.updateCtsp(monAn.getId(), 1, Integer.parseInt(giaM));
                     dao.updateCtsp(monAn.getId(), 2, Integer.parseInt(giaL));
                     dao.updateCtsp(monAn.getId(), 3, Integer.parseInt(giaXL));
-                    JOptionPane.showMessageDialog(rootPane, "Sửa thành công!");
-                    status = true;
-                    resetForm();
-                    setVisible(false);
+                    JOptionPane.showMessageDialog(rootPane, "Sửa thành công!","Thành công", JOptionPane.INFORMATION_MESSAGE);
                 }
+
+                status = true;
+                resetForm();
+                setVisible(false);
             } catch (Exception e) {
             }
 

@@ -21,7 +21,6 @@ public class TaiKhoanDAO {
             String sql = "SELECT * FROM TAIKHOAN T WHERE T.TEN_TAI_KHOAN = '" + account+ "' AND T.MAT_KHAU = '" +password +"'";
             ResultSet resultset = statement.executeQuery(sql);
             while (resultset.next()) {
-            
             tk.setTenTk(resultset.getString(1));
             tk.setMk(resultset.getString(2));
             tk.setTrangThai(resultset.getBoolean(3));

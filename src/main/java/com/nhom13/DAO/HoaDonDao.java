@@ -46,25 +46,7 @@ public class HoaDonDao {
         return result;
     }
 
-//    public int getNewId() {
-//        Connection con = null;
-//        Statement statement = null;
-//        int id = 0;
-//        try {
-//            con = DatabaseHelper.openConnection();
-//            statement = con.createStatement();
-//            String sql = "SELECT IDENT_CURRENT('HOADON') as LastID";
-//            ResultSet resultSet = statement.executeQuery(sql);
-//            while (resultSet.next()) {
-//                id = resultSet.getInt(1);
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        return id;
-//
-//    }
-     public void saveHoaDon(HoaDon hoaDon){
+    public void saveHoaDon(HoaDon hoaDon) {
         Connection con = null;
         PreparedStatement statement = null;
         try {
@@ -74,27 +56,27 @@ public class HoaDonDao {
             statement = con.prepareCall(sql);
             statement.setString(1, hoaDon.getHinhThucThanhToan());
             statement.setDouble(2, hoaDon.getThanhTien());
-            if(hoaDon.getIdKm()==0){
+            if (hoaDon.getIdKm() == 0) {
                 statement.setNull(3, INTEGER);
-            }else{
+            } else {
                 statement.setInt(3, hoaDon.getIdKm());
             }
-            
+
             statement.setString(4, hoaDon.getMaNv());
-            if(hoaDon.getIdKh()==0){
+            if (hoaDon.getIdKh() == 0) {
                 statement.setNull(5, INTEGER);
-            }else{
+            } else {
                 statement.setInt(5, hoaDon.getIdKh());
             }
-            
+
             statement.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-     public int getIdHoaDon(){
-        int id = -1 ;
+    public int getIdHoaDon() {
+        int id = -1;
         Connection con = null;
         Statement statement = null;
         try {
@@ -103,7 +85,7 @@ public class HoaDonDao {
             String sql = "SELECT MAX(SO_HOA_DON) FROM HOADON";
             ResultSet resultSet = statement.executeQuery(sql);
             while (resultSet.next()) {
-                id  = resultSet.getInt(1);
+                id = resultSet.getInt(1);
             }
 
         } catch (Exception e) {
@@ -112,7 +94,7 @@ public class HoaDonDao {
         return id;
     }
 
-     public void saveCTBAN(int idBan , int idHoaDon){
+    public void saveCTBAN(int idBan, int idHoaDon) {
         Connection con = null;
         PreparedStatement statement = null;
         try {
@@ -126,13 +108,14 @@ public class HoaDonDao {
             e.printStackTrace();
         }
     }
-     public void saveCTHOADON(int idHoaDon , int idMon , int soLuong , double gia , int idSize){
-        
+
+    public void saveCTHOADON(int idHoaDon, int idMon, int soLuong, double gia, int idSize) {
+
         PreparedStatement statement = null;
         Connection con = null;
         try {
             con = DatabaseHelper.openConnection();
-            
+
             String sql = "INSERT INTO CTHOADON(SO_HOA_DON,ID_SIZE ,ID_SP , SO_LUONG , GIA) VALUES(? , ? , ? , ? , ?)";
             statement = con.prepareCall(sql);
             statement.setInt(1, idHoaDon);
@@ -150,7 +133,7 @@ public class HoaDonDao {
     public List<HoaDon> findById(int id) {
         Connection con = null;
         Statement statement = null;
-        List<HoaDon>billList = new ArrayList<>();
+        List<HoaDon> billList = new ArrayList<>();
         try {
             con = DatabaseHelper.openConnection();
             statement = con.createStatement();

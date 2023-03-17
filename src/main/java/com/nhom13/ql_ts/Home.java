@@ -58,7 +58,7 @@ public class Home extends javax.swing.JFrame {
 
     public void initMenu() {
 
-        MenuItem QLTD = new MenuItem("Quản lí thực đơn.", 1, "/menu.png");
+        MenuItem QLTD = new MenuItem("Quản lí món.", 1, "/menu.png");
         MenuItem QLB = new MenuItem("Quản lí bàn.", 2, "/table.png");
         MenuItem QLHD = new MenuItem("Quản lí hóa đơn.", 3, "/bill.png");
         MenuItem QLNV = new MenuItem("Quản lí nhân viên.", 4, "/employee.png");
@@ -114,9 +114,8 @@ public class Home extends javax.swing.JFrame {
 
     public void menuChange(MenuItem item) {
         switch (item.getIndex()) {
-            case 1:
+            case 1://Quản lý món
                 panelController.removeAll();
-                System.out.println("Quản lí thực đơn");
                 JTabbedPane tbb = new JTabbedPane();
                 tbb.add("Loại món", new FoodCategory(new FoodCategoryPopup(this)));
                 tbb.add("Món ăn", new FoodList(new FoodPopup(this)));
@@ -124,23 +123,20 @@ public class Home extends javax.swing.JFrame {
                 repaint();
                 revalidate();
                 break;
-            case 2:
+            case 2://Quản lý bàn
                 panelController.removeAll();
-                System.out.println("Quản lí bàn");
                 panelController.add(new TableManager(new TablePopup(this, emp.getMaNV()), emp));
                 repaint();
                 revalidate();
                 break;
-            case 3:
+            case 3://Quản lý hóa đơn
                 panelController.removeAll();
-                System.out.println("Quản lí hóa đơn");
                 panelController.add(new BillList(emp));
                 repaint();
                 revalidate();
                 break;
-            case 4:
+            case 4:// Quản lý nhân viên
                 panelController.removeAll();
-                System.out.println("Quản lí nhân viên");
                 panelController.add(new EmployeeManager(new EmployeePopup(this)));//
                 repaint();
                 revalidate();
@@ -151,16 +147,14 @@ public class Home extends javax.swing.JFrame {
                 repaint();
                 revalidate();
                 break;
-            case 6:
+            case 6://Quản lý khuyến mãi
                 panelController.removeAll();
-                System.out.println("Quản lí khuyến mãi");
                 panelController.add(new SaleManager(new SalePopup(this, emp.getMaNV()), emp));
                 repaint();
                 revalidate();
                 break;
-            case 7:
+            case 7: //Thống kê
                 panelController.removeAll();
-                System.out.println("Thống kê");
                 JTabbedPane tbb2 = new JTabbedPane();
                 tbb2.add("Theo thời gian", new Statistic());
                 tbb2.add("Theo nhân viên", new StatisticEmployee());
@@ -168,9 +162,8 @@ public class Home extends javax.swing.JFrame {
                 repaint();
                 revalidate();
                 break;
-            case 8:
+            case 8://Thông tin cá nhân
                 panelController.removeAll();
-                System.out.println("Thông tin cá nhân");
                 panelController.add(new Profile(new ChangePassword(this), emp));
                 repaint();
                 revalidate();
