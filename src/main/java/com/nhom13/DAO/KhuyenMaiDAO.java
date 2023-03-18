@@ -76,13 +76,12 @@ public class KhuyenMaiDAO {
         try {
             Connection con = DatabaseHelper.openConnection();
             PreparedStatement statement = null;
-            String sql = "UPDATE KHUYENMAI SET  NGAY_AP_DUNG=? , NGAY_KET_THUC = ? , PHAN_TRAM_KM = ? , LI_DO_KM = ? WHERE ID_KM = ?";
+            String sql = "UPDATE KHUYENMAI SET  NGAY_KET_THUC = ? , PHAN_TRAM_KM = ? , LI_DO_KM = ? WHERE ID_KM = ?";
             statement = con.prepareCall(sql);
-            statement.setInt(5, sale.getId());
-            statement.setString(1, DateToString(sale.getNgayApDung()));
-            statement.setString(2, DateToString(sale.getNgayKetThuc()));
-            statement.setInt(3, sale.getGiaTri());
-            statement.setString(4, sale.getLyDo());
+            statement.setInt(4, sale.getId());
+            statement.setString(1, DateToString(sale.getNgayKetThuc()));
+            statement.setInt(2, sale.getGiaTri());
+            statement.setString(3, sale.getLyDo());
             statement.executeUpdate();
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -112,6 +111,23 @@ public class KhuyenMaiDAO {
         return khuyenMai;
     }
 
+    public int findUse(int idKm){
+        Connection con = null;
+        Statement statement = null;
+        int temp = 0;
+        try {
+            con = DatabaseHelper.openConnection();
+            statement = con.createStatement();
+            String sql = "SELECT count(*) FROM HOADON WHERE ID_KM = " + idKm;
+            ResultSet resultset = statement.executeQuery(sql);
+            while (resultset.next()) {
+                temp=resultset.getInt(1);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return temp;
+    }
     public void deleteKhuyenMai(KhuyenMai khuyenMai) {
         PreparedStatement state = null;
         Connection con = null;
@@ -181,7 +197,7 @@ public class KhuyenMaiDAO {
         return result;
     }
 
-    public boolean checkKm(String fromDate, String toDate) {
+    public boolean checkKm(String fromDate, String toDate,int id) {
         List<KhuyenMai> result = new ArrayList<>();
         Connection con = null;
         Statement statement = null;
@@ -189,9 +205,34 @@ public class KhuyenMaiDAO {
             con = DatabaseHelper.openConnection();
             statement = con.createStatement();
             String sql = "SELECT * FROM KHUYENMAI \n"
-                    + "where (NGAY_AP_DUNG <= '" + fromDate + "' AND NGAY_KET_THUC >= '" + fromDate + "' ) \n"
-                    + "OR  (NGAY_AP_DUNG <= '" + toDate + "' AND NGAY_KET_THUC >= '" + toDate + "' ) \n"
-                    + "  ";
+                    + "where ((NGAY_AP_DUNG <= '" + fromDate + "' AND NGAY_KET_THUC >= '" + fromDate + "' ) \n"
+                    + "OR  (NGAY_AP_DUNG <= '" + toDate + "' AND NGAY_KET_THUC >= '" + toDate + "' ) ) AND ID_KM <>"+id;
+            ResultSet resultset = statement.executeQuery(sql);
+            while (resultset.next()) {
+                KhuyenMai khuyenMai = new KhuyenMai();
+                khuyenMai.setId(resultset.getInt(1));
+                khuyenMai.setNgayApDung(resultset.getDate(2));
+                khuyenMai.setNgayKetThuc(resultset.getDate(3));
+                khuyenMai.setGiaTri(resultset.getInt(4));
+                khuyenMai.setLyDo(resultset.getString(5));
+                result.add(khuyenMai);
+            }
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return result.isEmpty();
+    }
+    
+    public boolean checkContain(String fromDate,String toDate, int id){
+        
+        List<KhuyenMai> result = new ArrayList<>();
+        Connection con = null;
+        Statement statement = null;
+        try {
+            con = DatabaseHelper.openConnection();
+            statement = con.createStatement();
+            String sql = "SELECT * FROM KHUYENMAI WHERE NGAY_AP_DUNG>='"+fromDate+"' AND NGAY_KET_THUC<='"+toDate+"'AND ID_KM <>"+id;
 
             ResultSet resultset = statement.executeQuery(sql);
             while (resultset.next()) {
@@ -209,5 +250,4 @@ public class KhuyenMaiDAO {
         }
         return result.isEmpty();
     }
-
 }

@@ -67,6 +67,11 @@ public class KhuyenMai {
         this.lyDo = lyDo;
     }
 
+    @Override
+    public String toString() {
+        return "KhuyenMai{" + "id=" + id + ", ngayApDung=" + ngayApDung + ", ngayKetThuc=" + ngayKetThuc + ", giaTri=" + giaTri + ", lyDo=" + lyDo + '}';
+    }
+
 
 
 }

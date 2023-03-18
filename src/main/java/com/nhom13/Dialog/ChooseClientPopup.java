@@ -29,6 +29,7 @@ public class ChooseClientPopup extends javax.swing.JDialog {
         jScrollPane2.setVerticalScrollBar(new ScrollBarCustom());
         loadData();
         btnChoose.setEnabled(false);
+        setTitle("Chọn khách hàng");
     }
 
     public KhachHang getClient() {

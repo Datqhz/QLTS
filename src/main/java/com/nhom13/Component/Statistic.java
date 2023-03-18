@@ -2,6 +2,7 @@ package com.nhom13.Component;
 
 import com.nhom13.DAO.DoanhThuDAO;
 import com.nhom13.Entity.DoanhThuTheoMonAn;
+import com.toedter.calendar.*;
 import java.awt.FlowLayout;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -18,6 +19,9 @@ public class Statistic extends javax.swing.JPanel {
     /**
      * Creates new form Statistic
      */
+    private JMonthChooser month = new JMonthChooser();
+    private JYearChooser year = new JYearChooser();
+    JDateChooser dayChoose = new JDateChooser();
     public DoanhThuDAO dao = new DoanhThuDAO();
     public List<DoanhThuTheoMonAn> doanhThu = new ArrayList<>();
 
@@ -25,33 +29,46 @@ public class Statistic extends javax.swing.JPanel {
 
         initComponents();
         panelChart.setLayout(new FlowLayout());
+        cbxXem.setSelectedIndex(-1);
+        search.setEnabled(false);
         cardBill.setData("Hóa đơn", 0, "/bill_white.png");
         cardProfit.setData("Doanh thu", 0, "/coin_white.png");
         cardEmployee.setData("Nhân viên", 0, "/employee_white.png");
         cardClient.setData("Khách hàng", 0, "/client_white.png");
+        panelTime.setLayout(new FlowLayout(FlowLayout.LEFT));
+        dayChoose.setPreferredSize(new java.awt.Dimension(100, 24));
+        month.setPreferredSize(new java.awt.Dimension(125, 24));
+        year.setPreferredSize(new java.awt.Dimension(70, 24));
     }
 
     public static JFreeChart createChart(String date, List<DoanhThuTheoMonAn> doanhThu) {//List<DoanhThuTheoMonAn> list
 
         JFreeChart barChart = ChartFactory.createBarChart(
                 "TOP 5 MÓN CÓ DOANH THU CAO NHẤT",
-                "Doanh thu", "Món",
+                "Món", "Doanh thu",
                 createDataset(date, doanhThu), PlotOrientation.VERTICAL, false, false, false
         );
         return barChart;
     }
 
     public static CategoryDataset createDataset(String date, List<DoanhThuTheoMonAn> list) {//List<DoanhThuTheoMonAn> list
-
         final DefaultCategoryDataset dataset = new DefaultCategoryDataset();
         for (DoanhThuTheoMonAn temp : list) {
-            dataset.addValue(temp.getTongTien(), "Doanh thu", temp.getTenMon());
+            dataset.addValue(temp.getTongTien(), "Món", temp.getTenMon());
         }
         return dataset;
     }
 
     public void setStatistic(int bill, int profit, int employee, int client, String date) {
-        doanhThu = dao.topDoanhThu5MonAnTheoThoiGian(date);
+        doanhThu = switch (cbxXem.getSelectedIndex()) {
+            case 0 ->
+                dao.topDoanhThu5MonAnTheoThoiGian(date, 0);
+            case 1 ->
+                dao.topDoanhThu5MonAnTheoThoiGian(date, 1);
+            default ->
+                dao.topDoanhThu5MonAnTheoThoiGian(date, 2);
+        };
+
         cardBill.setData("Hóa đơn", bill, "/bill_white.png");
         cardProfit.setData("Doanh thu", profit, "/coin_white.png");
         cardEmployee.setData("Nhân viên", employee, "/employee_white.png");
@@ -64,12 +81,28 @@ public class Statistic extends javax.swing.JPanel {
         System.out.println(doanhThu);
     }
 
-    public int getTongSoHoaDon(String date) {
-        return dao.soLuongHoaDon(date);
+    public int getTongSoHoaDonNam(String date) {
+        return dao.soLuongHoaDonNam(date);
+    }
+
+    public int getTongSoHoaDonThang(String date) {
+        return dao.soLuongHoaDonThang(date);
+    }
+
+    public int getTongSoHoaDonNgay(String date) {
+        return dao.soLuongHoaDonNgay(date);
     }
 
     public int getTongDoanhThuTheoNgay(String date) {
         return dao.tongDoanhThuCuaNgay(date);
+    }
+
+    public int getTongDoanhThuTheoThang(String date) {
+        return dao.tongDoanhThuCuaThang(date);
+    }
+
+    public int getTongDoanhThuTheoNam(String date) {
+        return dao.tongDoanhThuCuaNam(date);
     }
 
     public int getSoLuongNhanVien() {
@@ -90,11 +123,10 @@ public class Statistic extends javax.swing.JPanel {
         cardProfit = new com.nhom13.swingCustom.Card();
         cardEmployee = new com.nhom13.swingCustom.Card();
         cardClient = new com.nhom13.swingCustom.Card();
-        year = new com.toedter.calendar.JYearChooser();
-        month = new com.toedter.calendar.JMonthChooser();
         jPanel2 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
         search = new javax.swing.JButton();
+        cbxXem = new javax.swing.JComboBox<>();
+        panelTime = new javax.swing.JPanel();
 
         panelChart.setBackground(new java.awt.Color(255, 255, 255));
         panelChart.setPreferredSize(new java.awt.Dimension(450, 450));
@@ -138,16 +170,33 @@ public class Statistic extends javax.swing.JPanel {
             .addGap(0, 469, Short.MAX_VALUE)
         );
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(0, 0, 102));
-        jLabel1.setText("Thời gian");
-
-        search.setText("Tìm kiếm");
+        search.setText("Xem");
         search.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 searchActionPerformed(evt);
             }
         });
+
+        cbxXem.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Ngày", "Tháng", "Năm"}));
+        cbxXem.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbxXemItemStateChanged(evt);
+            }
+        });
+
+        panelTime.setMaximumSize(new java.awt.Dimension(244, 24));
+        panelTime.setMinimumSize(new java.awt.Dimension(244, 24));
+
+        javax.swing.GroupLayout panelTimeLayout = new javax.swing.GroupLayout(panelTime);
+        panelTime.setLayout(panelTimeLayout);
+        panelTimeLayout.setHorizontalGroup(
+            panelTimeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 244, Short.MAX_VALUE)
+        );
+        panelTimeLayout.setVerticalGroup(
+            panelTimeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 24, Short.MAX_VALUE)
+        );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -156,13 +205,11 @@ public class Statistic extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(271, 271, 271)
-                        .addComponent(jLabel1)
+                        .addGap(207, 207, 207)
+                        .addComponent(cbxXem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(month, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(panelTime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(year, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(search))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(22, 22, 22)
@@ -183,7 +230,7 @@ public class Statistic extends javax.swing.JPanel {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap(21, Short.MAX_VALUE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(cardBill, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -197,15 +244,12 @@ public class Statistic extends javax.swing.JPanel {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(37, 37, 37)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(month, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 24, Short.MAX_VALUE)
-                                .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(year, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(search, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(search)
+                            .addComponent(cbxXem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(panelTime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
                         .addComponent(panelChart, javax.swing.GroupLayout.PREFERRED_SIZE, 425, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(37, Short.MAX_VALUE))
+                .addContainerGap(36, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -221,17 +265,70 @@ public class Statistic extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void searchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchActionPerformed
-        String Month = String.valueOf(this.month.getMonth() + 1);
-        String Year = String.valueOf(this.year.getYear());
-        String date = Month.concat("-").concat(Year);
-        int bill = getTongSoHoaDon(date);
-        int profit = getTongDoanhThuTheoNgay(date);
-        int employee = getSoLuongNhanVien();
-        int client = getSoLuongKhachHang();
-        System.out.println(date);
+        int bill;
+        int profit;
+        int employee;
+        int client;
+        String Day;
+        String Month;
+        String Year;
+        String date = "";
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        switch (cbxXem.getSelectedIndex()) {
+            case 0 -> {
+                Day = dateFormat.format(dayChoose.getDate());
+                bill = getTongSoHoaDonNgay(Day);
+                profit = getTongDoanhThuTheoNgay(Day);
+                date = Day;
+            }
+            case 1 -> {
+                Month = String.valueOf(this.month.getMonth() + 1);
+                Year = String.valueOf(this.year.getYear());
+                date = Month.concat("-").concat(Year);
+                bill = getTongSoHoaDonThang(date);
+                profit = getTongDoanhThuTheoThang(date);
+            }
+            default -> {
+                Year = String.valueOf(this.year.getYear());
+                bill = getTongSoHoaDonNam(Year);
+                profit = getTongDoanhThuTheoNam(Year);
+                date = Year;
+            }
+        }
+        employee = getSoLuongNhanVien();
+        client = getSoLuongKhachHang();
         setStatistic(bill, profit, employee, client, date);
 
     }//GEN-LAST:event_searchActionPerformed
+
+    private void cbxXemItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbxXemItemStateChanged
+        if (cbxXem.getSelectedIndex() >= 0) {
+            switch (cbxXem.getSelectedIndex()) {
+                case 0 -> {
+                    panelTime.removeAll();
+                    panelTime.add(dayChoose);
+                    panelTime.repaint();
+                    panelTime.revalidate();
+                }
+                case 1 -> {
+                    panelTime.removeAll();
+                    panelTime.add(month);
+                    panelTime.add(year);
+                    panelTime.repaint();
+                    panelTime.revalidate();
+                }
+                default -> {
+                    panelTime.removeAll();
+                    panelTime.add(year);
+                    panelTime.repaint();
+                    panelTime.revalidate();
+                }
+            }
+            search.setEnabled(true);
+        }
+
+
+    }//GEN-LAST:event_cbxXemItemStateChanged
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -239,12 +336,11 @@ public class Statistic extends javax.swing.JPanel {
     private com.nhom13.swingCustom.Card cardClient;
     private com.nhom13.swingCustom.Card cardEmployee;
     private com.nhom13.swingCustom.Card cardProfit;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JComboBox<String> cbxXem;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private com.toedter.calendar.JMonthChooser month;
     private javax.swing.JPanel panelChart;
+    private javax.swing.JPanel panelTime;
     private javax.swing.JButton search;
-    private com.toedter.calendar.JYearChooser year;
     // End of variables declaration//GEN-END:variables
 }

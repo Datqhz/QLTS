@@ -45,8 +45,9 @@ public class SalePopup extends javax.swing.JDialog {
 
     public void setFeature(Feature task, KhuyenMai sale) {
         feature = task;
-
+        lblError.setText("");
         if (task == Feature.EDIT) {
+            dateStart.setEnabled(false);
             this.setTitle("Sửa khuyến mãi");
             btnFeature.setText("Sửa");
             this.sale = sale;
@@ -56,6 +57,7 @@ public class SalePopup extends javax.swing.JDialog {
             dateEnd.setDate(sale.getNgayKetThuc());
         } else {
             resetForm();
+            dateStart.setEnabled(true);
             this.setTitle("Thêm khuyến mãi");
             btnFeature.setText("Thêm");
             this.sale = sale;
@@ -278,6 +280,7 @@ public class SalePopup extends javax.swing.JDialog {
         Date start = dateStart.getDate();
         Date end = dateEnd.getDate();
         String value = txtSaleValue.getText().trim();
+        KhuyenMaiDAO dao = new KhuyenMaiDAO();
         if (start == null || end == null || value.equals("")) {
             lblError.setText("Vui lòng nhập đầy đủ thông tin!");
         } else if (start.compareTo(end) > 0) {
@@ -286,7 +289,10 @@ public class SalePopup extends javax.swing.JDialog {
         } else if (Integer.parseInt(value) <= 0 || Integer.parseInt(value) > 100) {
             lblError.setText("Giá trị khuyến mãi phải nằm trong khoảng 0 đến 100!");
             txtSaleValue.setText("");
-
+        } else if (!dao.checkContain(dao.DateToString(start), dao.DateToString(end), sale.getId())) {
+            lblError.setText("Không thể chứa đợt khuyến mãi khác!");
+            dateStart.setDate(null);
+            dateEnd.setDate(null);
         } else {
             KhuyenMai tmp = new KhuyenMai();
             tmp.setNgayApDung(start);
@@ -294,29 +300,37 @@ public class SalePopup extends javax.swing.JDialog {
             tmp.setGiaTri(Integer.parseInt(value));
             tmp.setLyDo(txtReason.getText() == null ? "" : txtReason.getText());
             try {
-                KhuyenMaiDAO dao = new KhuyenMaiDAO();
+
                 if (feature == Feature.ADD) {
-                    if (dao.checkKm(dao.DateToString(start), dao.DateToString(end))) {
-                        lblError.setText("");
-                        dao.save(tmp);
-                        JOptionPane.showMessageDialog(this, "Bạn đã thêm khuyến mãi thành công.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-                        status = true;
-                        this.dispose();
+                    if (start.compareTo(new Date()) < 0) {
+                        lblError.setText("Ngày bắt đầu không được sớm hơn ngày hiện tại");
                     } else {
-                        JOptionPane.showMessageDialog(this, "Thêm khuyến mãi không thành công.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                        if (dao.checkKm(dao.DateToString(start), dao.DateToString(end), sale.getId())) {
+                            lblError.setText("");
+                            dao.save(tmp);
+                            JOptionPane.showMessageDialog(this, "Bạn đã thêm khuyến mãi thành công.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                            status = true;
+                            this.dispose();
+                        } else {
+                            JOptionPane.showMessageDialog(this, "Thêm khuyến mãi không thành công.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                        }
                     }
+
                 } else {
-                    if (dao.checkKm(dao.DateToString(start), dao.DateToString(end))) {
-                        tmp.setId(sale.getId());
-                        dao.updateSale(tmp);
-                        JOptionPane.showMessageDialog(this, "Sửa khuyến mãi thành công.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-                        status = true;
-                        this.dispose();
+                    if (end.compareTo(new Date()) < 0) {
+                        lblError.setText("Ngày kết thúc không được sớm hơn ngày hiện tại");
                     } else {
-                        JOptionPane.showMessageDialog(this, "Sửa khuyến mãi không thành công.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                        if (dao.checkKm(dao.DateToString(start), dao.DateToString(end), sale.getId())) {
+                            tmp.setId(sale.getId());
+                            dao.updateSale(tmp);
+                            JOptionPane.showMessageDialog(this, "Sửa khuyến mãi thành công.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                            status = true;
+                            this.dispose();
+                        } else {
+                            JOptionPane.showMessageDialog(this, "Sửa khuyến mãi không thành công.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                        }
                     }
                 }
-
             } catch (Exception e) {
                 e.printStackTrace();
             }

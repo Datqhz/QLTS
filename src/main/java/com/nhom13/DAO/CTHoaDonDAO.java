@@ -4,6 +4,7 @@ import com.nhom13.Database.DatabaseHelper;
 import com.nhom13.Entity.Ban;
 import com.nhom13.Entity.ChiTietBan;
 import com.nhom13.Entity.ChiTietHoaDon;
+import com.nhom13.Entity.KhuyenMai;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -23,7 +24,7 @@ public class CTHoaDonDAO {
 
     public List<ChiTietHoaDon> findCTHD2(int idHoaDon) {
         List<ChiTietHoaDon> result = new ArrayList<>();
-
+        
         String sql = "SELECT * FROM (SELECT * FROM CTHOADON WHERE SO_HOA_DON = " + idHoaDon + ") CT, SANPHAM M WHERE CT.ID_SP=M.ID_SP";
         try (Connection con = DatabaseHelper.openConnection(); PreparedStatement statement = con.prepareStatement(sql);) {
             ResultSet resultSet = statement.executeQuery();
@@ -62,7 +63,22 @@ public class CTHoaDonDAO {
 
         return result;
     }
+    
+    public KhuyenMai findKM (int idKM){
+        KhuyenMai result = new KhuyenMai();
 
+        String sql = "SELECT ID_KM, PHAN_TRAM_KM FROM KHUYENMAI where ID_KM = " +idKM;
+        try (Connection con = DatabaseHelper.openConnection(); PreparedStatement statement = con.prepareStatement(sql);) {
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                result.setId(resultSet.getInt(1));
+                result.setGiaTri(resultSet.getInt(2));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
     public int TongSoHoaDon() {
         Connection con = null;
         int sum = 0;

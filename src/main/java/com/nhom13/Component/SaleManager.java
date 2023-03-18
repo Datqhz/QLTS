@@ -75,7 +75,7 @@ public class SaleManager extends ManagerView {
             @Override
             public void actionPerformed(ActionEvent e) {
                 form.setStatus(false);
-                form.setFeature(Feature.ADD, null);
+                form.setFeature(Feature.ADD, new KhuyenMai());
                 form.setVisible(true);
                 if (form.isStatus()) {
                     loadData();
@@ -104,10 +104,15 @@ public class SaleManager extends ManagerView {
                             JOptionPane.YES_NO_OPTION,
                             JOptionPane.QUESTION_MESSAGE);
                     if (result == 0) {
-
                         KhuyenMaiDAO dao = new KhuyenMaiDAO();
-                        JOptionPane.showMessageDialog(new java.awt.Frame(), "Xóa khuyến mãi thành công.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                        System.out.println(dao.findUse(getSaleIsSelected().getId()));
+                        if(dao.findUse(getSaleIsSelected().getId())>0){
+                            JOptionPane.showMessageDialog(new java.awt.Frame(), "Không thể xóa khuyến mãi này.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                        }else {
+                            JOptionPane.showMessageDialog(new java.awt.Frame(), "Xóa khuyến mãi thành công.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
                         dao.deleteKhuyenMai(getSaleIsSelected());
+                        }
+                        
                     }
 
                 } catch (Exception ex) {

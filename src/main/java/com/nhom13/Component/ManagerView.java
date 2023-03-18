@@ -15,7 +15,7 @@ import javax.swing.table.DefaultTableModel;
 public class ManagerView extends javax.swing.JPanel {
 
     DefaultTableModel tblModel = new DefaultTableModel();
-
+    
     public ManagerView() {
         initComponents();
         tblData.getTableHeader().setOpaque(false);
@@ -129,6 +129,11 @@ public class ManagerView extends javax.swing.JPanel {
         jScrollPane1.setViewportView(tblData);
 
         txtSearch.setToolTipText("");
+        txtSearch.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtSearchFocusLost(evt);
+            }
+        });
         txtSearch.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtSearchKeyReleased(evt);
@@ -252,6 +257,10 @@ public class ManagerView extends javax.swing.JPanel {
     private void txtSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyReleased
         convertToUpperCase(txtSearch);
     }//GEN-LAST:event_txtSearchKeyReleased
+
+    private void txtSearchFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtSearchFocusLost
+        
+    }//GEN-LAST:event_txtSearchFocusLost
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -111,8 +111,8 @@ public class DoanhThuDAO {
 
     }
 
-    public List<DoanhThuTheoMonAn> topDoanhThu5MonAnTheoThoiGian(String date) {
-
+    public List<DoanhThuTheoMonAn> topDoanhThu5MonAnTheoThoiGian(String date,int search) {
+        
         List<DoanhThuTheoMonAn> doanhThu = new ArrayList<>();
 
         Connection con = null;
@@ -121,14 +121,49 @@ public class DoanhThuDAO {
 
             con = DatabaseHelper.openConnection();
             statement = con.createStatement();
-            String sql = "SELECT TOP(5) CT.ID_SP ,S.TEN , concat(MONTH(H.NGAY_LAP) , '-' , YEAR(H.NGAY_LAP))  ,SUM(CT.GIA) FROM CTHOADON CT JOIN  HOADON H ON H.SO_HOA_DON = CT.SO_HOA_DON JOIN SANPHAM S ON S.ID_SP = CT.ID_SP GROUP BY CT.ID_SP ,concat(MONTH(H.NGAY_LAP) , '-' , YEAR(H.NGAY_LAP)),S.TEN HAVING concat(MONTH(H.NGAY_LAP) , '-' , YEAR(H.NGAY_LAP)) ='" + date + "'order by SUM(CT.GIA) DESC";
+            String sql="";
+            switch (search) {
+                case 0://Doanh thu theo ngày
+                    sql="SELECT TOP(5) CT.ID_SP ,S.TEN , SUM(ISNULL(CT.GIA*(100-HD.PHAN_TRAM_KM)/100,CT.GIA)*ct.SO_LUONG) AS DOANHTHU "+
+                            "FROM CTHOADON CT "+
+                            "INNER JOIN (SELECT SO_HOA_DON, K.PHAN_TRAM_KM FROM HOADON H LEFT JOIN KHUYENMAI K "+
+                            "ON H.ID_KM = K.ID_KM "+
+                            "WHERE DATEDIFF(DAY,NGAY_LAP,'"+date+"')=0) HD "+
+                            "ON CT.SO_HOA_DON =HD.SO_HOA_DON JOIN SANPHAM S "+
+                            "ON CT.ID_SP = S.ID_SP "+
+                            "GROUP BY CT.ID_SP, S.TEN "+
+                            "ORDER BY DOANHTHU DESC ";
+                    break;
+                case 1://Doanh thu theo tháng
+                    sql ="SELECT TOP(5) CT.ID_SP ,S.TEN , SUM(ISNULL(CT.GIA*(100-HD.PHAN_TRAM_KM)/100,CT.GIA)*ct.SO_LUONG) AS DOANHTHU "+
+                            "FROM CTHOADON CT "+
+                            "INNER JOIN (SELECT SO_HOA_DON, K.PHAN_TRAM_KM FROM HOADON H LEFT JOIN KHUYENMAI K "+
+                            "ON H.ID_KM = K.ID_KM "+
+                            "WHERE CONCAT(MONTH(NGAY_LAP), '-', YEAR(NGAY_LAP))='"+date+"' )HD "+
+                            "ON CT.SO_HOA_DON =HD.SO_HOA_DON JOIN SANPHAM S "+
+                            "ON CT.ID_SP = S.ID_SP "+
+                            "GROUP BY CT.ID_SP, S.TEN "+
+                            "ORDER BY DOANHTHU DESC";
+                    break;
+                default://Doanh thu theo năm
+                    sql ="SELECT TOP(5) CT.ID_SP ,S.TEN , SUM(ISNULL(CT.GIA*(100-HD.PHAN_TRAM_KM)/100,CT.GIA)*ct.SO_LUONG) AS DOANHTHU "+
+                            "FROM CTHOADON CT "+
+                            "INNER JOIN (SELECT SO_HOA_DON, K.PHAN_TRAM_KM FROM HOADON H LEFT JOIN KHUYENMAI K "+
+                            "ON H.ID_KM = K.ID_KM "+
+                            "WHERE YEAR(NGAY_LAP)='"+date+"' )HD "+
+                            "ON CT.SO_HOA_DON =HD.SO_HOA_DON JOIN SANPHAM S "+
+                            "ON CT.ID_SP = S.ID_SP "+
+                            "GROUP BY CT.ID_SP, S.TEN "+
+                            "ORDER BY DOANHTHU DESC";
+                    break;
+            }
+//            String sql = "SELECT TOP(5) CT.ID_SP ,S.TEN , concat(MONTH(H.NGAY_LAP) , '-' , YEAR(H.NGAY_LAP))  ,SUM(CT.GIA) FROM CTHOADON CT JOIN  HOADON H ON H.SO_HOA_DON = CT.SO_HOA_DON JOIN SANPHAM S ON S.ID_SP = CT.ID_SP GROUP BY CT.ID_SP ,concat(MONTH(H.NGAY_LAP) , '-' , YEAR(H.NGAY_LAP)),S.TEN HAVING concat(MONTH(H.NGAY_LAP) , '-' , YEAR(H.NGAY_LAP)) ='" + date + "'order by SUM(CT.GIA) DESC";
             ResultSet resultSet = statement.executeQuery(sql);
             while (resultSet.next()) {
                 DoanhThuTheoMonAn revenue = new DoanhThuTheoMonAn();
                 revenue.setId(resultSet.getInt(1));
                 revenue.setTenMon(resultSet.getString(2));
-//                revenue.setNgayLap(resultSet.getString(3));
-                revenue.setTongTien(resultSet.getFloat(4));
+                revenue.setTongTien(resultSet.getFloat(3));
                 doanhThu.add(revenue);
             }
         } catch (Exception e) {
@@ -138,7 +173,27 @@ public class DoanhThuDAO {
 
     }
 
-    public int soLuongHoaDon(String date) {
+    public int soLuongHoaDonNgay(String date) {
+
+        Connection con = null;
+        int sum = 0;
+        Statement statement = null;
+        try {
+
+            con = DatabaseHelper.openConnection();
+            statement = con.createStatement();
+            String sql = "select count(*) as tong from HOADON H WHERE  DATEDIFF(day,NGAY_LAP,'"+date+"')=0";
+            ResultSet resultSet = statement.executeQuery(sql);
+            while (resultSet.next()) {
+                sum += resultSet.getInt(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return sum;
+    }
+
+    public int soLuongHoaDonThang(String date) {
 
         Connection con = null;
         int sum = 0;
@@ -158,7 +213,27 @@ public class DoanhThuDAO {
         return sum;
     }
 
-    public int tongDoanhThuCuaNgay(String date) {
+    public int soLuongHoaDonNam(String date) {
+
+        Connection con = null;
+        int sum = 0;
+        Statement statement = null;
+        try {
+
+            con = DatabaseHelper.openConnection();
+            statement = con.createStatement();
+            String sql = "select count(*) as tong from HOADON H WHERE   YEAR(H.NGAY_LAP) = '" + date + "'";
+            ResultSet resultSet = statement.executeQuery(sql);
+            while (resultSet.next()) {
+                sum += resultSet.getInt(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return sum;
+    }
+
+    public int tongDoanhThuCuaThang(String date) {
         Connection con = null;
         int sum = 0;
         Statement statement = null;
@@ -167,6 +242,44 @@ public class DoanhThuDAO {
             con = DatabaseHelper.openConnection();
             statement = con.createStatement();
             String sql = "select sum(THANH_TIEN) from HOADON H WHERE concat(MONTH(H.NGAY_LAP) , '-' , YEAR(H.NGAY_LAP)) = '" + date + "'";
+            ResultSet resultSet = statement.executeQuery(sql);
+            while (resultSet.next()) {
+                sum += resultSet.getInt(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return sum;
+    }
+
+    public int tongDoanhThuCuaNgay(String date) {
+        Connection con = null;
+        int sum = 0;
+        Statement statement = null;
+        try {
+
+            con = DatabaseHelper.openConnection();
+            statement = con.createStatement();
+            String sql = "select sum(THANH_TIEN) from HOADON H WHERE DATEDIFF(DAY,NGAY_LAP, '" + date + "')=0";
+            ResultSet resultSet = statement.executeQuery(sql);
+            while (resultSet.next()) {
+                sum += resultSet.getInt(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return sum;
+    }
+    
+        public int tongDoanhThuCuaNam(String date) {
+        Connection con = null;
+        int sum = 0;
+        Statement statement = null;
+        try {
+
+            con = DatabaseHelper.openConnection();
+            statement = con.createStatement();
+            String sql = "select sum(THANH_TIEN) from HOADON H WHERE  YEAR(H.NGAY_LAP) = '" + date + "'";
             ResultSet resultSet = statement.executeQuery(sql);
             while (resultSet.next()) {
                 sum += resultSet.getInt(1);

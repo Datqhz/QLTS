@@ -123,7 +123,7 @@ public class OrderItem extends javax.swing.JPanel {
         lblFoodSize.setText("M");
 
         lblRemove.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        lblRemove.setText("X");
+        lblRemove.setIcon(new javax.swing.ImageIcon(getClass().getResource("/close.png"))); // NOI18N
 
         lblPrice.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblPrice.setText("50.000");
@@ -138,7 +138,7 @@ public class OrderItem extends javax.swing.JPanel {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(lblFoodSize, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
+                        .addComponent(lblFoodSize, javax.swing.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
                         .addGap(18, 18, 18)
                         .addComponent(lblPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(73, 73, 73)
@@ -156,7 +156,7 @@ public class OrderItem extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblFoodName)
-                    .addComponent(lblRemove))
+                    .addComponent(lblRemove, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(btnPlus, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -165,7 +165,7 @@ public class OrderItem extends javax.swing.JPanel {
                         .addComponent(lblFoodSize)
                         .addComponent(lblPrice))
                     .addComponent(btnMinus, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(9, Short.MAX_VALUE))
+                .addContainerGap(4, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 

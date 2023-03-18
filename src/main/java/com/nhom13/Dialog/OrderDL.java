@@ -47,8 +47,8 @@ public class OrderDL extends javax.swing.JDialog {
     private Employee nv;
     private boolean status;
 
-    public OrderDL(Employee nv ) {
-        super(new java.awt.Frame(),true);
+    public OrderDL(Employee nv) {
+        super(new java.awt.Frame(), true);
         initComponents();
         setLocationRelativeTo(null);
         panelFood.setLayout(new FlowLayout(FlowLayout.LEFT));
@@ -161,7 +161,7 @@ public class OrderDL extends javax.swing.JDialog {
     public float countBill() {
         float total = 0;
         for (ChiTietHoaDon tmp : foodChoosedList) {
-            total += tmp.getGia()*(100-sale.getGiaTri()) * tmp.getSoluong()/100;
+            total += tmp.getGia() * (100 - sale.getGiaTri()) * tmp.getSoluong() / 100;
         }
         return total;
     }
@@ -860,7 +860,7 @@ public class OrderDL extends javax.swing.JDialog {
     private void cbxDungItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbxDungItemStateChanged
         if (cbxDung.getSelectedIndex() == 0) {
             btnChonBan.setEnabled(true);
-        }else {
+        } else {
             btnChonBan.setEnabled(false);
             txtBan.setText("");
             banList.clear();
@@ -882,21 +882,8 @@ public class OrderDL extends javax.swing.JDialog {
             try {
 
                 HoaDonDao dao = new HoaDonDao();
-                BanDAO bandao = new BanDAO();
                 HoaDon bill = getInfoOrder();
-                dao.saveHoaDon(bill);
-                int idHD = dao.getIdHoaDon();
-                if (!bill.getListBan().isEmpty()) {
-                    for (Ban ban : banList) {
-                        dao.saveCTBAN(ban.getId(), idHD);
-                        ban.setTrangThai(true);
-                        bandao.update(ban);
-                    }
-
-                }
-                for (ChiTietHoaDon ct : foodChoosedList) {
-                    dao.saveCTHOADON(idHD, ct.getIdMon(), ct.getSoluong(), ct.getGia(), ct.getIdSize());
-                }
+                dao.saveHoaDon(bill, banList, foodChoosedList);
                 JOptionPane.showMessageDialog(this, "Tạo hóa đơn thành công!", "Thành công", JOptionPane.INFORMATION_MESSAGE);
                 status = true;
                 setVisible(false);
@@ -906,8 +893,6 @@ public class OrderDL extends javax.swing.JDialog {
 
             }
         }
-        //        System.out.println(countBill());
-        //        System.out.println(foodChoosedList);
     }//GEN-LAST:event_btnPrintActionPerformed
 
     private void btnResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetActionPerformed
