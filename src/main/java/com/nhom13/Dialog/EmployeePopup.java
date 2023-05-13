@@ -1,6 +1,5 @@
 package com.nhom13.Dialog;
 
-import com.nhom13.Support.UpperCaseFilter;
 import com.nhom13.DAO.EmployeeDAO;
 import com.nhom13.DAO.TaiKhoanDAO;
 import com.nhom13.DAO.VaiTroDAO;
@@ -23,7 +22,7 @@ public class EmployeePopup extends javax.swing.JDialog {
     private boolean status;
 //    Employee emp;
     List<VaiTro> roles;
-    Feature f;
+    Task f;
 
     public EmployeePopup(java.awt.Frame parent) {
         super(parent, true);
@@ -40,7 +39,7 @@ public class EmployeePopup extends javax.swing.JDialog {
         txtPhoneNumber.setDocument(new LimitQuantity(10));
         AbstractDocument document3 = (AbstractDocument) txtPhoneNumber.getDocument();
         document3.setDocumentFilter(new CharFilterNumber());
-        
+
     }
 
     public boolean isStatus() {
@@ -121,12 +120,12 @@ public class EmployeePopup extends javax.swing.JDialog {
         getData();
     }
 
-    public void setFeature(Feature f, Employee emp) {
+    public void setTask(Task f, Employee emp) {
         status = false;
         this.f = f;
-        if (f == Feature.EDIT) {
+        if (f == Task.EDIT) {
             setTitle("Cập nhật thông tin nhân viên");
-            btnFeature.setText("Sửa");
+            btnTask.setText("Sửa");
 //            this.emp =  emp;
             txtID.setEnabled(false);
             txtID.setText(emp.getMaNV());
@@ -152,12 +151,12 @@ public class EmployeePopup extends javax.swing.JDialog {
             cbxStatus.setSelectedIndex(emp.getAccount().isTrangThai() ? 0 : 1);
         } else {
             setTitle("Thêm nhân viên");
-            btnFeature.setText("Thêm");
+            btnTask.setText("Thêm");
             txtID.setEnabled(true);
             txtAccount.setEnabled(true);
             txtPassword.setEnabled(true);
             ResetForm();
-                    
+
         }
     }
 
@@ -178,7 +177,7 @@ public class EmployeePopup extends javax.swing.JDialog {
         jLabel5 = new javax.swing.JLabel();
         txtPassword = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
-        btnFeature = new com.nhom13.swingCustom.ButtonCustom();
+        btnTask = new com.nhom13.swingCustom.ButtonCustom();
         btnReset = new com.nhom13.swingCustom.ButtonCustom();
         btnClose = new com.nhom13.swingCustom.ButtonCustom();
         jLabel1 = new javax.swing.JLabel();
@@ -252,18 +251,18 @@ public class EmployeePopup extends javax.swing.JDialog {
         jLabel6.setForeground(new java.awt.Color(0, 0, 102));
         jLabel6.setText("Mật khẩu");
 
-        btnFeature.setBorder(null);
-        btnFeature.setForeground(new java.awt.Color(255, 255, 255));
-        btnFeature.setText("Thêm");
-        btnFeature.setBorderColor(new java.awt.Color(255, 255, 255));
-        btnFeature.setColor(new java.awt.Color(0, 0, 204));
-        btnFeature.setColorClick(new java.awt.Color(0, 51, 255));
-        btnFeature.setColorOver(new java.awt.Color(0, 255, 255));
-        btnFeature.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnFeature.setRadius(10);
-        btnFeature.addActionListener(new java.awt.event.ActionListener() {
+        btnTask.setBorder(null);
+        btnTask.setForeground(new java.awt.Color(255, 255, 255));
+        btnTask.setText("Thêm");
+        btnTask.setBorderColor(new java.awt.Color(255, 255, 255));
+        btnTask.setColor(new java.awt.Color(0, 0, 204));
+        btnTask.setColorClick(new java.awt.Color(0, 51, 255));
+        btnTask.setColorOver(new java.awt.Color(0, 255, 255));
+        btnTask.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnTask.setRadius(10);
+        btnTask.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnFeatureActionPerformed(evt);
+                btnTaskActionPerformed(evt);
             }
         });
 
@@ -394,7 +393,7 @@ public class EmployeePopup extends javax.swing.JDialog {
                         .addContainerGap()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel15)
-                            .addComponent(btnFeature, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnTask, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel12)
@@ -480,7 +479,7 @@ public class EmployeePopup extends javax.swing.JDialog {
                     .addComponent(cbxStatus, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(71, 71, 71)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnFeature, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnTask, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnReset, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnClose, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(20, 20, 20))
@@ -500,18 +499,18 @@ public class EmployeePopup extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnFeatureActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFeatureActionPerformed
+    private void btnTaskActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTaskActionPerformed
         String manv = txtID.getText().trim();
         String ho = txtFirstName.getText().trim();
         String ten = txtLastName.getText().trim();
         String account = txtAccount.getText();
         String password = txtPassword.getText();
         String sdt = txtPhoneNumber.getText();
-        String diachi =  txtAddress.getText();
+        String diachi = txtAddress.getText();
         int roleIndex = cbxRole.getSelectedIndex();
         boolean tt = (cbxStatus.getSelectedIndex() == 0);
         String sex = getSex();
-        if (f == Feature.ADD) {
+        if (f == Task.ADD) {
             if (check(manv) || check(ho) || check(ten) || check(account) || check(password)) {
                 JOptionPane.showMessageDialog(new java.awt.Frame(), "Vui lòng điền đủ thông tin yêu cầu.", "Thông báo", JOptionPane.WARNING_MESSAGE);
             } else if (checkID(manv)) {
@@ -530,14 +529,14 @@ public class EmployeePopup extends javax.swing.JDialog {
                 txtPassword.setText("");
             } else {
                 try {
-                    Employee temp = new Employee(manv, ho, ten, sdt,  sex, diachi);
+                    Employee temp = new Employee(manv, ho, ten, sdt, sex, diachi);
                     EmployeeDAO dao = new EmployeeDAO();
                     TaiKhoanDAO tkDao = new TaiKhoanDAO();
-                    TaiKhoan acc = new TaiKhoan(account, password, tt, roleIndex+1);
+                    TaiKhoan acc = new TaiKhoan(account, password, tt, roleIndex + 1);
                     tkDao.save(acc);
                     temp.setAccount(acc);
                     dao.saveEmployee(temp);
-                    
+
                     JOptionPane.showMessageDialog(new java.awt.Frame(), "Thêm nhân viên thành công.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
                     status = true;
                     setVisible(false);
@@ -550,7 +549,7 @@ public class EmployeePopup extends javax.swing.JDialog {
                 JOptionPane.showMessageDialog(new java.awt.Frame(), "Vui lòng điền đủ thông tin yêu cầu.", "Thông báo", JOptionPane.WARNING_MESSAGE);
             } else {
                 try {
-                    TaiKhoan tk = new TaiKhoan(account, password, tt,roleIndex+1 );
+                    TaiKhoan tk = new TaiKhoan(account, password, tt, roleIndex + 1);
 
                     Employee temp = new Employee(manv, ho, ten, sdt, sex, diachi);
                     temp.setAccount(tk);
@@ -565,17 +564,17 @@ public class EmployeePopup extends javax.swing.JDialog {
             }
             ResetForm();
         }
-        
+
 //        System.out.println(roles.get(roleIndex));
 
-    }//GEN-LAST:event_btnFeatureActionPerformed
+    }//GEN-LAST:event_btnTaskActionPerformed
 
     private void btnCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseActionPerformed
         setVisible(false);
     }//GEN-LAST:event_btnCloseActionPerformed
 
     private void btnResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetActionPerformed
-        if (f == Feature.ADD) {
+        if (f == Task.ADD) {
             ResetForm();
         } else {
             txtFirstName.setText("");
@@ -617,8 +616,8 @@ public class EmployeePopup extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.nhom13.swingCustom.ButtonCustom btnClose;
-    private com.nhom13.swingCustom.ButtonCustom btnFeature;
     private com.nhom13.swingCustom.ButtonCustom btnReset;
+    private com.nhom13.swingCustom.ButtonCustom btnTask;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JComboBox<String> cbxRole;
     private javax.swing.JComboBox<String> cbxStatus;

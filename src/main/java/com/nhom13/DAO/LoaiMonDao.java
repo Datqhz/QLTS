@@ -64,7 +64,6 @@ public class LoaiMonDao {
         Connection con = null;
         try {
             con = DatabaseHelper.openConnection();
-            int id = loaiMon.getId();
             String name = loaiMon.getTen();
             String sql = "INSERT INTO LOAISP(TEN_LOAI_SP) VALUES( ? ) ";
             state = con.prepareCall(sql);

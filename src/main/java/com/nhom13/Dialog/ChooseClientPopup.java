@@ -1,6 +1,5 @@
 package com.nhom13.Dialog;
 
-import com.nhom13.Support.UpperCaseFilter;
 import com.nhom13.DAO.KhachHangDAO;
 import com.nhom13.Entity.KhachHang;
 import static com.nhom13.Support.UpperCaseFilter.convertToUpperCase;
@@ -10,7 +9,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.text.AbstractDocument;
 
 public class ChooseClientPopup extends javax.swing.JDialog {
 
@@ -229,7 +227,7 @@ public class ChooseClientPopup extends javax.swing.JDialog {
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         ClientPopup popup = new ClientPopup(new java.awt.Frame());
-        popup.setFeature(Feature.ADD, null);
+        popup.setTask(Task.ADD, null);
         popup.setVisible(true);
         if (popup.isStatus()) {
             getData();
@@ -262,7 +260,7 @@ public class ChooseClientPopup extends javax.swing.JDialog {
 
     private void txtSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyReleased
         convertToUpperCase(txtSearch);
-        
+
     }//GEN-LAST:event_txtSearchKeyReleased
 
 //    public static void main(String args[]) {

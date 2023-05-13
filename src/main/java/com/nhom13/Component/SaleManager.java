@@ -1,7 +1,7 @@
 package com.nhom13.Component;
 
 import com.nhom13.DAO.KhuyenMaiDAO;
-import com.nhom13.Dialog.Feature;
+import com.nhom13.Dialog.Task;
 import com.nhom13.Dialog.SalePopup;
 import com.nhom13.Entity.Employee;
 import com.nhom13.Entity.KhuyenMai;
@@ -75,7 +75,7 @@ public class SaleManager extends ManagerView {
             @Override
             public void actionPerformed(ActionEvent e) {
                 form.setStatus(false);
-                form.setFeature(Feature.ADD, new KhuyenMai());
+                form.setTask(Task.ADD, new KhuyenMai());
                 form.setVisible(true);
                 if (form.isStatus()) {
                     loadData();
@@ -86,7 +86,7 @@ public class SaleManager extends ManagerView {
             @Override
             public void actionPerformed(ActionEvent e) {
                 form.setStatus(false);
-                form.setFeature(Feature.EDIT, getSaleIsSelected());
+                form.setTask(Task.EDIT, getSaleIsSelected());
                 form.setVisible(true);
                 if (form.isStatus()) {
                     loadData();

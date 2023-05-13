@@ -8,9 +8,9 @@ package com.nhom13.Entity;
 public class CTSP {
     private int idSanPham;
     private int idSize;
-    private int gia;
+    private double gia;
 
-    public CTSP(int idSanPham, int idSize, int gia) {
+    public CTSP(int idSanPham, int idSize, double gia) {
         this.idSanPham = idSanPham;
         this.idSize = idSize;
         this.gia = gia;
@@ -37,11 +37,11 @@ public class CTSP {
         return "CTSP{" + "idSanPham=" + idSanPham + ", idSize=" + idSize + ", gia=" + gia + '}';
     }
 
-    public int getGia() {
+    public double getGia() {
         return gia;
     }
 
-    public void setGia(int gia) {
+    public void setGia(double gia) {
         this.gia = gia;
     }
 

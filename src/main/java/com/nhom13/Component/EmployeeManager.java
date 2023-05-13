@@ -2,7 +2,7 @@ package com.nhom13.Component;
 
 import com.nhom13.DAO.EmployeeDAO;
 import com.nhom13.Dialog.EmployeePopup;
-import com.nhom13.Dialog.Feature;
+import com.nhom13.Dialog.Task;
 import com.nhom13.Entity.Employee;
 import com.nhom13.Support.CharFilterAlphabet;
 import java.awt.event.ActionEvent;
@@ -82,7 +82,7 @@ public class EmployeeManager extends ManagerView {
         btnAdd.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                dialog.setFeature(Feature.ADD, null);
+                dialog.setTask(Task.ADD, null);
                 dialog.setStatus(false);
                 dialog.setVisible(true);
                 if (dialog.isStatus()) {
@@ -96,7 +96,7 @@ public class EmployeeManager extends ManagerView {
             public void actionPerformed(ActionEvent e) {
                 Employee temp = getRowIsSelected();
 //                System.out.println(temp.getAccount().toString());
-                dialog.setFeature(Feature.EDIT, temp);
+                dialog.setTask(Task.EDIT, temp);
                 dialog.setStatus(false);
                 dialog.setVisible(true);
                 if (dialog.isStatus()) {

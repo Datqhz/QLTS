@@ -1,18 +1,16 @@
 package com.nhom13.Dialog;
 
-import com.nhom13.Support.UpperCaseFilter;
 import com.nhom13.DAO.LoaiMonDao;
 import com.nhom13.Entity.LoaiMon;
 import com.nhom13.Support.CharFilterAlphabet;
 import static com.nhom13.Support.UpperCaseFilter.convertToUpperCase;
-import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.text.AbstractDocument;
 
 public class FoodCategoryPopup extends javax.swing.JDialog {
 
     private boolean status;
-    Feature featute;
+    Task task;
     private LoaiMon loaiMon;
 
     public FoodCategoryPopup(java.awt.Frame parent) {
@@ -33,15 +31,15 @@ public class FoodCategoryPopup extends javax.swing.JDialog {
     }
 
     // set chức năng cho dialog(thêm hoặc sửa)
-    public void setFeature(Feature task, LoaiMon loaiMon) {
-        featute = task;
-        if (task == Feature.ADD) {//thêm
+    public void setTask(Task task, LoaiMon loaiMon) {
+        this.task = task;
+        if (task == Task.ADD) {//thêm
             setTitle("Thêm loại món");
-            btnFeature.setText("Thêm");
+            btnTask.setText("Thêm");
             this.loaiMon = null;
         } else {//sửa
             setTitle("Sủa thông tin loại món");
-            btnFeature.setText("Thay đổi");
+            btnTask.setText("Thay đổi");
             this.loaiMon = loaiMon;
             txtCategoryName.setText(loaiMon.getTen());
         }
@@ -69,7 +67,7 @@ public class FoodCategoryPopup extends javax.swing.JDialog {
         jPanel1 = new javax.swing.JPanel();
         txtCategoryName = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
-        btnFeature = new com.nhom13.swingCustom.ButtonCustom();
+        btnTask = new com.nhom13.swingCustom.ButtonCustom();
         btnClose = new com.nhom13.swingCustom.ButtonCustom();
         jLabel2 = new javax.swing.JLabel();
 
@@ -88,18 +86,18 @@ public class FoodCategoryPopup extends javax.swing.JDialog {
         jLabel1.setForeground(new java.awt.Color(0, 0, 102));
         jLabel1.setText("Tên loại");
 
-        btnFeature.setBorder(null);
-        btnFeature.setForeground(new java.awt.Color(255, 255, 255));
-        btnFeature.setText("Thêm");
-        btnFeature.setBorderColor(new java.awt.Color(255, 255, 255));
-        btnFeature.setColor(new java.awt.Color(0, 0, 204));
-        btnFeature.setColorClick(new java.awt.Color(0, 0, 153));
-        btnFeature.setColorOver(new java.awt.Color(0, 255, 255));
-        btnFeature.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnFeature.setRadius(10);
-        btnFeature.addActionListener(new java.awt.event.ActionListener() {
+        btnTask.setBorder(null);
+        btnTask.setForeground(new java.awt.Color(255, 255, 255));
+        btnTask.setText("Thêm");
+        btnTask.setBorderColor(new java.awt.Color(255, 255, 255));
+        btnTask.setColor(new java.awt.Color(0, 0, 204));
+        btnTask.setColorClick(new java.awt.Color(0, 0, 153));
+        btnTask.setColorOver(new java.awt.Color(0, 255, 255));
+        btnTask.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnTask.setRadius(10);
+        btnTask.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnFeatureActionPerformed(evt);
+                btnTaskActionPerformed(evt);
             }
         });
 
@@ -129,7 +127,7 @@ public class FoodCategoryPopup extends javax.swing.JDialog {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(43, 43, 43)
-                        .addComponent(btnFeature, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnTask, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(29, 29, 29)
                         .addComponent(btnClose, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -152,7 +150,7 @@ public class FoodCategoryPopup extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnClose, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnFeature, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnTask, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -170,35 +168,35 @@ public class FoodCategoryPopup extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnFeatureActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFeatureActionPerformed
+    private void btnTaskActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTaskActionPerformed
         String tenLoaiMon = txtCategoryName.getText().trim();
         if (tenLoaiMon == null || tenLoaiMon.length() == 0) {
-            JOptionPane.showMessageDialog(rootPane, "Tên loại món không được để trống","Lỗi",JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(rootPane, "Tên loại món không được để trống", "Thông báo", JOptionPane.WARNING_MESSAGE);
         } else {
             LoaiMon lm = new LoaiMon(tenLoaiMon);
-
+            System.out.println(lm.toString());
             try {
                 LoaiMonDao lmd = new LoaiMonDao();
-                if (featute == Feature.ADD) {
+                if (task == Task.ADD) {
                     if (checkTenLoai(tenLoaiMon)) {
-                        JOptionPane.showMessageDialog(rootPane, "Tên loại món đã tồn tại ","Lỗi",JOptionPane.WARNING_MESSAGE);
+                        JOptionPane.showMessageDialog(rootPane, "Tên loại món đã tồn tại ", "Thông báo", JOptionPane.WARNING_MESSAGE);
                     } else {
                         lmd.save(lm);
-                        JOptionPane.showMessageDialog(rootPane, "Lưu thông tin thành công","Thành công", JOptionPane.INFORMATION_MESSAGE);
+                        JOptionPane.showMessageDialog(rootPane, "Lưu thông tin thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
                     }
 
                 } else {
                     if (loaiMon.getTen().equals(tenLoaiMon)) {
                         lm.setId(loaiMon.getId());
                         lmd.update(lm);
-                        JOptionPane.showMessageDialog(rootPane, "Cập nhật thông tin thành công","Thành công", JOptionPane.INFORMATION_MESSAGE);
+                        JOptionPane.showMessageDialog(rootPane, "Cập nhật thông tin thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
                     } else {
                         if (checkTenLoai(tenLoaiMon)) {
-                            JOptionPane.showMessageDialog(rootPane, "Tên loại món đã tồn tại","Lỗi",JOptionPane.WARNING_MESSAGE);
+                            JOptionPane.showMessageDialog(rootPane, "Tên loại món đã tồn tại", "Thông báo", JOptionPane.WARNING_MESSAGE);
                         } else {
                             lm.setId(loaiMon.getId());
                             lmd.update(lm);
-                            JOptionPane.showMessageDialog(rootPane, "Cập nhật thông tin thành công","Thành công", JOptionPane.INFORMATION_MESSAGE);
+                            JOptionPane.showMessageDialog(rootPane, "Cập nhật thông tin thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
                         }
                     }
 
@@ -213,7 +211,7 @@ public class FoodCategoryPopup extends javax.swing.JDialog {
             }
         }
 
-    }//GEN-LAST:event_btnFeatureActionPerformed
+    }//GEN-LAST:event_btnTaskActionPerformed
 
     private void btnCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseActionPerformed
         txtCategoryName.setText("");
@@ -265,7 +263,7 @@ public class FoodCategoryPopup extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.nhom13.swingCustom.ButtonCustom btnClose;
-    private com.nhom13.swingCustom.ButtonCustom btnFeature;
+    private com.nhom13.swingCustom.ButtonCustom btnTask;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;

@@ -1,5 +1,5 @@
 package com.nhom13.Dialog;
 
-public enum Feature {
+public enum Task {
     ADD, EDIT
 }

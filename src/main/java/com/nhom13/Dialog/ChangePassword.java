@@ -1,6 +1,5 @@
 package com.nhom13.Dialog;
 
-import com.nhom13.DAO.TaiKhoanDAO;
 import javax.swing.JOptionPane;
 
 public class ChangePassword extends javax.swing.JDialog {

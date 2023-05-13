@@ -6,10 +6,10 @@ public class ChiTietHoaDon {
     private int idSize ;
     private int idMon ;
     private int soluong;
-    private float gia ;
+    private double gia ;
     private String tenmon;
 
-    public ChiTietHoaDon(int soHoaDon, int idSize, int idMon, int soluong, float gia) {
+    public ChiTietHoaDon(int soHoaDon, int idSize, int idMon, int soluong, double gia) {
         this.soHoaDon = soHoaDon;
         this.idSize = idSize;
         this.idMon = idMon;
@@ -17,7 +17,7 @@ public class ChiTietHoaDon {
         this.gia = gia;
     }
 
-    public ChiTietHoaDon(int idSize, int idMon, int soluong, float gia) {
+    public ChiTietHoaDon(int idSize, int idMon, int soluong, double gia) {
         this.idSize = idSize;
         this.idMon = idMon;
         this.soluong = soluong;
@@ -72,11 +72,11 @@ public class ChiTietHoaDon {
         this.soluong = soluong;
     }
 
-    public float getGia() {
+    public double getGia() {
         return gia;
     }
 
-    public void setGia(float gia) {
+    public void setGia(double gia) {
         this.gia = gia;
     }
     

@@ -7,7 +7,7 @@ public class DatabaseHelper {
 
     public static Connection openConnection() throws Exception {
         Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-        String connect = "jdbc:sqlserver://localhost:1433;databaseName=BANTRASUA2;user=sa;password=123456;encrypt=false";
+        String connect = "jdbc:sqlserver://localhost:1433;databaseName=BANTRASUA;user=sa;password=123456;encrypt=false";
         Connection con = DriverManager.getConnection(connect);
         return con;
     }

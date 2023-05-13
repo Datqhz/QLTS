@@ -1,20 +1,15 @@
 package com.nhom13.Dialog;
 
-import com.nhom13.Support.UpperCaseFilter;
 import com.nhom13.DAO.BanDAO;
-import com.nhom13.DAO.CTBanDAO;
 import com.nhom13.Entity.Ban;
-import com.nhom13.Entity.ChiTietBan;
-import com.nhom13.Entity.KhuyenMai;
 import static com.nhom13.Support.UpperCaseFilter.convertToUpperCase;
 import javax.swing.JOptionPane;
-import javax.swing.text.AbstractDocument;
 
 public class TablePopup extends javax.swing.JDialog {
 
     private String maNV;
     private boolean status;
-    Feature feature;
+    Task task;
     private Ban ban;
 
     public TablePopup(java.awt.Frame parent, String maNV) {
@@ -34,12 +29,12 @@ public class TablePopup extends javax.swing.JDialog {
         this.status = status;
     }
 
-    public void setFeature(Feature task, Ban ban) {
-        feature = task;
+    public void setTask(Task task, Ban ban) {
+        this.task = task;
 
-        if (task == Feature.EDIT) {
+        if (task == Task.EDIT) {
             setTitle("Sủa thông tin bàn");
-            btnFeature.setText("Sửa");
+            btnTask.setText("Sửa");
             this.ban = ban;
             txtTenBan.setText(ban.getTenBan());
             txtTenBan.setEnabled(false);
@@ -47,7 +42,7 @@ public class TablePopup extends javax.swing.JDialog {
         } else {
             setTitle("Thêm bàn");
             txtTenBan.setEnabled(true);
-            btnFeature.setText("Thêm");
+            btnTask.setText("Thêm");
             this.ban = new Ban();
             txtTenBan.setText("");
             cbxStatus.setSelectedIndex(-1);
@@ -79,7 +74,7 @@ public class TablePopup extends javax.swing.JDialog {
         txtTenBan = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         btnClose = new com.nhom13.swingCustom.ButtonCustom();
-        btnFeature = new com.nhom13.swingCustom.ButtonCustom();
+        btnTask = new com.nhom13.swingCustom.ButtonCustom();
         jLabel3 = new javax.swing.JLabel();
         cbxStatus = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
@@ -114,18 +109,18 @@ public class TablePopup extends javax.swing.JDialog {
             }
         });
 
-        btnFeature.setBorder(null);
-        btnFeature.setForeground(new java.awt.Color(255, 255, 255));
-        btnFeature.setText("Thêm");
-        btnFeature.setBorderColor(new java.awt.Color(255, 255, 255));
-        btnFeature.setColor(new java.awt.Color(0, 0, 204));
-        btnFeature.setColorClick(new java.awt.Color(0, 0, 153));
-        btnFeature.setColorOver(new java.awt.Color(0, 255, 255));
-        btnFeature.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnFeature.setRadius(10);
-        btnFeature.addActionListener(new java.awt.event.ActionListener() {
+        btnTask.setBorder(null);
+        btnTask.setForeground(new java.awt.Color(255, 255, 255));
+        btnTask.setText("Thêm");
+        btnTask.setBorderColor(new java.awt.Color(255, 255, 255));
+        btnTask.setColor(new java.awt.Color(0, 0, 204));
+        btnTask.setColorClick(new java.awt.Color(0, 0, 153));
+        btnTask.setColorOver(new java.awt.Color(0, 255, 255));
+        btnTask.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnTask.setRadius(10);
+        btnTask.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnFeatureActionPerformed(evt);
+                btnTaskActionPerformed(evt);
             }
         });
 
@@ -149,7 +144,7 @@ public class TablePopup extends javax.swing.JDialog {
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 7, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtTenBan, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(btnFeature, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnTask, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(34, 34, 34)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -174,7 +169,7 @@ public class TablePopup extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnClose, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnFeature, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnTask, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(16, 16, 16))
         );
 
@@ -192,7 +187,7 @@ public class TablePopup extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnFeatureActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFeatureActionPerformed
+    private void btnTaskActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTaskActionPerformed
         String tenBan = txtTenBan.getText().trim();
         boolean tt = cbxStatus.getSelectedIndex() == 0 ? false : true;
         if (tenBan.length() == 0 || tenBan.equals("") && cbxStatus.getSelectedIndex() >= 0) {
@@ -200,11 +195,10 @@ public class TablePopup extends javax.swing.JDialog {
         } else {
 
             try {
-
                 BanDAO dao = new BanDAO();
-                if (feature == Feature.ADD) {
+                if (task == Task.ADD) {
                     if (checkTableName(tenBan)) {
-                        JOptionPane.showMessageDialog(rootPane, "Tên bàn đã tồn tại.","Thông báo", JOptionPane.WARNING_MESSAGE);
+                        JOptionPane.showMessageDialog(rootPane, "Tên bàn đã tồn tại.", "Thông báo", JOptionPane.WARNING_MESSAGE);
                     } else {
                         Ban ban1 = new Ban();
                         long millis = System.currentTimeMillis();
@@ -212,7 +206,7 @@ public class TablePopup extends javax.swing.JDialog {
                         ban1.setTenBan(tenBan);
                         ban1.setNgayTao(date);
                         ban1.setTrangThai(tt);
-                        JOptionPane.showMessageDialog(rootPane, "Thêm bàn thành công","Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                        JOptionPane.showMessageDialog(rootPane, "Thêm bàn thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
                         dao.save(ban1);
                         status = true;
                         this.dispose();
@@ -222,11 +216,11 @@ public class TablePopup extends javax.swing.JDialog {
                     if (tt != ban.getTrangThai()) {
                         ban.setTrangThai(tt);
                         dao.update(ban);
-                        JOptionPane.showMessageDialog(rootPane, "Cập nhật trạng thái thành công","Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                        JOptionPane.showMessageDialog(rootPane, "Cập nhật trạng thái thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
                         status = true;
                         this.dispose();
                     } else {
-                        JOptionPane.showMessageDialog(rootPane, "Trạng thái bàn chưa được thay đổi.","Thông báo", JOptionPane.WARNING_MESSAGE);
+                        JOptionPane.showMessageDialog(rootPane, "Trạng thái bàn chưa được thay đổi.", "Thông báo", JOptionPane.WARNING_MESSAGE);
                     }
 
                 }
@@ -234,7 +228,7 @@ public class TablePopup extends javax.swing.JDialog {
             } catch (Exception e) {
             }
         }
-    }//GEN-LAST:event_btnFeatureActionPerformed
+    }//GEN-LAST:event_btnTaskActionPerformed
 
     private void btnCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseActionPerformed
         this.dispose();
@@ -285,7 +279,7 @@ public class TablePopup extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.nhom13.swingCustom.ButtonCustom btnClose;
-    private com.nhom13.swingCustom.ButtonCustom btnFeature;
+    private com.nhom13.swingCustom.ButtonCustom btnTask;
     private javax.swing.JComboBox<String> cbxStatus;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

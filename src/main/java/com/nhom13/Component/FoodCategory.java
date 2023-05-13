@@ -3,7 +3,7 @@ package com.nhom13.Component;
 import com.nhom13.DAO.KhuyenMaiDAO;
 import com.nhom13.DAO.LoaiMonDao;
 import com.nhom13.DAO.MonAnDAO;
-import com.nhom13.Dialog.Feature;
+import com.nhom13.Dialog.Task;
 import com.nhom13.Dialog.FoodCategoryPopup;
 import com.nhom13.Entity.Employee;
 import com.nhom13.Entity.KhuyenMai;
@@ -85,7 +85,7 @@ public class FoodCategory extends ManagerView {
             @Override
             public void actionPerformed(ActionEvent e) {
                 form.setStatus(false);
-                form.setFeature(Feature.ADD, null);
+                form.setTask(Task.ADD, null);
                 form.setVisible(true);
                 if (form.isStatus()) {
                     loadData();
@@ -96,7 +96,7 @@ public class FoodCategory extends ManagerView {
             @Override
             public void actionPerformed(ActionEvent e) {
                 form.setStatus(false);
-                form.setFeature(Feature.EDIT, getCategoryIsSelected());
+                form.setTask(Task.EDIT, getCategoryIsSelected());
                 form.setVisible(true);
                 if (form.isStatus()) {
                     loadData();

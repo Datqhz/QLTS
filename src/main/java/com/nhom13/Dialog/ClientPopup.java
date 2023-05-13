@@ -1,13 +1,10 @@
 package com.nhom13.Dialog;
 
-import com.nhom13.Support.UpperCaseFilter;
 import com.nhom13.DAO.KhachHangDAO;
 import com.nhom13.Entity.KhachHang;
 import com.nhom13.Support.CharFilterAlphabet;
 import com.nhom13.Support.CharFilterNumber;
 import static com.nhom13.Support.UpperCaseFilter.convertToUpperCase;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.JOptionPane;
 import javax.swing.text.AbstractDocument;
@@ -15,7 +12,7 @@ import javax.swing.text.AbstractDocument;
 public class ClientPopup extends javax.swing.JDialog {
 
     private boolean status;
-    Feature feature;
+    Task task;
     private KhachHang client;
 
     public ClientPopup(java.awt.Frame parent) {
@@ -30,18 +27,18 @@ public class ClientPopup extends javax.swing.JDialog {
         document3.setDocumentFilter(new CharFilterNumber());
     }
 
-    public void setFeature(Feature task, KhachHang temp) {
-        feature = task;
-        if (task == Feature.EDIT) {
+    public void setTask(Task task, KhachHang temp) {
+        this.task = task;
+        if (task == Task.EDIT) {
             setTitle("Sửa thông tin khách hàng");
-            btnFeature.setText("Sửa");
+            btnTask.setText("Sửa");
             client = temp;
             txtFirstName.setText(temp.getHo());
             txtLastName.setText(temp.getTen());
             dateBirthday.setDate(temp.getNgaySinh());
             txtPhoneNumber.setText((temp.getSdt() == null) ? "" : temp.getSdt());
         } else {
-            btnFeature.setText("Thêm");
+            btnTask.setText("Thêm");
             setTitle("Thêm khách hàng");
             client = null;
             ResetForm();
@@ -65,7 +62,7 @@ public class ClientPopup extends javax.swing.JDialog {
         dateBirthday.setDate(null);
     }
 
-    public boolean check(String s) {
+    public boolean checkBlank(String s) {
         return s.equals("");
     }
 
@@ -86,7 +83,7 @@ public class ClientPopup extends javax.swing.JDialog {
         jLabel1 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        btnFeature = new com.nhom13.swingCustom.ButtonCustom();
+        btnTask = new com.nhom13.swingCustom.ButtonCustom();
         btnReset = new com.nhom13.swingCustom.ButtonCustom();
         btnClose = new com.nhom13.swingCustom.ButtonCustom();
 
@@ -136,18 +133,18 @@ public class ClientPopup extends javax.swing.JDialog {
         jLabel7.setForeground(new java.awt.Color(255, 0, 0));
         jLabel7.setText("*");
 
-        btnFeature.setBorder(null);
-        btnFeature.setForeground(new java.awt.Color(255, 255, 255));
-        btnFeature.setText("Thêm");
-        btnFeature.setBorderColor(new java.awt.Color(255, 255, 255));
-        btnFeature.setColor(new java.awt.Color(0, 51, 204));
-        btnFeature.setColorClick(new java.awt.Color(0, 102, 255));
-        btnFeature.setColorOver(new java.awt.Color(0, 255, 255));
-        btnFeature.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnFeature.setRadius(10);
-        btnFeature.addActionListener(new java.awt.event.ActionListener() {
+        btnTask.setBorder(null);
+        btnTask.setForeground(new java.awt.Color(255, 255, 255));
+        btnTask.setText("Thêm");
+        btnTask.setBorderColor(new java.awt.Color(255, 255, 255));
+        btnTask.setColor(new java.awt.Color(0, 51, 204));
+        btnTask.setColorClick(new java.awt.Color(0, 102, 255));
+        btnTask.setColorOver(new java.awt.Color(0, 255, 255));
+        btnTask.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnTask.setRadius(10);
+        btnTask.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnFeatureActionPerformed(evt);
+                btnTaskActionPerformed(evt);
             }
         });
 
@@ -218,7 +215,7 @@ public class ClientPopup extends javax.swing.JDialog {
                             .addComponent(lblError, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(30, 30, 30)
-                .addComponent(btnFeature, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnTask, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnReset, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -252,7 +249,7 @@ public class ClientPopup extends javax.swing.JDialog {
                     .addComponent(dateBirthday, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(44, 44, 44)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnFeature, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnTask, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnReset, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnClose, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(43, 43, 43))
@@ -272,20 +269,20 @@ public class ClientPopup extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnFeatureActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFeatureActionPerformed
+    private void btnTaskActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTaskActionPerformed
         String ho = txtFirstName.getText().trim();
         String ten = txtLastName.getText().trim();
         String sdt = txtPhoneNumber.getText().trim();
         Date ns = dateBirthday.getDate();
 
-        if (check(ho) || check(ten) || ns == null) {
+        if (checkBlank(ho) || checkBlank(ten) || ns == null) {
 //            lblError.setText("Vui lòng nhập đầy đủ thông tin!");
             JOptionPane.showMessageDialog(new java.awt.Frame(), "Vui lòng nhập đầy đủ thông tin!", "Thông báo", JOptionPane.WARNING_MESSAGE);
         } else {
 
             try {
                 KhachHangDAO dao = new KhachHangDAO();
-                if (feature == Feature.ADD) {
+                if (task == Task.ADD) {
                     KhachHang temp = new KhachHang(ho, ten, sdt, ns);
                     dao.save(temp);
                     client = temp;
@@ -303,7 +300,7 @@ public class ClientPopup extends javax.swing.JDialog {
                 System.out.println("Thêm không thành công.");
             }
         }
-    }//GEN-LAST:event_btnFeatureActionPerformed
+    }//GEN-LAST:event_btnTaskActionPerformed
 
     private void btnCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseActionPerformed
         setVisible(false);
@@ -362,8 +359,8 @@ public class ClientPopup extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.nhom13.swingCustom.ButtonCustom btnClose;
-    private com.nhom13.swingCustom.ButtonCustom btnFeature;
     private com.nhom13.swingCustom.ButtonCustom btnReset;
+    private com.nhom13.swingCustom.ButtonCustom btnTask;
     private com.toedter.calendar.JDateChooser dateBirthday;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

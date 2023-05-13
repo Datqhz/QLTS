@@ -4,6 +4,7 @@ import com.nhom13.Component.TableItem;
 import com.nhom13.DAO.BanDAO;
 import com.nhom13.Entity.Ban;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -22,6 +23,9 @@ public class ChooseTable extends javax.swing.JDialog {
         panelBan.setLayout(new FlowLayout(FlowLayout.LEFT));
         loadBan();
         setLocationRelativeTo(null);
+        panelBan.setPreferredSize(new Dimension(300, 438));
+        panelBan.setMaximumSize(new Dimension(300, 438));
+        panelBan.setMinimumSize(new Dimension(300, 438));
     }
 
     public void getBanTrong() {
@@ -81,6 +85,7 @@ public class ChooseTable extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         panelBan.setBackground(new java.awt.Color(255, 255, 255));
+        panelBan.setMinimumSize(new java.awt.Dimension(300, 438));
 
         javax.swing.GroupLayout panelBanLayout = new javax.swing.GroupLayout(panelBan);
         panelBan.setLayout(panelBanLayout);

@@ -53,7 +53,7 @@
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="txtTenBan" min="-2" pref="103" max="-2" attributes="0"/>
                       </Group>
-                      <Component id="btnFeature" min="-2" pref="114" max="-2" attributes="0"/>
+                      <Component id="btnTask" min="-2" pref="114" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
@@ -85,7 +85,7 @@
                   <EmptySpace pref="31" max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="btnClose" alignment="3" min="-2" pref="28" max="-2" attributes="0"/>
-                      <Component id="btnFeature" alignment="3" min="-2" pref="28" max="-2" attributes="0"/>
+                      <Component id="btnTask" alignment="3" min="-2" pref="28" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
               </Group>
@@ -144,7 +144,7 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCloseActionPerformed"/>
           </Events>
         </Component>
-        <Component class="com.nhom13.swingCustom.ButtonCustom" name="btnFeature">
+        <Component class="com.nhom13.swingCustom.ButtonCustom" name="btnTask">
           <Properties>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="null"/>
@@ -171,7 +171,7 @@
             <Property name="radius" type="int" value="10"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnFeatureActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnTaskActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel3">

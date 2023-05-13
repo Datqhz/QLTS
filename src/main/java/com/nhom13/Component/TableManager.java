@@ -3,7 +3,7 @@ package com.nhom13.Component;
 import com.nhom13.DAO.BanDAO;
 import com.nhom13.DAO.KhuyenMaiDAO;
 import com.nhom13.Dialog.TablePopup;
-import com.nhom13.Dialog.Feature;
+import com.nhom13.Dialog.Task;
 import com.nhom13.Entity.Ban;
 import com.nhom13.Entity.Employee;
 import com.nhom13.Entity.KhuyenMai;
@@ -65,7 +65,7 @@ public final class TableManager extends ManagerView {
 
         btnAdd.addActionListener((ActionEvent e) -> {
             form.setStatus(false);
-            form.setFeature(Feature.ADD, null);
+            form.setTask(Task.ADD, null);
             form.setVisible(true);
             if (form.isStatus()) {
                 loadData();
@@ -73,7 +73,7 @@ public final class TableManager extends ManagerView {
         });
         btnEdit.addActionListener((ActionEvent e) -> {
             form.setStatus(false);
-            form.setFeature(Feature.EDIT, getBanSelected());
+            form.setTask(Task.EDIT, getBanSelected());
             form.setVisible(true);
             if (form.isStatus()) {
                 loadData();

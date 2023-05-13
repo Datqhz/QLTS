@@ -4,7 +4,6 @@ import com.nhom13.Entity.CTSP;
 import com.nhom13.Support.CharFilterNumber;
 import java.util.List;
 import javax.swing.JOptionPane;
-import javax.swing.JTextField;
 import javax.swing.text.AbstractDocument;
 
 public class SubFood extends javax.swing.JDialog {
@@ -13,6 +12,7 @@ public class SubFood extends javax.swing.JDialog {
     private CTSP ctsp;
     private boolean status = false;
     List<CTSP> ct;
+
     public SubFood(List<CTSP> ct) {
         super(new javax.swing.JFrame(), true);
         initComponents();
@@ -20,15 +20,15 @@ public class SubFood extends javax.swing.JDialog {
         AbstractDocument document3 = (AbstractDocument) txtSL.getDocument();
         document3.setDocumentFilter(new CharFilterNumber());
         this.setTitle("Chọn số lượng món");
-        this.ct=ct;
+        this.ct = ct;
         ctsp = ct.get(0);
-        lblPrice.setText(Integer.toString(ct.get(0).getGia()));
+        lblPrice.setText(Double.toString(ct.get(0).getGia()));
     }
 
     public boolean isStatus() {
         return status;
     }
-    
+
     public void setStatus(boolean status) {
         this.status = status;
     }
@@ -48,7 +48,7 @@ public class SubFood extends javax.swing.JDialog {
     public void setCtsp(CTSP ctsp) {
         this.ctsp = ctsp;
     }
-    
+
 //    public void loadSize(){
 //        cbxSize.removeAllItems();
 //        for(CTSP temp :ct){
@@ -165,7 +165,7 @@ public class SubFood extends javax.swing.JDialog {
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         int sl;
         if (txtSL.getText().trim().isEmpty()) {
-            JOptionPane.showMessageDialog(rootPane, "Vui lòng nhập số lượng.","Thông báo",JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(rootPane, "Vui lòng nhập số lượng.", "Thông báo", JOptionPane.WARNING_MESSAGE);
         }
         try {
             sl = Integer.parseInt(txtSL.getText().trim());
@@ -174,7 +174,7 @@ public class SubFood extends javax.swing.JDialog {
             txtSL.setText("");
             setVisible(false);
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(rootPane, "Giá trị nhập vào không hợp lệ","Thông báo",JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(rootPane, "Giá trị nhập vào không hợp lệ", "Thông báo", JOptionPane.WARNING_MESSAGE);
             txtSL.setText("");
         }
 
@@ -185,9 +185,9 @@ public class SubFood extends javax.swing.JDialog {
     }//GEN-LAST:event_buttonCustom1ActionPerformed
 
     private void cbxSizeItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbxSizeItemStateChanged
-        for(CTSP temp :ct){
-            if(temp.getIdSize()==cbxSize.getSelectedIndex()+1){
-                lblPrice.setText(Integer.toString(temp.getGia()));
+        for (CTSP temp : ct) {
+            if (temp.getIdSize() == cbxSize.getSelectedIndex() + 1) {
+                lblPrice.setText(Double.toString(temp.getGia()));
                 ctsp = temp;
                 break;
             }

@@ -8,6 +8,7 @@ import com.nhom13.Entity.MonAn;
 import com.nhom13.Support.CharFilterAlphabet;
 import com.nhom13.Support.CharFilterNumber;
 import java.awt.Image;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.Icon;
@@ -20,7 +21,7 @@ public class FoodPopup extends javax.swing.JDialog {
 
     private String maNV;
     private boolean status;
-    Feature feature;
+    Task task;
     private MonAn monAn;
     List<LoaiMon> listCategory;
     DefaultComboBoxModel modelcbx = new DefaultComboBoxModel();
@@ -87,30 +88,33 @@ public class FoodPopup extends javax.swing.JDialog {
         for (CTSP ct : list) {
             switch (ct.getIdSize()) {
                 case 1:
-                    txtPriceSizeM.setText(Integer.toString(ct.getGia()));
+                    txtPriceSizeM.setText(String.valueOf(ct.getGia() / 10));
+                    System.out.println(String.valueOf(ct.getGia()));
+                    System.out.println(txtPriceSizeM.getText());
                     break;
                 case 2:
-                    txtPriceSizeL.setText(Integer.toString(ct.getGia()));
+                    txtPriceSizeL.setText(String.valueOf(ct.getGia() / 10));
                     break;
                 default:
-                    txtPriceSizeXL.setText(Integer.toString(ct.getGia()));
+                    txtPriceSizeXL.setText(String.valueOf(ct.getGia() / 10));
             }
         }
     }
 
-    public void setFeature(Feature f, MonAn ma) {
+    public void setTask(Task f, MonAn ma) {
         setItemCombobox();
         status = false;
-        feature = f;
-        if (feature == Feature.ADD) {
+        task = f;
+        if (task == Task.ADD) {
             txtFoodName.setEnabled(true);
-            btnFeature.setText("Thêm");
+            btnTask.setText("Thêm");
             resetForm();
             this.monAn = null;
         } else {
             txtFoodName.setEnabled(false);
-            btnFeature.setText("Sửa");
+            btnTask.setText("Sửa");
             this.monAn = ma;
+            System.out.println("Load id:" + ma.getId());
             txtFoodName.setText(ma.getTenMon());
             txtUnit.setText(ma.getDonVi());
             lblReviewImg.setIcon(Resize(ma.getAnh(), 180, 180));
@@ -131,7 +135,7 @@ public class FoodPopup extends javax.swing.JDialog {
         }
     }
 
-    public boolean check(String m) {
+    public boolean checkBlank(String m) {
         return m.length() == 0 || m == null;
     }
 
@@ -177,7 +181,7 @@ public class FoodPopup extends javax.swing.JDialog {
         jLabel8 = new javax.swing.JLabel();
         btnChooseImg = new com.nhom13.swingCustom.ButtonCustom();
         jLabel9 = new javax.swing.JLabel();
-        btnFeature = new com.nhom13.swingCustom.ButtonCustom();
+        btnTask = new com.nhom13.swingCustom.ButtonCustom();
         btnReset = new com.nhom13.swingCustom.ButtonCustom();
         btnClose = new com.nhom13.swingCustom.ButtonCustom();
         lblReviewImg = new javax.swing.JLabel();
@@ -221,6 +225,11 @@ public class FoodPopup extends javax.swing.JDialog {
         txtNote.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
 
         cbxCategory.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
+        cbxCategory.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbxCategoryActionPerformed(evt);
+            }
+        });
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(0, 0, 102));
@@ -253,18 +262,18 @@ public class FoodPopup extends javax.swing.JDialog {
         jLabel9.setForeground(new java.awt.Color(255, 0, 0));
         jLabel9.setText("*");
 
-        btnFeature.setBorder(null);
-        btnFeature.setForeground(new java.awt.Color(255, 255, 255));
-        btnFeature.setText("Thêm");
-        btnFeature.setBorderColor(new java.awt.Color(255, 255, 255));
-        btnFeature.setColor(new java.awt.Color(0, 0, 204));
-        btnFeature.setColorClick(new java.awt.Color(0, 0, 153));
-        btnFeature.setColorOver(new java.awt.Color(0, 255, 255));
-        btnFeature.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnFeature.setRadius(10);
-        btnFeature.addActionListener(new java.awt.event.ActionListener() {
+        btnTask.setBorder(null);
+        btnTask.setForeground(new java.awt.Color(255, 255, 255));
+        btnTask.setText("Thêm");
+        btnTask.setBorderColor(new java.awt.Color(255, 255, 255));
+        btnTask.setColor(new java.awt.Color(0, 0, 204));
+        btnTask.setColorClick(new java.awt.Color(0, 0, 153));
+        btnTask.setColorOver(new java.awt.Color(0, 255, 255));
+        btnTask.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnTask.setRadius(10);
+        btnTask.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnFeatureActionPerformed(evt);
+                btnTaskActionPerformed(evt);
             }
         });
 
@@ -373,7 +382,7 @@ public class FoodPopup extends javax.swing.JDialog {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(txtFoodName, javax.swing.GroupLayout.PREFERRED_SIZE, 294, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(SizeLLayout.createSequentialGroup()
-                                .addComponent(btnFeature, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(btnTask, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(48, 48, 48)
                                 .addComponent(btnReset, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(39, 39, 39)
@@ -426,7 +435,7 @@ public class FoodPopup extends javax.swing.JDialog {
                 .addGap(18, 18, 18)
                 .addGroup(SizeLLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, SizeLLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(btnFeature, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnTask, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(btnReset, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(btnClose, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(36, 36, 36))
@@ -455,7 +464,7 @@ public class FoodPopup extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_btnChooseImgActionPerformed
 
-    private void btnFeatureActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFeatureActionPerformed
+    private void btnTaskActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTaskActionPerformed
         String name = txtFoodName.getText().trim();
         String donVi = txtUnit.getText().trim();
         String giaM = txtPriceSizeM.getText().trim();
@@ -463,7 +472,7 @@ public class FoodPopup extends javax.swing.JDialog {
         String giaXL = txtPriceSizeXL.getText().trim();
         String moTa = txtNote.getText().trim();
         String imgPath;
-        if (check(txtImgPath.getText().trim())) {
+        if (checkBlank(txtImgPath.getText().trim())) {
             imgPath = "C:\\Users\\baam0\\OneDrive\\Documents\\GitHub\\QL_TS\\src\\main\\resources\\new.png";
         } else {
             imgPath = txtImgPath.getText();
@@ -472,47 +481,44 @@ public class FoodPopup extends javax.swing.JDialog {
         if (cbxCategory.getSelectedItem() != null) {
             tenLoai = cbxCategory.getSelectedItem().toString();
         }
-        if (check(name) || check(giaM) || check(giaL) || check(giaXL) || check(tenLoai)) {
-            JOptionPane.showMessageDialog(rootPane, "Vui lòng điền đầy đủ thông tin","Lỗi",JOptionPane.WARNING_MESSAGE);
+        if (checkBlank(name) || checkBlank(giaM) || checkBlank(giaL) || checkBlank(giaXL) || checkBlank(tenLoai)) {
+            JOptionPane.showMessageDialog(rootPane, "Vui lòng điền đầy đủ thông tin", "Thông báo", JOptionPane.WARNING_MESSAGE);
         } else {
             MonAn monAn1 = new MonAn();
             monAn1.setTenMon(name);
             monAn1.setDonVi(donVi);
             monAn1.setMoTa(moTa);
             monAn1.setAnh(imgPath);
-            int idLoaiMon = -1;
-            for (LoaiMon lm : listCategory) {
-                if (lm.getTen().equals(tenLoai)) {
-                    idLoaiMon = lm.getId();
-                    break;
-                }
-            }
+            int idLoaiMon = listCategory.get(cbxCategory.getSelectedIndex()).getId();
             monAn1.setIdLoaiMon(idLoaiMon);
-
             try {
                 MonAnDAO dao = new MonAnDAO();
-                if (feature == Feature.ADD) {
+                if (task == Task.ADD) {
                     if (checkFoodName(name)) {
-                        JOptionPane.showMessageDialog(rootPane, "Tên món đã tồn tại.","Lỗi",JOptionPane.WARNING_MESSAGE);
+                        JOptionPane.showMessageDialog(rootPane, "Tên món đã tồn tại.", "Thông báo", JOptionPane.WARNING_MESSAGE);
                     } else {
-                        dao.save(monAn1);
+
                         int idmon = dao.getId();
-                        dao.saveCTSP(1, idmon, Integer.parseInt(giaM));
-                        dao.saveCTSP(2, idmon, Integer.parseInt(giaL));
-                        dao.saveCTSP(3, idmon, Integer.parseInt(giaXL));
-                        JOptionPane.showMessageDialog(rootPane, "Thêm thành công!", "Thành công", JOptionPane.INFORMATION_MESSAGE);
+                        List<CTSP> tmplist = new ArrayList<>();
+                        tmplist.add(new CTSP(idmon, 1, Double.parseDouble(giaM)));
+                        tmplist.add(new CTSP(idmon, 2, Double.parseDouble(giaL)));
+                        tmplist.add(new CTSP(idmon, 3, Double.parseDouble(giaXL)));
+                        dao.save(monAn1, tmplist);
+                        JOptionPane.showMessageDialog(rootPane, "Thêm thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
                         status = true;
                         resetForm();
                         setVisible(false);
                     }
 
                 } else {
-
-                    dao.updateSanPham(monAn1);
-                    dao.updateCtsp(monAn.getId(), 1, Integer.parseInt(giaM));
-                    dao.updateCtsp(monAn.getId(), 2, Integer.parseInt(giaL));
-                    dao.updateCtsp(monAn.getId(), 3, Integer.parseInt(giaXL));
-                    JOptionPane.showMessageDialog(rootPane, "Sửa thành công!","Thành công", JOptionPane.INFORMATION_MESSAGE);
+                    List<CTSP> tmplist = new ArrayList<>();
+                    monAn1.setId(monAn.getId());
+                    tmplist.add(new CTSP(monAn.getId(), 1, Double.parseDouble(giaM)));
+                    tmplist.add(new CTSP(monAn.getId(), 2, Double.parseDouble(giaL)));
+                    tmplist.add(new CTSP(monAn.getId(), 3, Double.parseDouble(giaXL)));
+                    dao.updateSanPham(monAn1, tmplist);
+                    System.out.println("last: " + monAn1.getIdLoaiMon());
+                    JOptionPane.showMessageDialog(rootPane, "Sửa thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
                 }
 
                 status = true;
@@ -522,7 +528,7 @@ public class FoodPopup extends javax.swing.JDialog {
             }
 
         }
-    }//GEN-LAST:event_btnFeatureActionPerformed
+    }//GEN-LAST:event_btnTaskActionPerformed
 
     private void btnResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetActionPerformed
         resetForm();
@@ -536,6 +542,10 @@ public class FoodPopup extends javax.swing.JDialog {
     private void txtPriceSizeMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPriceSizeMActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtPriceSizeMActionPerformed
+
+    private void cbxCategoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxCategoryActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbxCategoryActionPerformed
 
     /**
      * @param args the command line arguments
@@ -583,8 +593,8 @@ public class FoodPopup extends javax.swing.JDialog {
     private javax.swing.JPanel SizeL;
     private com.nhom13.swingCustom.ButtonCustom btnChooseImg;
     private com.nhom13.swingCustom.ButtonCustom btnClose;
-    private com.nhom13.swingCustom.ButtonCustom btnFeature;
     private com.nhom13.swingCustom.ButtonCustom btnReset;
+    private com.nhom13.swingCustom.ButtonCustom btnTask;
     private javax.swing.JComboBox<String> cbxCategory;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;

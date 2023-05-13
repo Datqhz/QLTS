@@ -2,7 +2,7 @@ package com.nhom13.Component;
 
 import com.nhom13.DAO.KhachHangDAO;
 import com.nhom13.Dialog.ClientPopup;
-import com.nhom13.Dialog.Feature;
+import com.nhom13.Dialog.Task;
 import com.nhom13.Entity.KhachHang;
 import com.nhom13.Support.CharFilterAlphabet;
 import java.awt.event.ActionEvent;
@@ -77,7 +77,7 @@ public class ClientManager extends ManagerView {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //Set chức năng cho popup là thêm
-                dialog.setFeature(Feature.ADD, null);
+                dialog.setTask(Task.ADD, null);
                 dialog.setStatus(false);
                 dialog.setVisible(true);
                 if (dialog.isStatus()) {
@@ -90,7 +90,7 @@ public class ClientManager extends ManagerView {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //Set chức năng cho popup là sửa
-                dialog.setFeature(Feature.EDIT, getRowIsSelected());
+                dialog.setTask(Task.EDIT, getRowIsSelected());
                 dialog.setStatus(false);
                 dialog.setVisible(true);
                 if (dialog.isStatus()) {

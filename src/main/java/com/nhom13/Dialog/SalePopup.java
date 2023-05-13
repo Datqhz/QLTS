@@ -3,11 +3,7 @@ package com.nhom13.Dialog;
 import com.nhom13.DAO.KhuyenMaiDAO;
 import com.nhom13.Entity.KhuyenMai;
 import com.nhom13.Support.CharFilterNumber;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.text.AbstractDocument;
 
@@ -15,7 +11,7 @@ public class SalePopup extends javax.swing.JDialog {
 
     private String maNV;
     private boolean status;
-    Feature feature;
+    Task task;
     private KhuyenMai sale;
 
     public SalePopup(java.awt.Frame parent, String maNV) {
@@ -43,13 +39,13 @@ public class SalePopup extends javax.swing.JDialog {
         dateEnd.setDate(null);
     }
 
-    public void setFeature(Feature task, KhuyenMai sale) {
-        feature = task;
+    public void setTask(Task task, KhuyenMai sale) {
+        this.task = task;
         lblError.setText("");
-        if (task == Feature.EDIT) {
+        if (task == Task.EDIT) {
             dateStart.setEnabled(false);
             this.setTitle("Sửa khuyến mãi");
-            btnFeature.setText("Sửa");
+            btnTask.setText("Sửa");
             this.sale = sale;
             txtReason.setText((sale.getLyDo() == null) ? "" : sale.getLyDo());
             txtSaleValue.setText(Integer.toString(sale.getGiaTri()));
@@ -59,7 +55,7 @@ public class SalePopup extends javax.swing.JDialog {
             resetForm();
             dateStart.setEnabled(true);
             this.setTitle("Thêm khuyến mãi");
-            btnFeature.setText("Thêm");
+            btnTask.setText("Thêm");
             this.sale = sale;
 
         }
@@ -82,7 +78,7 @@ public class SalePopup extends javax.swing.JDialog {
         jLabel4 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         txtReason = new javax.swing.JTextArea();
-        btnFeature = new com.nhom13.swingCustom.ButtonCustom();
+        btnTask = new com.nhom13.swingCustom.ButtonCustom();
         btnReset = new com.nhom13.swingCustom.ButtonCustom();
         btnClose = new com.nhom13.swingCustom.ButtonCustom();
         jLabel6 = new javax.swing.JLabel();
@@ -125,18 +121,18 @@ public class SalePopup extends javax.swing.JDialog {
         txtReason.setRows(5);
         jScrollPane1.setViewportView(txtReason);
 
-        btnFeature.setBorder(null);
-        btnFeature.setForeground(new java.awt.Color(255, 255, 255));
-        btnFeature.setText("Thêm");
-        btnFeature.setBorderColor(new java.awt.Color(255, 255, 255));
-        btnFeature.setColor(new java.awt.Color(0, 0, 204));
-        btnFeature.setColorClick(new java.awt.Color(0, 0, 153));
-        btnFeature.setColorOver(new java.awt.Color(0, 255, 255));
-        btnFeature.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnFeature.setRadius(10);
-        btnFeature.addActionListener(new java.awt.event.ActionListener() {
+        btnTask.setBorder(null);
+        btnTask.setForeground(new java.awt.Color(255, 255, 255));
+        btnTask.setText("Thêm");
+        btnTask.setBorderColor(new java.awt.Color(255, 255, 255));
+        btnTask.setColor(new java.awt.Color(0, 0, 204));
+        btnTask.setColorClick(new java.awt.Color(0, 0, 153));
+        btnTask.setColorOver(new java.awt.Color(0, 255, 255));
+        btnTask.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnTask.setRadius(10);
+        btnTask.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnFeatureActionPerformed(evt);
+                btnTaskActionPerformed(evt);
             }
         });
 
@@ -183,47 +179,49 @@ public class SalePopup extends javax.swing.JDialog {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(lblError, javax.swing.GroupLayout.PREFERRED_SIZE, 374, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(lblError, javax.swing.GroupLayout.PREFERRED_SIZE, 374, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(37, 37, 37)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addGap(0, 0, 0)
-                                .addComponent(jLabel7))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(1, 1, 1)
+                                .addGap(37, 37, 37)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel4)
+                                    .addComponent(jLabel3)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jLabel1)
+                                        .addComponent(jLabel2)
                                         .addGap(0, 0, 0)
-                                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 11, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                        .addGap(4, 4, 4)
-                        .addComponent(jLabel8)
-                        .addGap(3, 3, 3)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                            .addComponent(dateEnd, javax.swing.GroupLayout.DEFAULT_SIZE, 158, Short.MAX_VALUE)
+                                        .addComponent(jLabel7))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGap(1, 1, 1)
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel4)
+                                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                                .addComponent(jLabel1)
+                                                .addGap(0, 0, 0)
+                                                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 11, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addGap(4, 4, 4)
+                                .addComponent(jLabel8)
+                                .addGap(3, 3, 3)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                                    .addComponent(dateEnd, javax.swing.GroupLayout.DEFAULT_SIZE, 158, Short.MAX_VALUE)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(txtSaleValue, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jLabel5))
+                                    .addComponent(dateStart, javax.swing.GroupLayout.DEFAULT_SIZE, 158, Short.MAX_VALUE)))
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(txtSaleValue, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel5))
-                            .addComponent(dateStart, javax.swing.GroupLayout.DEFAULT_SIZE, 158, Short.MAX_VALUE)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(25, 25, 25)
-                        .addComponent(btnFeature, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnReset, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnClose, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGap(25, 25, 25)
+                                .addComponent(btnTask, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnReset, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnClose, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -256,7 +254,7 @@ public class SalePopup extends javax.swing.JDialog {
                     .addComponent(jLabel8))
                 .addGap(43, 43, 43)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnFeature, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnTask, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnReset, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnClose, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(27, 27, 27))
@@ -276,7 +274,7 @@ public class SalePopup extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnFeatureActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFeatureActionPerformed
+    private void btnTaskActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTaskActionPerformed
         Date start = dateStart.getDate();
         Date end = dateEnd.getDate();
         String value = txtSaleValue.getText().trim();
@@ -284,7 +282,7 @@ public class SalePopup extends javax.swing.JDialog {
         if (start == null || end == null || value.equals("")) {
             lblError.setText("Vui lòng nhập đầy đủ thông tin!");
         } else if (start.compareTo(end) > 0) {
-            lblError.setText("Ngày kết thúc không được sớm hơn ngày bắt đầu!");
+            lblError.setText("Ngày kết thúc không được trước ngày bắt đầu!");
             dateEnd.setDate(null);
         } else if (Integer.parseInt(value) <= 0 || Integer.parseInt(value) > 100) {
             lblError.setText("Giá trị khuyến mãi phải nằm trong khoảng 0 đến 100!");
@@ -301,14 +299,14 @@ public class SalePopup extends javax.swing.JDialog {
             tmp.setLyDo(txtReason.getText() == null ? "" : txtReason.getText());
             try {
 
-                if (feature == Feature.ADD) {
+                if (task == Task.ADD) {
                     if (start.compareTo(new Date()) < 0) {
-                        lblError.setText("Ngày bắt đầu không được sớm hơn ngày hiện tại");
+                        lblError.setText("Ngày bắt đầu không được trước ngày hiện tại");
                     } else {
                         if (dao.checkKm(dao.DateToString(start), dao.DateToString(end), sale.getId())) {
                             lblError.setText("");
                             dao.save(tmp);
-                            JOptionPane.showMessageDialog(this, "Bạn đã thêm khuyến mãi thành công.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                            JOptionPane.showMessageDialog(this, "Bạn đã thêm khuyến mãi thành công!!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
                             status = true;
                             this.dispose();
                         } else {
@@ -323,7 +321,7 @@ public class SalePopup extends javax.swing.JDialog {
                         if (dao.checkKm(dao.DateToString(start), dao.DateToString(end), sale.getId())) {
                             tmp.setId(sale.getId());
                             dao.updateSale(tmp);
-                            JOptionPane.showMessageDialog(this, "Sửa khuyến mãi thành công.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                            JOptionPane.showMessageDialog(this, "Sửa khuyến mãi thành công!!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
                             status = true;
                             this.dispose();
                         } else {
@@ -336,7 +334,7 @@ public class SalePopup extends javax.swing.JDialog {
             }
 
         }
-    }//GEN-LAST:event_btnFeatureActionPerformed
+    }//GEN-LAST:event_btnTaskActionPerformed
 
     private void btnResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetActionPerformed
         resetForm();
@@ -388,8 +386,8 @@ public class SalePopup extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.nhom13.swingCustom.ButtonCustom btnClose;
-    private com.nhom13.swingCustom.ButtonCustom btnFeature;
     private com.nhom13.swingCustom.ButtonCustom btnReset;
+    private com.nhom13.swingCustom.ButtonCustom btnTask;
     private com.toedter.calendar.JDateChooser dateEnd;
     private com.toedter.calendar.JDateChooser dateStart;
     private javax.swing.JLabel jLabel1;

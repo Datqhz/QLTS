@@ -3,7 +3,6 @@ package com.nhom13.Dialog;
 import com.nhom13.Component.CategoryItem;
 import com.nhom13.Component.FoodItem;
 import com.nhom13.Component.OrderItem;
-import com.nhom13.DAO.BanDAO;
 import com.nhom13.DAO.HoaDonDao;
 import com.nhom13.DAO.KhuyenMaiDAO;
 import com.nhom13.DAO.LoaiMonDao;
@@ -22,10 +21,6 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.text.NumberFormat;
@@ -34,7 +29,6 @@ import java.util.List;
 import java.util.Locale;
 import javax.swing.BoxLayout;
 import javax.swing.JOptionPane;
-import javax.swing.table.DefaultTableModel;
 
 public class OrderDL extends javax.swing.JDialog {
 
@@ -67,6 +61,7 @@ public class OrderDL extends javax.swing.JDialog {
         lblDiscountM.setText("");
         lblAmount.setText("");
         loadCategory();
+        setTitle("Tạo hóa đơn");
     }
 
     public boolean isStatus() {
@@ -332,20 +327,20 @@ public class OrderDL extends javax.swing.JDialog {
     public boolean checkChoose() {
 
         if (cbxDung.getSelectedIndex() < 0) {
-            JOptionPane.showMessageDialog(new java.awt.Frame(), "Vui lòng chọn phương thức sử dụng.", "Lỗi", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(new java.awt.Frame(), "Vui lòng chọn phương thức sử dụng.", "Thông báo", JOptionPane.WARNING_MESSAGE);
             return false;
         } else if (cbxDung.getSelectedIndex() == 0) {
             if (txtBan.getText().isBlank()) {
-                JOptionPane.showMessageDialog(new java.awt.Frame(), "Vui lòng chọn bàn.", "Lỗi", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(new java.awt.Frame(), "Vui lòng chọn bàn.", "Thông báo", JOptionPane.WARNING_MESSAGE);
                 return false;
             }
         }
         if (cbxTT.getSelectedIndex() < 0) {
-            JOptionPane.showMessageDialog(new java.awt.Frame(), "Vui lòng chọn phương thức thanh toán.", "Lỗi", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(new java.awt.Frame(), "Vui lòng chọn phương thức thanh toán.", "Thông báo", JOptionPane.WARNING_MESSAGE);
             return false;
         }
         if (foodChoosedList.isEmpty()) {
-            JOptionPane.showMessageDialog(new java.awt.Frame(), "Vui lòng chọn món.", "Lỗi", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(new java.awt.Frame(), "Vui lòng chọn món.", "Thông báo", JOptionPane.WARNING_MESSAGE);
             return false;
         }
         return true;

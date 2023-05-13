@@ -3,7 +3,7 @@ package com.nhom13.Component;
 import com.nhom13.DAO.LoaiMonDao;
 import com.nhom13.DAO.MonAnDAO;
 import com.nhom13.Dialog.FoodPopup;
-import com.nhom13.Dialog.Feature;
+import com.nhom13.Dialog.Task;
 import com.nhom13.Dialog.FoodPopup;
 import com.nhom13.Entity.LoaiMon;
 import com.nhom13.Entity.MonAn;
@@ -69,7 +69,7 @@ public final class FoodList extends ManagerView {
         tblModel.fireTableDataChanged();
     }
 
-    public MonAn getSaleIsSelected() {
+    public MonAn getFoodIsSelected() {
         int row = tblData.getSelectedRow();
         if (row >= 0) {
             return Foodlist.get(row);
@@ -94,7 +94,7 @@ public final class FoodList extends ManagerView {
             @Override
             public void actionPerformed(ActionEvent e) {
                 form.setStatus(false);
-                form.setFeature(Feature.ADD, null);
+                form.setTask(Task.ADD, null);
                 form.setVisible(true);
                 if (form.isStatus()) {
                     loadData();
@@ -105,7 +105,7 @@ public final class FoodList extends ManagerView {
             @Override
             public void actionPerformed(ActionEvent e) {
                 form.setStatus(false);
-                form.setFeature(Feature.EDIT, getSaleIsSelected());
+                form.setTask(Task.EDIT, getFoodIsSelected());
                 form.setVisible(true);
                 if (form.isStatus()) {
                     loadData();
@@ -126,8 +126,8 @@ public final class FoodList extends ManagerView {
                     if (result == 0) {
 
                         JOptionPane.showMessageDialog(new java.awt.Frame(), "Xóa món thành công.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-                        dao.deleteCTSP(getSaleIsSelected().getId());
-                        dao.deleteMonAn(getSaleIsSelected());
+                        dao.deleteCTSP(getFoodIsSelected().getId());
+                        dao.deleteMonAn(getFoodIsSelected());
                     }
 
                 } catch (Exception ex) {

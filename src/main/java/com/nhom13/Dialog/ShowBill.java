@@ -2,12 +2,10 @@ package com.nhom13.Dialog;
 
 import com.nhom13.Component.BillItem;
 import static com.nhom13.Component.BillItem.NumberVN;
-import com.nhom13.DAO.BanDAO;
 import com.nhom13.DAO.CTHoaDonDAO;
 import com.nhom13.Entity.Ban;
 import com.nhom13.Entity.ChiTietHoaDon;
 import com.nhom13.Entity.HoaDon;
-import com.nhom13.Entity.KhuyenMai;
 import java.util.List;
 import javax.swing.BoxLayout;
 
@@ -189,7 +187,7 @@ public class ShowBill extends javax.swing.JDialog {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(10, 10, 10)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel16)
                     .addComponent(lblTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
