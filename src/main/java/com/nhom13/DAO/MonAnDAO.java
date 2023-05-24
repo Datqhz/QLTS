@@ -287,7 +287,7 @@ public class MonAnDAO {
         }
     }
 
-    public void deleteMonAn(MonAn monAn) {
+    public void deleteMonAn(MonAn monAn){
         PreparedStatement state = null;
         Connection con = null;
         try {
@@ -302,6 +302,22 @@ public class MonAnDAO {
         }
     }
 
+    public boolean checkFoodInBill(int id ){
+        Connection con = null;
+        Statement statement = null;
+        try {
+            con = DatabaseHelper.openConnection();
+            statement = con.createStatement();
+            String sql = "SELECT * FROM CTHOADON  WHERE ID_SP = " + id+ " ";
+            ResultSet resultset = statement.executeQuery(sql);
+            if (!resultset.isBeforeFirst() ) {    
+                return false;
+            }    
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return true;
+    }
     public List<MonAn> searchMonAnByName(String keyword) {
         List<MonAn> result = new ArrayList<>();
         Connection con = null;

@@ -124,14 +124,18 @@ public final class FoodList extends ManagerView {
                             JOptionPane.YES_NO_OPTION,
                             JOptionPane.QUESTION_MESSAGE);
                     if (result == 0) {
-
-                        JOptionPane.showMessageDialog(new java.awt.Frame(), "Xóa món thành công.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-                        dao.deleteCTSP(getFoodIsSelected().getId());
-                        dao.deleteMonAn(getFoodIsSelected());
+                        if(!dao.checkFoodInBill(getFoodIsSelected().getId())){
+                            dao.deleteCTSP(getFoodIsSelected().getId());
+                            dao.deleteMonAn(getFoodIsSelected());
+                            JOptionPane.showMessageDialog(new java.awt.Frame(), "Xóa món thành công.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                        }else {
+                            JOptionPane.showMessageDialog(new java.awt.Frame(), "Không thể xóa món này.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                        }
                     }
 
                 } catch (Exception ex) {
                     ex.printStackTrace();
+                    JOptionPane.showMessageDialog(new java.awt.Frame(), "Xóa món không thành công.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
                 }
 
                 loadData();

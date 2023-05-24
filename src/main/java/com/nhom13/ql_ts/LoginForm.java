@@ -19,6 +19,7 @@ public class LoginForm extends javax.swing.JFrame {
     public LoginForm() {
         initComponents();
         setLocationRelativeTo(null);
+        setTitle("Đăng nhập");
     }
 
     public TaiKhoan getAccount() {
@@ -46,7 +47,7 @@ public class LoginForm extends javax.swing.JFrame {
         emp = null;
         try {
             TaiKhoanDAO dao = new TaiKhoanDAO();
-            account = dao.findByAccount(txtUsername.getText().trim(), new String(txtPassword.getPassword()).trim());
+            account = dao.findByAccount(txtUsername.getText().trim());
             if (account != null) {
                 return true;
             }
@@ -88,8 +89,9 @@ public class LoginForm extends javax.swing.JFrame {
         if (check) {
             if (checkLogin()) {
                 if (!account.isTrangThai()) {
-                    JOptionPane.showMessageDialog(this, "Tài khoản của bạn đã bị khóa hoặc sai mật khẩu.", "Thông báo", JOptionPane.WARNING_MESSAGE);
-                } else {
+                    System.out.println("TRangj thai tai khoan: " +account.isTrangThai());
+                    JOptionPane.showMessageDialog(this, "Tài khoản của bạn đã bị khóa.\nVui lòng liên hệ quản trị viên để mở khóa tài khoản.", "Thông báo", JOptionPane.WARNING_MESSAGE);
+                } else if(account.getMk().equals(new String(txtPassword.getPassword()))) {
                     try {
                         EmployeeDAO dao = new EmployeeDAO();
                         emp=dao.findEmployeeByAccount(account.getTenTk());
@@ -101,6 +103,8 @@ public class LoginForm extends javax.swing.JFrame {
                     this.dispose();
                     home.setTitle("Quản lí quán trà sữa");
                     home.setVisible(true);
+                }else {
+                    JOptionPane.showMessageDialog(this, "Sai tài khoản hoặc mật khẩu.", "Thông báo", JOptionPane.WARNING_MESSAGE);
                 }
 
             } else {

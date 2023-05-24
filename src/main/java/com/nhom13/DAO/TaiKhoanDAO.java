@@ -11,21 +11,21 @@ import java.util.List;
 
 public class TaiKhoanDAO {
 
-    public TaiKhoan findByAccount(String account ,  String password){
+    public TaiKhoan findByAccount(String account){
         TaiKhoan tk = new TaiKhoan();
          Connection con = null;
         Statement statement = null;
         try {
             con = DatabaseHelper.openConnection();
             statement = con.createStatement();
-            String sql = "SELECT * FROM TAIKHOAN T WHERE T.TEN_TAI_KHOAN = '" + account+ "' AND T.MAT_KHAU = '" +password +"'";
+            String sql = "SELECT * FROM TAIKHOAN T WHERE T.TEN_TAI_KHOAN = '" + account+ "'";
             ResultSet resultset = statement.executeQuery(sql);
             while (resultset.next()) {
             tk.setTenTk(resultset.getString(1));
             tk.setMk(resultset.getString(2));
+            System.out.println("TRangj thai tai khoan database: " +resultset.getBoolean(3));
             tk.setTrangThai(resultset.getBoolean(3));
-            tk.setIdQuyen(resultset.getInt(4));
-            
+            tk.setIdQuyen(resultset.getInt(4));           
             }
             return tk;
         } catch (Exception ex) {
