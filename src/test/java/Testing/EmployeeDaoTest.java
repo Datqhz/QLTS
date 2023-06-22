@@ -24,40 +24,40 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 public class EmployeeDaoTest {
     
-    public EmployeeDaoTest() {
-    }
-    
-    @BeforeAll
-    public static void setUpClass() {
-    }
-    
-    @AfterAll
-    public static void tearDownClass() {
-    }
-    
-    @BeforeEach
-    public void setUp() {
-    }
-    
-    @AfterEach
-    public void tearDown() {
-    }
+//    public EmployeeDaoTest() {
+//    }
+//    
+//    @BeforeAll
+//    public static void setUpClass() {
+//    }
+//    
+//    @AfterAll
+//    public static void tearDownClass() {
+//    }
+//    
+//    @BeforeEach
+//    public void setUp() {
+//    }
+//    
+//    @AfterEach
+//    public void tearDown() {
+//    }
 
     // TODO add test methods here.
     // The methods must be annotated with annotation @Test. For example:
     //
     // @Test
     // public void hello() {}
-    public void FindAll(){
-        EmployeeDAO dao = new EmployeeDAO();
-        List<Employee> list = null;
-        try {
-             list = dao.findAll();
-            list.forEach(l -> System.out.println(l));
-        } catch (Exception ex) {
-            
-        }
-        assertTrue(list.size() > 0 );
-        
-    }
+//    public void FindAll(){
+//        EmployeeDAO dao = new EmployeeDAO();
+//        List<Employee> list = null;
+//        try {
+//             list = dao.findAll();
+//            list.forEach(l -> System.out.println(l));
+//        } catch (Exception ex) {
+//            
+//        }
+//        assertTrue(list.size() > 0 );
+//        
+//    }
 }

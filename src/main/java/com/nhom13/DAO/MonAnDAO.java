@@ -325,7 +325,7 @@ public class MonAnDAO {
         try {
             con = DatabaseHelper.openConnection();
             statement = con.createStatement();
-            String sql = "SELECT * FROM SANPHAM M WHERE M.TEN_SP LIKE N'%" + keyword + "%' ";
+            String sql = "SELECT * FROM SANPHAM M WHERE M.TEN LIKE N'%" + keyword + "%' ";
             ResultSet resultset = statement.executeQuery(sql);
             while (resultset.next()) {
                 MonAn monAn = new MonAn();

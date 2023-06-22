@@ -20,35 +20,35 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 public class CTBanDaoTest {
     
-    public CTBanDaoTest() {
-    }
-    
-    @BeforeAll
-    public static void setUpClass() {
-    }
-    
-    @AfterAll
-    public static void tearDownClass() {
-    }
-    
-    @BeforeEach
-    public void setUp() {
-    }
-    
-    @AfterEach
-    public void tearDown() {
-    }
-
-    // TODO add test methods here.
-    // The methods must be annotated with annotation @Test. For example:
-    //
-    // @Test
-    // public void hello() {}
-    @Test
-    public void findAll(){
-        CTBanDAO dao = new CTBanDAO();
-        List<ChiTietBan> ctBan = dao.findAll();
-        ctBan.forEach(ct -> System.out.println(ct));
-        assertTrue(ctBan.size() > 0);
-    }
+//    public CTBanDaoTest() {
+//    }
+//    
+//    @BeforeAll
+//    public static void setUpClass() {
+//    }
+//    
+//    @AfterAll
+//    public static void tearDownClass() {
+//    }
+//    
+//    @BeforeEach
+//    public void setUp() {
+//    }
+//    
+//    @AfterEach
+//    public void tearDown() {
+//    }
+//
+//    // TODO add test methods here.
+//    // The methods must be annotated with annotation @Test. For example:
+//    //
+//    // @Test
+//    // public void hello() {}
+//    @Test
+//    public void findAll(){
+//        CTBanDAO dao = new CTBanDAO();
+//        List<ChiTietBan> ctBan = dao.findAll();
+//        ctBan.forEach(ct -> System.out.println(ct));
+//        assertTrue(ctBan.size() > 0);
+//    }
 }

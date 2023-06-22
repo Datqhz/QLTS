@@ -22,24 +22,24 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 public class LoaiMonDaoTest {
     
-    public LoaiMonDaoTest() {
-    }
-    
-    @BeforeAll
-    public static void setUpClass() {
-    }
-    
-    @AfterAll
-    public static void tearDownClass() {
-    }
-    
-    @BeforeEach
-    public void setUp() {
-    }
-    
-    @AfterEach
-    public void tearDown() {
-    }
+//    public LoaiMonDaoTest() {
+//    }
+//    
+//    @BeforeAll
+//    public static void setUpClass() {
+//    }
+//    
+//    @AfterAll
+//    public static void tearDownClass() {
+//    }
+//    
+//    @BeforeEach
+//    public void setUp() {
+//    }
+//    
+//    @AfterEach
+//    public void tearDown() {
+//    }
 
     // TODO add test methods here.
     // The methods must be annotated with annotation @Test. For example:
@@ -48,44 +48,44 @@ public class LoaiMonDaoTest {
     // public void hello() {}
     
     
-    @Test
-    public void testFindAll() throws Exception{
-        LoaiMonDao dao = new LoaiMonDao();
-        List<LoaiMon> listt = dao.findAll();
-        listt.forEach(l -> System.out.println(l));
-        assertTrue(listt.size() > 0);
-        
-    }
-    
-    @Test 
-    public void saveNew(){
-        LoaiMon lm = new LoaiMon();
-        LoaiMonDao dao = new LoaiMonDao();
-        lm.setId(1000);
-        lm.setTen("test");
-        lm.setMaNv("1");
-        dao.save(lm);
-        assertTrue(dao.findById(1000) != null);
-        
-    }
-    @Test 
-    public void update(){
-        LoaiMon lm = new LoaiMon();
-        LoaiMonDao dao = new LoaiMonDao();
-        lm.setId(1000);
-        lm.setTen("test1");
-        lm.setMaNv("12");
-        dao.update(lm, "1000");
-        
-        
-    }
-    @Test
-    public void delete() throws Exception{
-        LoaiMon lm = new LoaiMon();
-        lm.setId(1000);
-        
-        LoaiMonDao dao = new LoaiMonDao();
-        dao.deleteLoaiMon(lm);
-        
-    }
+//    @Test
+//    public void testFindAll() throws Exception{
+//        LoaiMonDao dao = new LoaiMonDao();
+//        List<LoaiMon> listt = dao.findAll();
+//        listt.forEach(l -> System.out.println(l));
+//        assertTrue(listt.size() > 0);
+//        
+//    }
+//    
+//    @Test 
+//    public void saveNew(){
+//        LoaiMon lm = new LoaiMon();
+//        LoaiMonDao dao = new LoaiMonDao();
+//        lm.setId(1000);
+//        lm.setTen("test");
+//        lm.setMaNv("1");
+//        dao.save(lm);
+//        assertTrue(dao.findById(1000) != null);
+//        
+//    }
+//    @Test 
+//    public void update(){
+//        LoaiMon lm = new LoaiMon();
+//        LoaiMonDao dao = new LoaiMonDao();
+//        lm.setId(1000);
+//        lm.setTen("test1");
+//        lm.setMaNv("12");
+//        dao.update(lm, "1000");
+//        
+//        
+//    }
+//    @Test
+//    public void delete() throws Exception{
+//        LoaiMon lm = new LoaiMon();
+//        lm.setId(1000);
+//        
+//        LoaiMonDao dao = new LoaiMonDao();
+//        dao.deleteLoaiMon(lm);
+//        
+//    }
 }

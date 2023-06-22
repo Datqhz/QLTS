@@ -300,7 +300,7 @@ public class SalePopup extends javax.swing.JDialog {
             try {
 
                 if (task == Task.ADD) {
-                    if (start.compareTo(new Date()) < 0) {
+                    if (start.compareTo(new Date()) <= 0) {
                         lblError.setText("Ngày bắt đầu không được trước ngày hiện tại");
                     } else {
                         if (dao.checkKm(dao.DateToString(start), dao.DateToString(end), sale.getId())) {

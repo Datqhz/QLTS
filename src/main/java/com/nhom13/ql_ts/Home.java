@@ -58,14 +58,14 @@ public class Home extends javax.swing.JFrame {
 
     public void initMenu() {
 
-        MenuItem QLTD = new MenuItem("Quản lí món.", 1, "/menu.png");
-        MenuItem QLB = new MenuItem("Quản lí bàn.", 2, "/table.png");
-        MenuItem QLHD = new MenuItem("Quản lí hóa đơn.", 3, "/bill.png");
-        MenuItem QLNV = new MenuItem("Quản lí nhân viên.", 4, "/employee.png");
-        MenuItem QLKH = new MenuItem("Quản lí khách hàng.", 5, "/client.png");
-        MenuItem QLKM = new MenuItem("Quản lí khuyến mãi.", 6, "/sale.png");
-        MenuItem TK = new MenuItem("Thống kê.", 7, "/statistical.png");
-        MenuItem TTCN = new MenuItem("Thông tin cá nhân.", 8, "/my-info.png");
+        MenuItem QLTD = new MenuItem("Quản lí món", 1, "/menu.png");
+        MenuItem QLB = new MenuItem("Quản lí bàn", 2, "/table.png");
+        MenuItem QLHD = new MenuItem("Quản lí hóa đơn", 3, "/bill.png");
+        MenuItem QLNV = new MenuItem("Quản lí nhân viên", 4, "/employee.png");
+        MenuItem QLKH = new MenuItem("Quản lí khách hàng", 5, "/client.png");
+        MenuItem QLKM = new MenuItem("Quản lí khuyến mãi", 6, "/sale.png");
+        MenuItem TK = new MenuItem("Thống kê", 7, "/statistical.png");
+        MenuItem TTCN = new MenuItem("Thông tin cá nhân", 8, "/my-info.png");
         pnMenu.setLayout(new BoxLayout(pnMenu, BoxLayout.Y_AXIS));
         addMenu(QLTD, QLB, QLNV, QLKH, QLKM, QLHD, TK, TTCN);
         if (emp.getAccount().getIdQuyen() == 1) {

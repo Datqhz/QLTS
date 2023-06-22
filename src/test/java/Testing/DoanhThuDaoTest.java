@@ -18,29 +18,29 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 public class DoanhThuDaoTest {
     
-    public DoanhThuDaoTest() {
-    }
-    
-    @BeforeAll
-    public static void setUpClass() {
-    }
-    
-    @AfterAll
-    public static void tearDownClass() {
-    }
-    
-    @BeforeEach
-    public void setUp() {
-    }
-    
-    @AfterEach
-    public void tearDown() {
-    }
-
-    public void getDoanhThuTheoMonAn(){
-        DoanhThuDAO dt = new DoanhThuDAO();
-        int idMon = 1 ;
-        int sum = dt.TongDoanhThuTheoMonAn(idMon);
-        assertTrue(sum > 0 );
-    }
+//    public DoanhThuDaoTest() {
+//    }
+//    
+//    @BeforeAll
+//    public static void setUpClass() {
+//    }
+//    
+//    @AfterAll
+//    public static void tearDownClass() {
+//    }
+//    
+//    @BeforeEach
+//    public void setUp() {
+//    }
+//    
+//    @AfterEach
+//    public void tearDown() {
+//    }
+//
+//    public void getDoanhThuTheoMonAn(){
+//        DoanhThuDAO dt = new DoanhThuDAO();
+//        int idMon = 1 ;
+//        int sum = dt.TongDoanhThuTheoMonAn(idMon);
+//        assertTrue(sum > 0 );
+//    }
 }
